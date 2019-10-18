@@ -4,7 +4,11 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var projectsRouter = require('./routes/projects');
+
+// model is where we store all the DB models, mongoose .
+var db = require('./models/dataBase'),
+    project = require('./models/project');   // create dataBase Schema;
 
 var app = express();
 
@@ -15,6 +19,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/projects', projectsRouter);
 
 module.exports = app;
