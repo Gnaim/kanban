@@ -1,3 +1,5 @@
+const auths = require('../libs/auths');
+
 exports.post = (req, res, next) => {
     var email = req.body.email;
     var password = req.body.password;
@@ -22,11 +24,11 @@ exports.post = (req, res, next) => {
           res.send("There was a problem to create user to the database.");
           console.error(err);
         } else {
-            res.format({
-              // will be replaced by Token
-              json: () =>{
-                  res.json(user);
-              }
+            let payload = {
+              email: email
+            }
+            res.json({
+              token :auths.createJWToken(payload,'24h')
             });
           }
         })

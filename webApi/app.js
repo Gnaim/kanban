@@ -16,7 +16,12 @@ var db = require('./models/dataBase'),
 // get keys from config.env
 const dotenv = require('dotenv');
 dotenv.config({ path: './config.env' });
-// console.log(process.env);
+// module.exports = {
+//     env: process.env.NODE_ENV,
+//     serverPort: process.env.SERVER_PORT,
+//     serverDb: process.env.SERVER_DB,
+//     JWTSecret: process.env.JWT_SECRET,
+// }
     
 var app = express();
 
