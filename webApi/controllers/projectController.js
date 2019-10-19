@@ -1,9 +1,10 @@
 exports.getAll = (req, res, next) => {
     mongoose.model('Project').find({},(err, blobs) => {
         if (err) {
-            return console.error(err);
+          res.status(500).send("There was a problem adding the information to the database.");
+          return console.error(err);
         } else {
-            res.format({
+            res.status(200).format({
               json: () => {
                   res.json(blobs);
               }
@@ -31,12 +32,10 @@ exports.post = (req, res, next) => {
       description : description
     },(err, project)=> {
       if (err) {
-        res.send("There was a problem adding the information to the database.");
+        res.status(500).send("There was a problem adding the information to the database.");
         console.error(err);
       } else {
-          //Board has been created
-          console.log('POST creating new board: ' + project);
-          res.format({
+          res.status(200).format({
             //JSON response will show the newly created blob 
             json: () =>{
                 res.json(project);
@@ -51,9 +50,9 @@ exports.getById = (req, res, next) => {
     console.log(req.params.id);
     mongoose.model('Project').findById(req.params.id, (err, project) => {
       if (err) {
-        console.log('GET Error: There was a problem retrieving: ' + err);
+        res.status(500).send('GET Error: There was a problem retrieving: ' + err);
       } else {
-        res.format({
+        res.status(200).format({
           json: () => {
               res.json(project);
           }
