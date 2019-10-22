@@ -1,8 +1,9 @@
-const auths = require ('../libs/auths')
+var projects = mongoose.model('Project');
+
 exports.getAll = (req, res, next) => {
   const payload = req.decoded;
   if (payload) {
-    mongoose.model('Project').find({
+    projects.find({
       members : {
         email : payload.data.email,
         role : 'admin'
@@ -20,7 +21,7 @@ exports.getAll = (req, res, next) => {
       }     
     });
   } else {
-    res.status(401).send('not authorized error');
+    res.status(401).send('not authorized, you have to create an account');
   }
 };
 
@@ -39,7 +40,7 @@ exports.post = (req, res, next) => {
     var logoUrl = req.body.logoUrl;
     var description = req.body.description;
   
-    mongoose.model('Project').create({
+    projects.create({
       name : name,
       members: members,
       createdAt: createdAt,
@@ -64,8 +65,6 @@ exports.post = (req, res, next) => {
 };
 
 exports.getById = (req, res, next) => {
-    console.log('req.id');
-    console.log(req.params.id);
     mongoose.model('Project').findById(req.params.id, (err, project) => {
       if (err) {
         res.status(500).send('GET Error: There was a problem retrieving: ' + err);

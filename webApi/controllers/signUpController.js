@@ -1,4 +1,6 @@
-const auths = require('../libs/auths');
+const auths = require('../middlewares/auths');
+
+var users = mongoose.model('User');
 
 exports.post = (req, res, next) => {
     var email = req.body.email;
@@ -11,7 +13,7 @@ exports.post = (req, res, next) => {
   
     isEmailDuplicated(email).then((exist) => {
      if (!exist) {
-      mongoose.model('User').create({
+      users.create({
         email : email,
         password : password,
         firstName: firstName,
@@ -42,7 +44,7 @@ exports.post = (req, res, next) => {
 
 isEmailDuplicated = async (email) => {
   found = false;
-  await mongoose.model('User').find({
+  await users.find({
     email : email
   },(err,user) => {
     if (err) {

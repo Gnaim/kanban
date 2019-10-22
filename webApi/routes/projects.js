@@ -1,7 +1,8 @@
 var express = require('express');
 mongoose = require('mongoose');
 var router = express.Router();
-const verifyJWTToken = require('../libs/auths').validateToken
+const verifyJWTToken = require('../middlewares/auths').validateToken
+const isProjectMember = require('../middlewares/projectRole').isProjectMember;
 
 const projectController = require('./../controllers/projectController');
 
@@ -10,6 +11,6 @@ router.route('/')
 .post (verifyJWTToken, projectController.post)
 
 router.route('/:id')
-.get(verifyJWTToken, projectController.getById);
+.get(verifyJWTToken, isProjectMember, projectController.getById);
 
 module.exports = router;
