@@ -3,28 +3,53 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './modules/home/home.component';
-import { ProfileComponent } from './modules/profile/profile.component';
-import { SettingsComponent } from './modules/settings/settings.component';
-import { HelpComponent } from './modules/help/help.component';
-import { FooterComponent } from './core/footer/footer.component';
-import { HeaderComponent } from './core/header/header.component';
+import { NavBarComponent } from './compenents/nav-bar/nav-bar.component';
+import { SideBarComponent } from './compenents/home-page/side-bar/side-bar.component';
+import { LogInComponent } from './compenents/log-in/log-in.component';
+import { SignUpComponent } from './compenents/sign-up/sign-up.component';
+import { HomePageComponent } from './compenents/home-page/home-page.component';
+import { DashBoardComponent } from './compenents/home-page/dash-board/dash-board.component';
+import { ProjectOverviewComponent } from './compenents/home-page/dash-board/project-overview/project-overview.component';
+import { TaskOverviewComponent } from './compenents/home-page/dash-board/task-overview/task-overview.component';
+import { ProjectsComponent } from './compenents/home-page/projects/projects.component';
+import { ProjectsListComponent } from './compenents/home-page/projects/projects-list/projects-list.component';
+import { WorkComponent } from './compenents/home-page/work/work.component';
+import { TasksListComponent } from './compenents/home-page/work/tasks-list/tasks-list.component';
+import { PeopleComponent } from './compenents/home-page/people/people.component';
+import { ProjectMembersComponent } from './compenents/home-page/people/project-members/project-members.component';
+import { SingleProjectDetailsComponent } from './compenents/home-page/single-project-details/single-project-details.component';
+import { ProjectDetailComponent } from './compenents/home-page/single-project-details/project-detail/project-detail.component';
+import { MembreListComponent } from './compenents/home-page/single-project-details/membre-list/membre-list.component';
+import { ErrorPageComponent } from './errors/error-page/error-page.component';
+import { ProjectFormComponent } from './compenents/home-page/project-form/project-form.component';
+import { TaskFormComponent } from './home-page/task-form/task-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    ProfileComponent,
-    SettingsComponent,
-    HelpComponent,
-    FooterComponent,
-    HeaderComponent
+    NavBarComponent,
+    SideBarComponent,
+    LogInComponent,
+    SignUpComponent,
+    HomePageComponent,
+    DashBoardComponent,
+    ProjectOverviewComponent,
+    TaskOverviewComponent,
+    ProjectsComponent,
+    ProjectsListComponent,
+    WorkComponent,
+    TasksListComponent,
+    PeopleComponent,
+    ProjectMembersComponent,
+    SingleProjectDetailsComponent,
+    ProjectDetailComponent,
+    MembreListComponent,
+    ErrorPageComponent,
+    ProjectFormComponent,
+    TaskFormComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+  imports: [BrowserModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
