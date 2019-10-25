@@ -1,4 +1,6 @@
-var mongoose = require('mongoose');  
+var mongoose = require('mongoose'),
+Schema = mongoose.Schema;
+
 var projectSchema = new mongoose.Schema({  
   name: {type: String, required: true},
   description: String,
@@ -9,6 +11,8 @@ var projectSchema = new mongoose.Schema({
       }
   ], 
   logoUrl: String,
-  createdAt: Date
+  cards: [{ type: Schema.ObjectId, ref: 'Card' }],
 });
+projectSchema.set('timestamps', true);
+
 mongoose.model('Project', projectSchema);

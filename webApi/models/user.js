@@ -8,8 +8,9 @@ var userSchema = new mongoose.Schema({
   lastName: {type: String, required: true},
   tel: String,
   imageUrl: String,
-  checkedIn: Date
 });
+
+userSchema.set('timestamps', true);
 
 userSchema.pre('save', function(next) {
   const userSchema = this

@@ -4,7 +4,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 // model is where we store all the DB models, mongoose .
-var db = require('./models/dataBase'),
+var db = require('./models/dataBaseConfig'),
     project = require('./models/project'),
     user = require('./models/user');
 
