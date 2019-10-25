@@ -9,7 +9,6 @@
 
 # dependencies
 /node_modules
-/src/assets/fontawesome-free-5.11.2-web
 /src/assets/vendor/fontawesome-free
 
 # profiling files
