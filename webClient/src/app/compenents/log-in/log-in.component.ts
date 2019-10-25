@@ -12,6 +12,6 @@ export class LogInComponent implements OnInit {
   ngOnInit() {}
 
   goHome() {
-    this.router.navigate(['/Home']);
+    this.router.navigate(['/Home/Dashboard']);
   }
 }
