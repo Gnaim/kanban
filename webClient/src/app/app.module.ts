@@ -22,7 +22,7 @@ import { ProjectDetailComponent } from './compenents/home-page/single-project-de
 import { MembreListComponent } from './compenents/home-page/single-project-details/membre-list/membre-list.component';
 import { ErrorPageComponent } from './errors/error-page/error-page.component';
 import { ProjectFormComponent } from './compenents/home-page/project-form/project-form.component';
-import { TaskFormComponent } from './home-page/task-form/task-form.component';
+import { TaskFormComponent } from './compenents/home-page/task-form/task-form.component';
 
 @NgModule({
   declarations: [

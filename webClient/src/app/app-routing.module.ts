@@ -19,6 +19,7 @@ const homePageChildren: Routes = [
 ];
 
 const routes: Routes = [
+  { path: '', component: LogInComponent },
   { path: 'Login', component: LogInComponent },
   { path: 'Signup', component: SignUpComponent },
   {
