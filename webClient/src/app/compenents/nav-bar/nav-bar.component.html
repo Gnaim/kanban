@@ -1,25 +1,20 @@
 <!-- Topbar -->
 <nav
+  *ngIf="'/'"
   class="navbar navbar-padding navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
 >
   <!-- Topbar Search -->
   <ul class="navbar-nav ml-auto">
     <li class="nav-item">
-      <a class="nav-link" href="#" routerLink="Login">
+      <a class="nav-link" href="#" routerLink="Login" routerLinkActive="active">
         <i class="fas fa-fw fa-chart-area"></i>
         <span>Login</span></a
       >
     </li>
     <li class="nav-item">
-      <a class="nav-link" routerLink="Signup">
+      <a class="nav-link" routerLink="Signup" routerLinkActive="active">
         <i class="fas fa-fw fa-chart-area"></i>
         <span>Register</span></a
-      >
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="">
-        <i class="fas fa-fw fa-chart-area"></i>
-        <span>Logout</span></a
       >
     </li>
   </ul>
