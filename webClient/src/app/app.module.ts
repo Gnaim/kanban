@@ -12,7 +12,6 @@ import { DashBoardComponent } from './compenents/home-page/dash-board/dash-board
 import { ProjectOverviewComponent } from './compenents/home-page/dash-board/project-overview/project-overview.component';
 import { TaskOverviewComponent } from './compenents/home-page/dash-board/task-overview/task-overview.component';
 import { ProjectsComponent } from './compenents/home-page/projects/projects.component';
-import { ProjectsListComponent } from './compenents/home-page/projects/projects-list/projects-list.component';
 import { WorkComponent } from './compenents/home-page/work/work.component';
 import { TasksListComponent } from './compenents/home-page/work/tasks-list/tasks-list.component';
 import { PeopleComponent } from './compenents/home-page/people/people.component';
@@ -38,7 +37,6 @@ import { ProfileComponent } from './compenents/home-page/profile/profile.compone
     ProjectOverviewComponent,
     TaskOverviewComponent,
     ProjectsComponent,
-    ProjectsListComponent,
     WorkComponent,
     TasksListComponent,
     PeopleComponent,

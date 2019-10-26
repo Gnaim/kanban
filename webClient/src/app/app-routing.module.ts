@@ -10,6 +10,7 @@ import { WorkComponent } from './compenents/home-page/work/work.component';
 import { PeopleComponent } from './compenents/home-page/people/people.component';
 import { SingleProjectDetailsComponent } from './compenents/home-page/single-project-details/single-project-details.component';
 import { ProfileComponent } from './compenents/home-page/profile/profile.component';
+import { ProjectFormComponent } from './compenents/home-page/project-form/project-form.component';
 
 const homePageChildren: Routes = [
   { path: 'Dashboard', component: DashBoardComponent },
@@ -17,7 +18,8 @@ const homePageChildren: Routes = [
   { path: 'Work', component: WorkComponent },
   { path: 'People', component: PeopleComponent },
   { path: 'Project', component: SingleProjectDetailsComponent },
-  { path: 'Profile', component: ProfileComponent }
+  { path: 'Profile', component: ProfileComponent },
+  {path: 'project-form',component:ProjectFormComponent }
 ];
 
 const routes: Routes = [
