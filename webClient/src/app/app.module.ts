@@ -23,6 +23,7 @@ import { MembreListComponent } from './compenents/home-page/single-project-detai
 import { ErrorPageComponent } from './errors/error-page/error-page.component';
 import { ProjectFormComponent } from './compenents/home-page/project-form/project-form.component';
 import { TaskFormComponent } from './compenents/home-page/task-form/task-form.component';
+import { TabsModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,7 @@ import { TaskFormComponent } from './compenents/home-page/task-form/task-form.co
     ProjectFormComponent,
     TaskFormComponent
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, AppRoutingModule, TabsModule.forRoot()],
   providers: [],
   bootstrap: [AppComponent]
 })
