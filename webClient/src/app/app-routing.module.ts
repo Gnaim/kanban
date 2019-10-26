@@ -9,13 +9,15 @@ import { ProjectsComponent } from './compenents/home-page/projects/projects.comp
 import { WorkComponent } from './compenents/home-page/work/work.component';
 import { PeopleComponent } from './compenents/home-page/people/people.component';
 import { SingleProjectDetailsComponent } from './compenents/home-page/single-project-details/single-project-details.component';
+import { ProfileComponent } from './compenents/home-page/profile/profile.component';
 
 const homePageChildren: Routes = [
   { path: 'Dashboard', component: DashBoardComponent },
   { path: 'Projects', component: ProjectsComponent },
   { path: 'Work', component: WorkComponent },
   { path: 'People', component: PeopleComponent },
-  { path: 'Project', component: SingleProjectDetailsComponent }
+  { path: 'Project', component: SingleProjectDetailsComponent },
+  { path: 'Profile', component: ProfileComponent }
 ];
 
 const routes: Routes = [

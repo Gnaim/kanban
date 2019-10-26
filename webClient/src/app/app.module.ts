@@ -24,6 +24,7 @@ import { ErrorPageComponent } from './errors/error-page/error-page.component';
 import { ProjectFormComponent } from './compenents/home-page/project-form/project-form.component';
 import { TaskFormComponent } from './compenents/home-page/task-form/task-form.component';
 import { TabsModule } from 'ngx-bootstrap';
+import { ProfileComponent } from './compenents/home-page/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { TabsModule } from 'ngx-bootstrap';
     MembreListComponent,
     ErrorPageComponent,
     ProjectFormComponent,
-    TaskFormComponent
+    TaskFormComponent,
+    ProfileComponent
   ],
   imports: [BrowserModule, AppRoutingModule, TabsModule.forRoot()],
   providers: [],
