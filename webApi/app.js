@@ -2,6 +2,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var mailSender = require('./utils/mailSender')
+
+
+// get keys from config.env
+const dotenv = require('dotenv');
+dotenv.config({ path: './config.env' });
 
 // model is where we store all the DB models, mongoose .
 var db = require('./models/dataBaseConfig'),
@@ -14,9 +20,6 @@ var signUpRouter = require('./routes/signUp');
 var loginRouter = require('./routes/login');
 
 
-// get keys from config.env
-const dotenv = require('dotenv');
-dotenv.config({ path: './config.env' });
 // module.exports = {
 //     env: process.env.NODE_ENV,
 //     serverPort: process.env.SERVER_PORT,
