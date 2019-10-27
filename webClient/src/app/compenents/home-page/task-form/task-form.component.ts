@@ -12,6 +12,8 @@ export class TaskFormComponent implements OnInit {
   people = [
     "Anass","Anis","Malek","Naim"
   ];
+
+  types = ["Dev", "Bug"];
   selectedPeople = [];
   ngOnInit() {
   }

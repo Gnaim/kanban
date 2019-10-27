@@ -25,7 +25,7 @@ export class TasksListComponent implements OnInit {
       ],
       title: 'Modal with component'
     };
-    this.bsModalRef = this.modalService.show(TaskFormComponent, {initialState});
+    this.bsModalRef = this.modalService.show(TaskFormComponent, {class: 'modal-lg'});
     this.bsModalRef.content.closeBtnName = 'Close';
   }
 }
