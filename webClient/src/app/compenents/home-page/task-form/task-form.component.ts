@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-task-form',
@@ -7,8 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TaskFormComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(public bsModalRef: BsModalRef) { }
+  people = [
+    "Anass","Anis","Malek","Naim"
+  ];
+  selectedPeople = [];
   ngOnInit() {
   }
 

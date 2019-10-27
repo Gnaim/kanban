@@ -11,6 +11,6 @@ router.route('/')
 .post (verifyJWTToken, projectController.post)
 
 router.route('/:id')
-.get(verifyJWTToken, isProjectMember, projectController.getById);
-
+.get(verifyJWTToken, isProjectMember, projectController.getById)
+.put(verifyJWTToken, isProjectMember, projectController.UpdateProjectById);
 module.exports = router;

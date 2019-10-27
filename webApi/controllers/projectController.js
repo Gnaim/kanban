@@ -77,3 +77,29 @@ exports.getById = (req, res, next) => {
       }
     });
 };
+
+exports.UpdateProjectById = (req, res, next) => {
+  var name = req.body.name;
+  var logoUrl = req.body.logoUrl;
+  var description = req.body.description;
+  var members = req.body.members;
+  var description = req.body.description;
+  projects.findOneAndUpdate(req.params.id, {
+    name: 'name',
+    logoUrl: "logoUrl",
+    description: "description",
+    members: [],
+    cards: []
+  }, (err, project) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send('GET Error: There was a problem retrieving: ' + err);
+    } else {
+      res.status(200).format({
+        json: () => {
+            res.json(project);
+        }
+      });
+    }
+  });
+};

@@ -1,1 +1,62 @@
-<p>task-form works!</p>
+<div class="container h-100">
+        <div class="card o-hidden border-0 shadow-lg mt-5">
+          <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row ">
+              <div class="col-lg-12">
+                <div class="p-5">
+                  <div class="text-center">
+                    <h1 class="h2 text-gray-900 mb-4">Create Task</h1>
+                  </div>
+                  <form class="user">
+                    <div class="form-group">
+                       <label id="exampleInputEmail"><b>Project name</b></label>
+                    </div>
+                    <div class="form-group">
+                       <label id="exampleInputEmail">Task type : </label>
+                       <select class="form-control" id="exampleFormControlSelect1">
+                            <option>Bug</option>
+                            <option>Dev</option>
+                          </select>
+                    </div>
+                    <div class="form-group">
+                            <label id="">Task title : </label>
+                            <input type="text" class="form-control form-control-user"  placeholder="Task title..." />
+                    </div>
+
+                    <div class="form-group">
+                            <label id="">Task description : </label>
+                            <textarea type="text" class="form-control form-control-user"  placeholder="Task description..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                            <label id="">Task point : </label>
+                            <input type="number" class="form-control form-control-user"  placeholder="Task point" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label id="">Member assigned : </label>
+                        <ng-select
+                        [items]="people"
+                        [multiple]="true"
+                        [closeOnSelect]="false"
+                        [hideSelected]="true"
+                        bindLabel="name"
+                        placeholder="Select members..."
+                        [(ngModel)]="selectedPeople">
+                        </ng-select>
+                    </div>
+
+                    <button
+                      class="btn btn-primary btn-user btn-block" >
+                      Create
+                    </button>
+                    <hr />
+                  </form>
+                  <hr />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
