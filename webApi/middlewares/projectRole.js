@@ -41,10 +41,15 @@ exports.isAdmin = (req, res, next) => {
 };
 
 getRole = (element, list ) => {
-  for (var i=0 ; i < list.length ; i++) {
-    if (list[i]['email'] == element) {
-        return list[i]['role'];
+  if (list) {
+    for (var i=0 ; i < list.length ; i++) {
+      if (list[i]['email'] == element) {
+          return list[i]['role'];
+      }
     }
+  }
+  else {
+    return false;
   }
 }
 
