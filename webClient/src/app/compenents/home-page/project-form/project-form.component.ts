@@ -7,7 +7,19 @@ import { HomePageComponent } from '../home-page.component';
   styleUrls: ['./project-form.component.scss']
 })
 export class ProjectFormComponent implements OnInit {
+  members = [
+    "Anass","Anis","Malek","Naim"
+  ];
+  selectedMembers=[];
+  priorities= [
+    {name:"High", colorClass:"bg-danger"},
+    {name:"Normale", colorClass:"bg-warning"},
+    {name:"low", colorClass:"bg-success"}
+  
+  ];
+ 
   constructor() {}
+  createProject(){}
 
   ngOnInit() {}
 }
