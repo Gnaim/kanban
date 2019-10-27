@@ -25,6 +25,9 @@ import { ProjectFormComponent } from './compenents/home-page/project-form/projec
 import { TaskFormComponent } from './compenents/home-page/task-form/task-form.component';
 import { TabsModule } from 'ngx-bootstrap';
 import { ProfileComponent } from './compenents/home-page/profile/profile.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -51,7 +54,8 @@ import { ProfileComponent } from './compenents/home-page/profile/profile.compone
     TaskFormComponent,
     ProfileComponent
   ],
-  imports: [BrowserModule, AppRoutingModule, TabsModule.forRoot()],
+  entryComponents: [TaskFormComponent],
+  imports: [BrowserModule, AppRoutingModule, TabsModule.forRoot(), ModalModule.forRoot(),NgSelectModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent]
 })
