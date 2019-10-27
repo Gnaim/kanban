@@ -1,4 +1,5 @@
 const auths = require('../middlewares/auths');
+const sendemail = require('../utils/mailSender').sendMail;
 
 var users = mongoose.model('User');
 
@@ -26,12 +27,8 @@ exports.post = (req, res, next) => {
           res.send("There was a problem to create user to the database.");
           console.error(err);
         } else {
-            let payload = {
-              email: email
-            }
-            res.json({
-              token :auths.createJWToken(payload,'24h')
-            });
+            sendemail(email, firstName, lastName);
+            res.send('confirmation mail has been sent to ' + email);
           }
         })
       }
