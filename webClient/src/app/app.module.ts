@@ -1,5 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -49,7 +52,7 @@ import { ProfileComponent } from './compenents/home-page/profile/profile.compone
     TaskFormComponent,
     ProfileComponent
   ],
-  imports: [BrowserModule, AppRoutingModule, TabsModule.forRoot()],
+  imports: [BrowserModule, AppRoutingModule, TabsModule.forRoot(),NgSelectModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent]
 })
