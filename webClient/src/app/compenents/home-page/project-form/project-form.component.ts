@@ -10,11 +10,11 @@ export class ProjectFormComponent implements OnInit {
   members = [
     "Anass","Anis","Malek","Naim"
   ];
-  selectedMembers=[];
+  
   priorities= [
-    {name:"High", colorClass:"bg-danger"},
-    {name:"Normale", colorClass:"bg-warning"},
-    {name:"low", colorClass:"bg-success"}
+    {name:"High", class:"fa-arrow-up"},
+    {name:"Normale", class:"fa-grip-lines"},
+    {name:"low", class:"fa-arrow-down"}
   
   ];
  

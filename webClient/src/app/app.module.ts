@@ -28,8 +28,6 @@ import { TaskFormComponent } from './compenents/home-page/task-form/task-form.co
 import { TabsModule } from 'ngx-bootstrap';
 import { ProfileComponent } from './compenents/home-page/profile/profile.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
