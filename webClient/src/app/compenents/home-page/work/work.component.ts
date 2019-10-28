@@ -20,4 +20,5 @@ export class WorkComponent implements OnInit {
     this.bsModalRef = this.modalService.show(TaskFormComponent, {class: 'modal-lg'});
     this.bsModalRef.content.closeBtnName = 'Close';
   }
+
 }
