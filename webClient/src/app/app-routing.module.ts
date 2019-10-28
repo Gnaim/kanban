@@ -11,6 +11,7 @@ import { PeopleComponent } from './compenents/home-page/people/people.component'
 import { SingleProjectDetailsComponent } from './compenents/home-page/single-project-details/single-project-details.component';
 import { ProfileComponent } from './compenents/home-page/profile/profile.component';
 import { ProjectFormComponent } from './compenents/home-page/project-form/project-form.component';
+import { ErrorPageComponent } from './compenents/errors/error-page/error-page.component';
 
 const homePageChildren: Routes = [
   { path: 'Dashboard', component: DashBoardComponent },
@@ -19,7 +20,7 @@ const homePageChildren: Routes = [
   { path: 'People', component: PeopleComponent },
   { path: 'Project', component: SingleProjectDetailsComponent },
   { path: 'Profile', component: ProfileComponent },
-  {path: 'project-form',component:ProjectFormComponent }
+  { path: 'project-form',component:ProjectFormComponent }
 ];
 
 const routes: Routes = [
@@ -30,7 +31,8 @@ const routes: Routes = [
     path: 'Home',
     component: HomePageComponent,
     children: homePageChildren
-  }
+  },
+  { path: 'Error', component: ErrorPageComponent }
 ];
 
 @NgModule({

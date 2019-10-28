@@ -22,7 +22,7 @@ import { ProjectMembersComponent } from './compenents/home-page/people/project-m
 import { SingleProjectDetailsComponent } from './compenents/home-page/single-project-details/single-project-details.component';
 import { ProjectDetailComponent } from './compenents/home-page/single-project-details/project-detail/project-detail.component';
 import { MembreListComponent } from './compenents/home-page/single-project-details/membre-list/membre-list.component';
-import { ErrorPageComponent } from './errors/error-page/error-page.component';
+import { ErrorPageComponent } from './compenents/errors/error-page/error-page.component';
 import { ProjectFormComponent } from './compenents/home-page/project-form/project-form.component';
 import { TaskFormComponent } from './compenents/home-page/task-form/task-form.component';
 import { TabsModule } from 'ngx-bootstrap';
