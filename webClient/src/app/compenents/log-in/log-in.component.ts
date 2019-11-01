@@ -28,7 +28,7 @@ export class LogInComponent implements OnInit {
     });
   }
   onSubmitForm(){
-    const formValue = this.loginForm.value;
+        const formValue = this.loginForm.value;
      const email=formValue['email'];
      const password=formValue['password'];
   

@@ -27,7 +27,7 @@ import { TaskFormComponent } from './compenents/home-page/task-form/task-form.co
 import { TabsModule } from 'ngx-bootstrap';
 import { ProfileComponent } from './compenents/home-page/profile/profile.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
-
+import {HttpClientModule} from '@angular/common/http';
 import { KanbanComponent } from './compenents/home-page/single-project-details/kanban/kanban.component'; 
 
 import{ jqxKanbanComponent } from 'jqwidgets-ng/jqxkanban'; 
@@ -36,7 +36,8 @@ import { jqxSplitterModule } from 'jqwidgets-ng/jqxsplitter';
 import {LoginService} from './services/login.service';
 import {SignupService} from './services/signup.service';
 import {ProjectsService} from './services/projects.service'; 
-
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './authentification/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -74,10 +75,15 @@ import {ProjectsService} from './services/projects.service';
     NgSelectModule, 
     FormsModule, 
     jqxSplitterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
 
-  providers: [LoginService,SignupService,ProjectsService],
+  providers: [LoginService,SignupService,ProjectsService, {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
