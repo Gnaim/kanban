@@ -9,12 +9,13 @@
             <div class="text-center">
               <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
             </div>
-            <form class="user">
+            <form [formGroup]="signUpForm" (ngSubmit)="onSubmitForm()" class="user">
               <div class="form-group row">
                 <div class="col-sm-6 mb-3 mb-sm-0">
                   <input
                     type="text"
                     class="form-control form-control-user"
+                    formControlName="firstName"
                     id="exampleFirstName"
                     placeholder="First Name"
                   />
@@ -23,6 +24,7 @@
                   <input
                     type="text"
                     class="form-control form-control-user"
+                    formControlName="lastName"
                     id="exampleLastName"
                     placeholder="Last Name"
                   />
@@ -33,15 +35,26 @@
                   type="email"
                   class="form-control form-control-user"
                   id="exampleInputEmail"
+                  formControlName="email"
                   placeholder="Email Address"
                 />
               </div>
+              <div class="form-group">
+                  <input
+                    type="number"
+                    class="form-control form-control-user"
+                    id="phoneNumber"
+                    formControlName="phone"
+                    placeholder="Phone number"
+                  />
+                </div>
               <div class="form-group row">
                 <div class="col-sm-6 mb-3 mb-sm-0">
                   <input
                     type="password"
                     class="form-control form-control-user"
                     id="exampleInputPassword"
+                    formControlName="password"
                     placeholder="Password"
                   />
                 </div>
@@ -50,27 +63,39 @@
                     type="password"
                     class="form-control form-control-user"
                     id="exampleRepeatPassword"
+                    formControlName="repeatedPassword"
                     placeholder="Repeat Password"
                   />
                 </div>
               </div>
+              <div class="form-group row m-4">
+                <input type="file" 
+                      formControlName="photo"
+                      (change)="onSelectFile($event)" 
+                      accept="image/jpeg, image/png"/>
+                </div>
               <button
                 class="btn btn-primary btn-user btn-block"
-                (click)="goHome()"
+                [disabled]="signUpForm.invalid"
               >
                 Register Account
               </button>
               <hr />
-              <button
+            <!--  <button
                 class="btn btn-google btn-user btn-block"
                 (click)="goHome()"
               >
                 <i class="fab fa-google fa-fw"></i> Register with Google
-              </button>
+              </button> -->
             </form>
-            <hr />
+            
+           <!--
+              <hr /> 
             <div class="text-center">
-              <a class="small" href="forgot-password.html">Forgot Password?</a>
+                <a class="small" href="forgot-password.html">Forgot Password?</a>
+              </div> -->
+            <div class="text-center">
+              <a class="small" routerLink="/Login">Already have an account?</a>
             </div>
           </div>
         </div>
