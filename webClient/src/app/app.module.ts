@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
+import{ReactiveFormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './compenents/nav-bar/nav-bar.component';
@@ -72,7 +73,8 @@ import {ProjectsService} from './services/projects.service';
     ModalModule.forRoot(),
     NgSelectModule, 
     FormsModule, 
-    jqxSplitterModule
+    jqxSplitterModule,
+    ReactiveFormsModule
   ],
 
   providers: [LoginService,SignupService,ProjectsService],

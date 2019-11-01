@@ -6,4 +6,13 @@ import { Injectable } from '@angular/core';
 export class LoginService {
 
   constructor() { }
+
+  //connect(,){
+
+  
+  connect(email:String,password:String){
+    // TODO: post request 
+return true;
+
+  }
 }
