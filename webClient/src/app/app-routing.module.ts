@@ -18,7 +18,7 @@ const homePageChildren: Routes = [
   { path: 'Projects', component: ProjectsComponent },
   { path: 'Work', component: WorkComponent },
   { path: 'People', component: PeopleComponent },
-  { path: 'Project', component: SingleProjectDetailsComponent },
+  { path: 'Project/:id', component: SingleProjectDetailsComponent },
   { path: 'Profile', component: ProfileComponent },
   { path: 'project-form',component:ProjectFormComponent }
 ];

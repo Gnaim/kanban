@@ -28,6 +28,10 @@ import { TaskFormComponent } from './compenents/home-page/task-form/task-form.co
 import { TabsModule } from 'ngx-bootstrap';
 import { ProfileComponent } from './compenents/home-page/profile/profile.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { KanbanComponent } from './compenents/home-page/single-project-details/kanban/kanban.component'; 
+
+import{ jqxKanbanComponent } from 'jqwidgets-ng/jqxkanban'; 
+import { jqxSplitterModule } from 'jqwidgets-ng/jqxsplitter';
 
 @NgModule({
   declarations: [
@@ -51,11 +55,21 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     ErrorPageComponent,
     ProjectFormComponent,
     TaskFormComponent,
-    ProfileComponent
+    ProfileComponent,
+    KanbanComponent,
+    jqxKanbanComponent
   ],
 
-  entryComponents: [TaskFormComponent],
-  imports: [BrowserModule, AppRoutingModule, TabsModule.forRoot(), ModalModule.forRoot(),NgSelectModule, FormsModule],
+  entryComponents: [TaskFormComponent,ProjectFormComponent,MembreListComponent],
+  imports: [
+    BrowserModule, 
+    AppRoutingModule, 
+    TabsModule.forRoot(), 
+    ModalModule.forRoot(),
+    NgSelectModule, 
+    FormsModule, 
+    jqxSplitterModule
+  ],
 
   providers: [],
   bootstrap: [AppComponent]
