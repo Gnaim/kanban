@@ -2,27 +2,24 @@ var projects = mongoose.model('Project');
 
 exports.getAll = (req, res, next) => {
   const payload = req.decoded;
-  if (payload) {
     projects.find({
       members : {
         email : payload.data.email,
         role : 'admin'
       }
-    },(err, blobs) => {
+    })
+    .select('name')
+    .exec((err, projects)=>{
       if (err) {
         res.status(500).send("There was a problem adding the information to the database.");
-        return console.error(err);
       } else {
-          res.status(200).format({
-            json: () => {
-                res.json(blobs);
-            }
+        res.status(200).format({
+          json: () => {
+              res.json(projects);
+          }
         });
-      }     
-    });
-  } else {
-    res.status(401).send('not authorized, you have to create an account');
-  }
+      }
+    })
 };
 
 exports.post = (req, res, next) => {
@@ -65,17 +62,19 @@ exports.post = (req, res, next) => {
 };
 
 exports.getById = (req, res, next) => {
-    mongoose.model('Project').findById(req.params.id, (err, project) => {
-      if (err) {
-        res.status(500).send('GET Error: There was a problem retrieving: ' + err);
-      } else {
-        res.status(200).format({
-          json: () => {
-              res.json(project);
-          }
-        });
-      }
-    });
+  projects.findById(req.params.id)
+      .populate('cards', 'title status members')
+      .exec((err, project)=>{
+        if (err) {
+          res.status(500).send('GET Error: There was a problem retrieving: ' + err);
+        } else {
+          res.status(200).format({
+            json: () => {
+                res.json(project);
+            }
+          });
+        }
+      })
 };
 
 exports.UpdateProjectById = (req, res, next) => {
