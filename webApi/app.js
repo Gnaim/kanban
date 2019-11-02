@@ -10,7 +10,7 @@ const dotenv = require('dotenv');
 dotenv.config({ path: './config.env' });
 
 // model is where we store all the DB models, mongoose .
-var db = require('./models/dataBaseConfig'),
+var db = require('./config/dataBaseConfig'),
     project = require('./models/project'),
     user = require('./models/user'),
     card = require('./models/card')
