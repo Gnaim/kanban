@@ -1,10 +1,11 @@
-var express = require('express');
+const express = require('express');
 mongoose = require('mongoose');
-var router = express.Router();
+
+const router = express.Router();
 const signUpController = require('./../controllers/signUpController');
 
 router.route('/')
-.post (signUpController.post)
+  .post(signUpController.post);
 
 
 module.exports = router;

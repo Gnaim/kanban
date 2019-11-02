@@ -1,14 +1,15 @@
-var mongoose = require('mongoose'),
-Schema = mongoose.Schema;  
+const mongoose = require('mongoose');
 
-var cardSchema = new mongoose.Schema({
-  _project : { type: Schema.ObjectId, ref: 'Project' },
-  title: {type: String, required: true},
+const { Schema } = mongoose;
+
+const cardSchema = new mongoose.Schema({
+  _project: { type: Schema.ObjectId, ref: 'Project' },
+  title: { type: String, required: true },
   description: String,
-    //   attachment: [{ type: Schema.ObjectId, ref: 'Attachment' }],
+  //   attachment: [{ type: Schema.ObjectId, ref: 'Attachment' }],
   checklists: [{ type: Schema.ObjectId, ref: 'Checklist' }],
   members: [{ type: Schema.ObjectId, ref: 'User' }],
-  status: {type: String, required: true},
+  status: { type: String, required: true },
 });
 cardSchema.set('timestamps', true);
 

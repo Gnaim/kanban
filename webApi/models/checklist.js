@@ -1,10 +1,11 @@
-var mongoose = require('mongoose'),
-Schema = mongoose.Schema;  
+const mongoose = require('mongoose');
 
-var checklistSchema = new mongoose.Schema({
-    _card : { type: Schema.ObjectId, ref: 'Card' },
-    content: {type: String, required: true},
-    isDone: Boolean,
+const { Schema } = mongoose;
+
+const checklistSchema = new mongoose.Schema({
+  _card: { type: Schema.ObjectId, ref: 'Card' },
+  content: { type: String, required: true },
+  isDone: Boolean,
 });
 
 

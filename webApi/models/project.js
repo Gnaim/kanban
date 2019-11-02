@@ -1,15 +1,17 @@
-var mongoose = require('mongoose'),
-Schema = mongoose.Schema;
+const mongoose = require('mongoose');
 
-var projectSchema = new mongoose.Schema({  
-  name: {type: String, required: true},
+const { Schema } = mongoose;
+
+const projectSchema = new mongoose.Schema({
+  name: { type: String, required: true },
   description: String,
   members: [
-      { _id:false,
-        email: String,
-        role: String
-      }
-  ], 
+    {
+      _id: false,
+      email: String,
+      role: String,
+    },
+  ],
   logoUrl: String,
   cards: [{ type: Schema.ObjectId, ref: 'Card' }],
 });
