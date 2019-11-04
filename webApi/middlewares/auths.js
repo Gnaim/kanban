@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 
 dotenv.config({ path: './config.env' });
 
-expiresIn = '24h';
+expiresIn = '2400h';
 
 exports.validateToken = (req, res, next) => {
   const authorizationHeaader = req.headers.authorization;
