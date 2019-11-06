@@ -18,10 +18,12 @@ router.route('/:id')
 
 router.route('/:id/cards')
   .get(verifyJWTToken, isProjectMember, cardController.getCardsByProject)
-  .post(verifyJWTToken, isProjectMember, cardController.post);
+  .post(verifyJWTToken, isProjectMember, cardController.post)
+  ;
 
 router.route('/:id/cards/:cardId')
   .get(verifyJWTToken, isProjectMember, cardController.getById)
-  .put(verifyJWTToken, isProjectMember, cardController.UpdateCardById);
+  .put(verifyJWTToken, isProjectMember, cardController.UpdateCardById)
+  .delete(verifyJWTToken, isProjectMember, cardController.delete);
 
 module.exports = router;
