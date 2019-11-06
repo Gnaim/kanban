@@ -1,4 +1,5 @@
 exports.isProjectMember = (req, res) => {
+  // implement method
   const projectId = req.params.id;
   const payload = req.decoded;
   if (payload) {

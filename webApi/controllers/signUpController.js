@@ -13,6 +13,8 @@ exports.post = (req, res, next) => {
   const checkedIn = new Date();
 
   isEmailDuplicated(email).then((exist) => {
+    // to do update methode with exec()
+    // to do add member to unconfirmed member
     if (!exist) {
       users.create({
         email,

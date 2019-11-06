@@ -4,6 +4,9 @@ const auths = require('../middlewares/auths');
 const users = mongoose.model('User');
 
 exports.login = (req, res, next) => {
+
+  // to do update methode with exec() and clean method
+  // to do clear response and add expiresAt
   const { email } = req.body;
   const { password } = req.body;
 

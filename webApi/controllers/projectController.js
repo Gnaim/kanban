@@ -1,6 +1,8 @@
 const projects = mongoose.model('Project');
+const cards = mongoose.model('Project');
 
 exports.getAll = (req, res, next) => {
+  // to do find project where the user is member and not user is admin
   const payload = req.decoded;
   projects.find({
     members: {
@@ -73,6 +75,8 @@ projects.findById(req.params.id)
 };
 
 exports.UpdateProjectById = (req, res, next) => {
+  // to do find just admin can update members and the project must have at least one admin
+  // to do update methode with exec()
   const name  = req.body.name ? req.body.name : '' ;
   const logoUrl  = req.body.logoUrl ? req.body.logoUrl : 'default url' ;
   const members  = req.body.members ? req.body.members : [] ;
@@ -98,3 +102,20 @@ exports.UpdateProjectById = (req, res, next) => {
     }
   });
 };
+
+exports.deleteProjectById = (req, res, next) => {
+  projects.deleteOne({ _id: req.params.id })
+  .exec((err, project)=>{
+    console.log('inside',project);
+    console.log('inside',project.cards);
+    if (err) {
+      res.status(500).send(`GET Error: There was a problem retrieving: ${err}`);
+    }
+    else {
+      console.log('deleted');
+      console.log(project);
+      // cards.delete(project.cards);
+      res.status(200).send('project has been deleted');
+    }
+  })
+}

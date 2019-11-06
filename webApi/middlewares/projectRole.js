@@ -8,6 +8,7 @@ const projects = mongoose.model('Project');
 
 
 exports.isProjectMember = (req, res, next) => {
+  // to do update with exec()
   const projectId = req.params.id;
   const payload = req.decoded;
   if (payload) {
@@ -25,6 +26,8 @@ exports.isProjectMember = (req, res, next) => {
 };
 
 exports.isAdmin = (req, res, next) => {
+  // to do update with exec()
+
   const projectId = req.params.id;
   const payload = req.decoded;
   if (payload) {
@@ -42,6 +45,7 @@ exports.isAdmin = (req, res, next) => {
 };
 
 getRole = (element, list) => {
+  // to do clean method with map,filter ..
   if (list) {
     for (let i = 0; i < list.length; i++) {
       if (list[i].email == element) {
