@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-import{ReactiveFormsModule} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './compenents/nav-bar/nav-bar.component';
@@ -27,17 +27,19 @@ import { TaskFormComponent } from './compenents/home-page/task-form/task-form.co
 import { TabsModule } from 'ngx-bootstrap';
 import { ProfileComponent } from './compenents/home-page/profile/profile.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import {HttpClientModule} from '@angular/common/http';
-import { KanbanComponent } from './compenents/home-page/single-project-details/kanban/kanban.component'; 
+import { HttpClientModule } from '@angular/common/http';
 
-import{ jqxKanbanComponent } from 'jqwidgets-ng/jqxkanban'; 
+import { KanbanComponent } from './compenents/home-page/single-project-details/kanban/kanban.component';
+
+import { jqxKanbanComponent } from 'jqwidgets-ng/jqxkanban';
 import { jqxSplitterModule } from 'jqwidgets-ng/jqxsplitter';
 
-import {LoginService} from './services/login.service';
-import {SignupService} from './services/signup.service';
-import {ProjectsService} from './services/projects.service'; 
+import { LoginService } from './services/login.service';
+import { SignupService } from './services/signup.service';
+import { ProjectsService } from './services/projects.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './authentification/token.interceptor';
+
 
 @NgModule({
   declarations: [
@@ -66,24 +68,24 @@ import { TokenInterceptor } from './authentification/token.interceptor';
     jqxKanbanComponent
   ],
 
-  entryComponents: [TaskFormComponent,ProjectFormComponent,MembreListComponent],
+  entryComponents: [TaskFormComponent, ProjectFormComponent, MembreListComponent],
   imports: [
-    BrowserModule, 
-    AppRoutingModule, 
-    TabsModule.forRoot(), 
+    BrowserModule,
+    AppRoutingModule,
+    TabsModule.forRoot(),
     ModalModule.forRoot(),
-    NgSelectModule, 
-    FormsModule, 
+    NgSelectModule,
+    FormsModule,
     jqxSplitterModule,
     ReactiveFormsModule,
     HttpClientModule
   ],
 
-  providers: [LoginService,SignupService,ProjectsService, {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true
-    }],
+  providers: [LoginService, SignupService, ProjectsService, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

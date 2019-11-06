@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {LoginService} from '../../services/login.service';
-import { FormBuilder, FormGroup,Validators } from '@angular/forms';
+import { LoginService } from '../../services/login.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 
@@ -13,7 +13,7 @@ import { FormBuilder, FormGroup,Validators } from '@angular/forms';
 })
 export class LogInComponent implements OnInit {
   loginForm: FormGroup;
-  constructor(private router: Router,private loginService:LoginService,private formBuilder:FormBuilder ) {
+  constructor(private router: Router, private loginService: LoginService, private formBuilder: FormBuilder) {
 
   }
 
@@ -22,26 +22,26 @@ export class LogInComponent implements OnInit {
   }
 
   initForm() {
-    this.loginForm=this.formBuilder.group({
-      email:['',[Validators.required,Validators.email]],
-      password:['',[Validators.required,Validators.pattern('[a-zA-Z0-9]{8,24}')]]
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]{8,24}')]]
     });
   }
-  onSubmitForm(){
-        const formValue = this.loginForm.value;
-     const email=formValue['email'];
-     const password=formValue['password'];
-  
-   const result=this.loginService.connect(email,password);
+  onSubmitForm() {
+    const formValue = this.loginForm.value;
+    const email = formValue['email'];
+    const password = formValue['password'];
 
-   if(result){
-    this.router.navigate(['/Home/Dashboard']);
-  }else{
+    let result: boolean = this.loginService.connect(email, password);
 
-    //Print the Error 
+    if (result) {
+      this.router.navigate(['/Home/Dashboard']);
+    } else {
+
+      //Print the Error 
+    }
+
   }
 
-  }
 
-  
 }
