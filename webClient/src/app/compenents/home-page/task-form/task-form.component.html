@@ -1,58 +1,52 @@
-
 <div class="container h-100 modal-body">
-        <div class="card o-hidden border-0 shadow-lg mt-3 mb-3">
-            <!-- Nested Row within Card Body -->
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="p-5">
-                  <div class="text-center">
-                    <h1 class="h2 text-gray-900 mb-4">Create Task</h1>
-                  </div>
-                  <form class="user">
-                    <div class="form-group">
-                      <label id="">Project : <b> Project Name </b></label> 
-                    </div>
-                    <div class="form-group">
-                       <label for="type">Task type : </label>
-                       <select class="form-control form-control-task" id="type">
-                            <option *ngFor="let type of types"> {{ type }} </option>
-                          </select>
-                    </div>
-                    <div class="form-group">
-                            <label for="taskName">Task name : </label>
-                            <input id="taskName" type="text" class="form-control form-control-task"  placeholder="Task title..." />
-                    </div>
-
-                    <div class="form-group">
-                            <label id="">Task description : </label>
-                            <textarea type="text" class="form-control form-control-task"  placeholder="Task description..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                            <label id="">Task point : </label>
-                            <input type="number" class="form-control form-control-task"  placeholder="Task point" />
-                    </div>
-                    
-                    <div class="form-group">
-                        <ng-select
-                        class="select form-control-task"
-                        [items]="people"
-                        [multiple]="true"
-                        [closeOnSelect]="false"
-                        [hideSelected]="true"
-                        bindLabel="name"
-                        placeholder="Assigned members..."
-                       >
-                        </ng-select>
-                    </div>
-
-                    <button
-                      class="btn btn-primary btn-user btn-block" >
-                      Create
-                    </button>
-                  </form>
-                </div>
-              </div>
-            </div>
+  <div class="card o-hidden border-0 shadow-lg mt-3 mb-3">
+    <!-- Nested Row within Card Body -->
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="p-5">
+          <div class="text-center">
+            <h1 class="h2 text-gray-900 mb-4">Create Task</h1>
           </div>
+          <form [formGroup]="cardForm" (ngSubmit)="createCard()" class="user">
+            <div class="form-group">
+              <label id="">Project : <b> Project Name </b></label>
+            </div>
+            <div class="form-group">
+              <label for="type">Task type : </label>
+              <select class="form-control form-control-task" id="type" formControlName="type">
+                <option *ngFor="let type of types"> {{ type }} </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="taskName">Task name : </label>
+              <input id="taskName" type="text" class="form-control form-control-task" placeholder="Task title..."
+                formControlName="title" />
+            </div>
+
+            <div class="form-group">
+              <label id="">Task description : </label>
+              <textarea type="text" class="form-control form-control-task" placeholder="Task description..."
+                formControlName="description"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label id="">Task point : </label>
+              <input type="number" class="form-control form-control-task" placeholder="Task point"
+                formControlName="point" />
+            </div>
+
+            <div class="form-group">
+              <ng-select class="select form-control-task" [items]="people" [multiple]="true" [closeOnSelect]="false"
+                [hideSelected]="true" bindLabel="name" placeholder="Assigned members..." formControlName="members">
+              </ng-select>
+            </div>
+
+            <button type='submit' class="btn btn-primary btn-user btn-block" [disabled]='cardForm.invalid'>
+              Create
+            </button>
+          </form>
+        </div>
       </div>
+    </div>
+  </div>
+</div>

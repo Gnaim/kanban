@@ -34,7 +34,7 @@ export class LogInComponent implements OnInit {
 
     let result: boolean = this.loginService.connect(email, password);
 
-    if (result) {
+    if (result == true) {
       this.router.navigate(['/Home/Dashboard']);
     } else {
 

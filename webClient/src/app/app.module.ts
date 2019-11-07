@@ -37,6 +37,7 @@ import { jqxSplitterModule } from 'jqwidgets-ng/jqxsplitter';
 import { LoginService } from './services/login.service';
 import { SignupService } from './services/signup.service';
 import { ProjectsService } from './services/projects.service';
+import { CardsService } from './services/cardService/cards.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './authentification/token.interceptor';
 
@@ -81,7 +82,7 @@ import { TokenInterceptor } from './authentification/token.interceptor';
     HttpClientModule
   ],
 
-  providers: [LoginService, SignupService, ProjectsService, {
+  providers: [LoginService, SignupService, ProjectsService, CardsService, {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,
     multi: true
