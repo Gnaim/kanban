@@ -7,7 +7,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ProjectsService {
-  PROJECT_ADD_URL = "http://127.0.0.1:3000/project";
+  fail: boolean = true;
+  PROJECT_ADD_URL = "http://127.0.0.1:3000/projects";
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -18,13 +19,15 @@ export class ProjectsService {
   constructor(private http: HttpClient) { }
 
   createProject(title: string, priority: number, description, members): boolean {
-    let fail: boolean = true;
+
     let response: Observable<any> = this.http.post<Project>(this.PROJECT_ADD_URL, new Project(title, priority, description, members), this.httpOptions);
     response.subscribe((response: Object) => {
       console.log(response);
+      this.fail = false;
 
-    });
-    return !fail;
+    }, (err) => { this.fail = true; });
+
+    return !this.fail;
 
 
 

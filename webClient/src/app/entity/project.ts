@@ -1,17 +1,17 @@
 
 export class Project {
-    title: string;
+    name: string;
     priority:number;
     description: string;
     members:string[];
 
 
 
-    constructor(title:string,
+    constructor(name:string,
     priority: number,
     description: string,
     members:string[]) {
-        this.title = title;
+        this.name = name;
         this.priority=priority;
         this.description=description;
         this.members=members;

@@ -15,6 +15,7 @@ export class ProjectFormComponent implements OnInit {
   constructor(private router: Router, private projectsService: ProjectsService, private formBuilder: FormBuilder) {
 
   }
+  selectedMembers = [];
   members = [
     "Anass", "Anis", "Malek", "Naim"
   ];
@@ -22,15 +23,15 @@ export class ProjectFormComponent implements OnInit {
   priorities = [
     { name: "High", class: "fa-arrow-up" },
     { name: "Normale", class: "fa-grip-lines" },
-    { name: "low", class: "fa-arrow-down" }
+    { name: "Low", class: "fa-arrow-down" }
 
   ];
   initForm() {
     this.projectForm = this.formBuilder.group({
-      title: ['', [Validators.required, Validators.pattern('[a-z].+')]],
-      priority: [0, [Validators.required, Validators.pattern('.+')]],
+      title: ['', [Validators.required, Validators.pattern('.+')]],
+      priority: ['', [Validators.required]],
       description: ['', [Validators.required, Validators.pattern('.+')]],
-      membersProject: [[''], [Validators.required]],
+      membersProject: [[], []],
     });
   }
 
@@ -40,10 +41,11 @@ export class ProjectFormComponent implements OnInit {
     const priority = formValue['priority'];
     const description = formValue['description'];
     const members = formValue['membersProject'];
-
+    console.log("members :" + members);
+    console.log(`title:${title} \n priority:${priority} \n description:${description}`)
     let result: boolean = this.projectsService.createProject(title, priority, description, members);
 
-    if (result) {
+    if (result == true) {
       this.router.navigate(['/Home/Projects']);
     } else {
 
