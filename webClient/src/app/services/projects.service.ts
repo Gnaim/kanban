@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ProjectsService {
-  PROJECT_ADD_URL = "http://127.0.0.1:3000/project";
+  PROJECT_ADD_URL = "http://127.0.0.1:3000/projects";
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -25,11 +25,5 @@ export class ProjectsService {
 
     });
     return !fail;
-
-
-
-
-    return false;
-
   }
 }

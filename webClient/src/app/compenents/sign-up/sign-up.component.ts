@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SignupService } from 'src/app/services/signup.service';
+import { User } from '../../entity/user';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
@@ -10,6 +11,8 @@ import { SignupService } from 'src/app/services/signup.service';
 export class SignUpComponent implements OnInit {
   selectedFile : File;
   signUpForm : FormGroup;
+  submitted : boolean = false;
+  user : User;
 
   constructor(private router: Router,private formBuilder: FormBuilder,private signupService : SignupService) {}
 
@@ -17,17 +20,13 @@ export class SignUpComponent implements OnInit {
     this.initForm();
   }
 
-  mustMatch(password: string, repeatedPassword: string) {
+  MustMatch(password: string, repeatedPassword: string) {
     return (formGroup: FormGroup) => {
         const control = formGroup.controls[password];
         const matchingControl = formGroup.controls[repeatedPassword];
-
         if (matchingControl.errors && !matchingControl.errors.mustMatch) {
-            // return if another validator has already found an error on the matchingControl
             return;
         }
-
-        // set error on matchingControl if validation fails
         if (control.value !== matchingControl.value) {
             matchingControl.setErrors({ mustMatch: true });
         } else {
@@ -46,18 +45,29 @@ export class SignUpComponent implements OnInit {
       repeatedPassword : ['',[Validators.required,Validators.pattern('[a-zA-Z0-9]{8,24}')]],
       photo : ['',[]],
     },{
-      validator: this.mustMatch('password','repeatedPassword')
+      validator: this.MustMatch('password','repeatedPassword')
     });
   }
 
- 
-
-  onSubmitForm(){
-    //recuperate Data and send it to the server via the signup service
+  get getFormErrors() {
+    return this.signUpForm.controls; // to get access to errors in form
   }
 
-  goHome() {
-    this.router.navigate(['/Home']);
+  onSubmitForm(){
+    const formValue = this.signUpForm.value;
+    this.submitted = true;
+    if(this.signUpForm.invalid){
+      return; //stop if the form is not valid
+    }
+    const firstName = formValue['firstName'];
+    const lastName = formValue['lastName'];
+    const email = formValue['email'];
+    const phone = formValue['phone'];
+    const password = formValue['password'];
+    const repeatedPassword = formValue['repeatedPassword'];
+    const photo = this.onUpload();
+    this.user = new User(email,password,firstName,lastName,phone,repeatedPassword);
+    this.signupService.signup(this.user);
   }
 
   onSelectFile(event){
@@ -65,8 +75,8 @@ export class SignUpComponent implements OnInit {
   }
 
   onUpload(){
-    const formData = new FormData();
-    formData.append('file', this.selectedFile);
-    console.log(formData);
+    let uploadedImage = new FormData();
+    uploadedImage.append('file', this.selectedFile);
+    return uploadedImage;
   }
 }

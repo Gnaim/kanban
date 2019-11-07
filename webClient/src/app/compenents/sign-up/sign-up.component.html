@@ -19,6 +19,9 @@
                     id="exampleFirstName"
                     placeholder="First Name"
                   />
+                <div *ngIf="submitted && getFormErrors.firstName.errors" class="text-danger m-2">
+                    <div *ngIf="getFormErrors.firstName.errors.required">First Name is missing</div>
+                </div>
                 </div>
                 <div class="col-sm-6">
                   <input
@@ -28,6 +31,9 @@
                     id="exampleLastName"
                     placeholder="Last Name"
                   />
+                  <div *ngIf="submitted && getFormErrors.lastName.errors" class="text-danger m-2">
+                    <div *ngIf="getFormErrors.lastName.errors.required">Last Name is missing</div>
+                  </div>
                 </div>
               </div>
               <div class="form-group">
@@ -38,6 +44,9 @@
                   formControlName="email"
                   placeholder="Email Address"
                 />
+                <div *ngIf="submitted && getFormErrors.email.errors" class="text-danger m-2">
+                  <div *ngIf="getFormErrors.email.errors.required">Email is missing or mal formed</div>
+                </div>
               </div>
               <div class="form-group">
                   <input
@@ -47,6 +56,9 @@
                     formControlName="phone"
                     placeholder="Phone number"
                   />
+                  <div *ngIf="submitted && getFormErrors.phone.errors" class="text-danger m-2">
+                    <div *ngIf="getFormErrors.phone.errors.required">Phone number is missing or mal formed</div>
+                  </div>
                 </div>
               <div class="form-group row">
                 <div class="col-sm-6 mb-3 mb-sm-0">
@@ -57,6 +69,10 @@
                     formControlName="password"
                     placeholder="Password"
                   />
+                  <div *ngIf="submitted && getFormErrors.password.errors" class="text-danger m-2">
+                    <div *ngIf="getFormErrors.password.errors.required">Password is missing</div>
+                    <div *ngIf="getFormErrors.password.errors.pattern">Password is mal formed (min lenght 8)</div>
+                  </div>
                 </div>
                 <div class="col-sm-6">
                   <input
@@ -66,6 +82,11 @@
                     formControlName="repeatedPassword"
                     placeholder="Repeat Password"
                   />
+                  <div *ngIf="submitted && getFormErrors.repeatedPassword.errors" class="text-danger m-2">
+                    <div *ngIf="getFormErrors.repeatedPassword.errors.required">Password is missing</div>
+                    <div *ngIf="getFormErrors.repeatedPassword.errors.pattern">Password is mal formed (min lenght 8)</div>
+                    <div *ngIf="getFormErrors.repeatedPassword.errors.mustMatch">Passwords are not identical ! </div>
+                  </div>
                 </div>
               </div>
               <div class="form-group row m-4">
@@ -76,7 +97,6 @@
                 </div>
               <button
                 class="btn btn-primary btn-user btn-block"
-                [disabled]="signUpForm.invalid"
               >
                 Register Account
               </button>
