@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
-import { Project } from '../entity/Project';
+import { Card } from '../../entity/card';
 import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ProjectsService {
+export class CardsService {
   fail: boolean = true;
-  PROJECT_ADD_URL = "http://127.0.0.1:3000/projects";
+  CARD_ADD_URL = "http://127.0.0.1:3000/cards";
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -18,9 +18,13 @@ export class ProjectsService {
 
   constructor(private http: HttpClient) { }
 
-  createProject(title: string, priority: number, description, members): boolean {
+  createCard(type: string,
+    title: string,
+    description: string,
+    point: number,
+    members: string[]): boolean {
 
-    let response: Observable<any> = this.http.post<Project>(this.PROJECT_ADD_URL, new Project(title, priority, description, members), this.httpOptions);
+    let response: Observable<any> = this.http.post<Card>(this.CARD_ADD_URL, new Card(type, title, description, point, members), this.httpOptions);
     response.subscribe((response: Object) => {
       console.log(response);
       this.fail = false;
@@ -28,5 +32,6 @@ export class ProjectsService {
     }, (err) => { this.fail = true; });
 
     return !this.fail;
+
   }
 }

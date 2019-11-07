@@ -1,14 +1,14 @@
 
 export class Project {
     name: string;
-    priority:number;
+    priority:string;
     description: string;
     members:string[];
 
 
 
     constructor(name:string,
-    priority: number,
+    priority: string,
     description: string,
     members:string[]) {
         this.name = name;
