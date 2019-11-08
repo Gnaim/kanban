@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
 
 userSchema.set('timestamps', true);
 
-userSchema.pre('save', (next) => {
+userSchema.pre('save', function (next) {
   const userSchema = this;
   bcrypt.genSalt(10, (err, salt) => {
     if (err) {
