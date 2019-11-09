@@ -16,32 +16,52 @@
               <select class="form-control form-control-task" id="type" formControlName="type">
                 <option *ngFor="let type of types"> {{ type }} </option>
               </select>
+              <div *ngIf="submitted && getFormErrors.type.errors" class="text-danger m-2">
+                <div *ngIf="getFormErrors.type.errors.pattern">the type is missing</div>
+              </div>
             </div>
             <div class="form-group">
               <label for="taskName">Task name : </label>
               <input id="taskName" type="text" class="form-control form-control-task" placeholder="Task title..."
                 formControlName="title" />
+
+              <div *ngIf="submitted && getFormErrors.title.errors" class="text-danger m-2">
+                <div *ngIf="getFormErrors.title.errors.required">the title is missing</div>
+                <div *ngIf="getFormErrors.title.errors.pattern">the title is not valid</div>
+              </div>
             </div>
 
             <div class="form-group">
               <label id="">Task description : </label>
               <textarea type="text" class="form-control form-control-task" placeholder="Task description..."
                 formControlName="description"></textarea>
+              <div *ngIf="submitted && getFormErrors.description.errors" class="text-danger m-2">
+                <div *ngIf="getFormErrors.description.errors.required">the description is missing</div>
+                <div *ngIf="getFormErrors.description.errors.pattern">the description is not valid</div>
+              </div>
             </div>
 
             <div class="form-group">
               <label id="">Task point : </label>
               <input type="number" class="form-control form-control-task" placeholder="Task point"
                 formControlName="point" />
+              <div *ngIf="submitted && getFormErrors.point.errors" class="text-danger m-2">
+                <div *ngIf="getFormErrors.point.errors.required">the point is missing</div>
+                <div *ngIf="getFormErrors.point.errors.pattern">the point is not valid</div>
+              </div>
             </div>
 
             <div class="form-group">
               <ng-select class="select form-control-task" [items]="people" [multiple]="true" [closeOnSelect]="false"
                 [hideSelected]="true" bindLabel="name" placeholder="Assigned members..." formControlName="members">
               </ng-select>
+              <div *ngIf="submitted && getFormErrors.point.errors" class="text-danger m-2">
+                <div *ngIf="getFormErrors.point.members.required">the members field is missing</div>
+                <div *ngIf="getFormErrors.point.members.pattern">the members field is not valid</div>
+              </div>
             </div>
-
-            <button type='submit' class="btn btn-primary btn-user btn-block" [disabled]='cardForm.invalid'>
+            <!-- [disabled]='cardForm.invalid' -->
+            <button type='submit' class="btn btn-primary btn-user btn-block">
               Create
             </button>
           </form>

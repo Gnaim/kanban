@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class ProjectFormComponent implements OnInit {
 
   projectForm: FormGroup;
+  submitted: boolean = false;
   constructor(private router: Router, private projectsService: ProjectsService, private formBuilder: FormBuilder) {
 
   }
@@ -34,8 +35,15 @@ export class ProjectFormComponent implements OnInit {
       membersProject: [[], []],
     });
   }
+  get getFormErrors() {
+    return this.projectForm.controls; // to get access to errors in form
+  }
 
   createProject() {
+    this.submitted = true;
+    if (this.projectForm.invalid) {
+      return; //stop if the form is not valid
+    }
     const formValue = this.projectForm.value;
     const title = formValue['title'];
     const priority = formValue['priority'];
