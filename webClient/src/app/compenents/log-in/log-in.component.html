@@ -14,46 +14,36 @@
                     Bienvenue. Connectez-vous !
                   </h1>
                 </div>
-                <form  [formGroup]="loginForm" (ngSubmit)="onSubmitForm()" class="user">
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmitForm()" class="user">
                   <div class="form-group">
-                    <input
-                      type="email"
-                      class="form-control form-control-user"
-                      id="exampleInputEmail"
-                      aria-describedby="emailHelp"
-                      placeholder="Votre @ Mail"
-                      formControlName="email"
-                    />
+                    <input type="email" class="form-control form-control-user" id="exampleInputEmail"
+                      aria-describedby="emailHelp" placeholder="Votre @ Mail" formControlName="email" />
+                    <div *ngIf="submitted && getFormErrors.email.errors" class="text-danger m-2">
+                      <div *ngIf="getFormErrors.email.errors.required">the email is missing</div>
+                      <div *ngIf="getFormErrors.email.errors.email">the email is not valid</div>
+                    </div>
                   </div>
                   <div class="form-group">
-                    <input
-                      type="password"
-                      class="form-control form-control-user"
-                      id="exampleInputPassword"
-                      formControlName="password"
-                      placeholder="Votre mot de passe"
-                    />
+                    <input type="password" class="form-control form-control-user" id="exampleInputPassword"
+                      formControlName="password" placeholder="Votre mot de passe" />
+                    <div *ngIf="submitted && getFormErrors.password.errors" class="text-danger m-2">
+                      <div *ngIf="getFormErrors.password.errors.required">the password is missing</div>
+                      <div *ngIf="getFormErrors.password.errors.pattern">the password is not valid</div>
+                    </div>
                   </div>
-
-                  <button
-                  type="submit"
-                    class="btn btn-primary btn-user btn-block" [disabled]='loginForm.invalid'
-                  >
+                  <!-- [disabled]='loginForm.invalid' -->
+                  <button type="submit" class="btn btn-primary btn-user btn-block">
                     Login
                   </button>
 
                   <hr />
-                  <button
-                    class="btn btn-google btn-user btn-block"
-                  >
+                  <button class="btn btn-google btn-user btn-block">
                     <i class="fab fa-google fa-fw"></i> Login with Google
                   </button>
                 </form>
                 <hr />
                 <div class="text-center">
-                  <a class="small" href="forgot-password.html"
-                    >Forgot Password?</a
-                  >
+                  <a class="small" href="forgot-password.html">Forgot Password?</a>
                 </div>
               </div>
             </div>

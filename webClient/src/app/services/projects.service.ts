@@ -18,7 +18,7 @@ export class ProjectsService {
 
   constructor(private http: HttpClient) { }
 
-  createProject(title: string, priority: number, description, members): boolean {
+  createProject(title: string, priority: string, description: string, members: string[]): boolean {
 
     let response: Observable<any> = this.http.post<Project>(this.PROJECT_ADD_URL, new Project(title, priority, description, members), this.httpOptions);
     response.subscribe((response: Object) => {

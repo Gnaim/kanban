@@ -13,6 +13,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class LogInComponent implements OnInit {
   loginForm: FormGroup;
+  submitted: boolean = false;
   constructor(private router: Router, private loginService: LoginService, private formBuilder: FormBuilder) {
 
   }
@@ -27,7 +28,15 @@ export class LogInComponent implements OnInit {
       password: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]{8,24}')]]
     });
   }
+
+  get getFormErrors() {
+    return this.loginForm.controls; // to get access to errors in form
+  }
   onSubmitForm() {
+    this.submitted = true;
+    if (this.loginForm.invalid) {
+      return; //stop if the form is not valid
+    }
     const formValue = this.loginForm.value;
     const email = formValue['email'];
     const password = formValue['password'];
