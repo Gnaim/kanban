@@ -1,20 +1,22 @@
 // libs directory stands for libraries. All the logic goes there.
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+
 dotenv.config({ path: './config.env' });
 
-var projects = mongoose.model('Project');
+const projects = mongoose.model('Project');
 
 
 exports.isProjectMember = (req, res, next) => {
-  let projectId = req.params.id;
+  // to do update with exec()
+  const projectId = req.params.id;
   const payload = req.decoded;
   if (payload) {
-    EmailMember = payload.data.email
+    EmailMember = payload.data.email;
   }
   projects.findById(projectId, (err, project) => {
     if (err) {
-      res.status(500).send('GET Error: There was a problem retrieving: ' + err);
+      res.status(500).send(`GET Error: There was a problem retrieving: ${err}`);
     } else if (getRole(EmailMember, project.members)) {
       next();
     } else {
@@ -24,14 +26,16 @@ exports.isProjectMember = (req, res, next) => {
 };
 
 exports.isAdmin = (req, res, next) => {
-  let projectId = req.params.id;
+  // to do update with exec()
+
+  const projectId = req.params.id;
   const payload = req.decoded;
   if (payload) {
-    EmailMember = payload.data.email
+    EmailMember = payload.data.email;
   }
   projects.findById(projectId, (err, project) => {
     if (err) {
-      res.status(500).send('GET Error: There was a problem retrieving: ' + err);
+      res.status(500).send(`GET Error: There was a problem retrieving: ${err}`);
     } else if (getRole(EmailMember, project.members) == 'admin') {
       next();
     } else {
@@ -40,16 +44,15 @@ exports.isAdmin = (req, res, next) => {
   });
 };
 
-getRole = (element, list ) => {
+getRole = (element, list) => {
+  // to do clean method with map,filter ..
   if (list) {
-    for (var i=0 ; i < list.length ; i++) {
-      if (list[i]['email'] == element) {
-          return list[i]['role'];
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].email == element) {
+        return list[i].role;
       }
     }
-  }
-  else {
+  } else {
     return false;
   }
-}
-
+};

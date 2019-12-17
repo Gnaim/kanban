@@ -1,55 +1,54 @@
 const auths = require('../middlewares/auths');
 const sendemail = require('../utils/mailSender').sendMail;
 
-var users = mongoose.model('User');
+const users = mongoose.model('User');
 
 exports.post = (req, res, next) => {
-    var email = req.body.email;
-    var password = req.body.password;
-    var firstName = req.body.firstName;
-    var lastName = req.body.lastName;
-    var tel = req.body.tel;
-    var imageUrl = req.body.imageUrl;
-    let checkedIn = new Date();
-  
-    isEmailDuplicated(email).then((exist) => {
-     if (!exist) {
+  const { email } = req.body;
+  const { password } = req.body;
+  const { firstName } = req.body;
+  const { lastName } = req.body;
+  const { tel } = req.body;
+  const { imageUrl } = req.body;
+  const checkedIn = new Date();
+
+  isEmailDuplicated(email).then((exist) => {
+    // to do update methode with exec()
+    // to do add member to unconfirmed member
+    if (!exist) {
       users.create({
-        email : email,
-        password : password,
-        firstName: firstName,
-        lastName: lastName,
-        tel: tel,
-        imageUrl: imageUrl,
-        checkedIn: checkedIn
-      },(err, user)=> {
+        email,
+        password,
+        firstName,
+        lastName,
+        tel,
+        imageUrl,
+        checkedIn,
+      }, (err, user) => {
         if (err) {
-          res.send("There was a problem to create user to the database.");
+          res.send('There was a problem to create user to the database.');
           console.error(err);
         } else {
-            sendemail(email, firstName, lastName);
-            res.send('confirmation mail has been sent to ' + email);
-          }
-        })
-      }
-      else {
-        res.send( email + ' already exists');
-      }
-    });
-    
+          sendemail(email, firstName, lastName);
+          res.send(`confirmation mail has been sent to ${email}`);
+        }
+      });
+    } else {
+      res.send(`${email} already exists`);
+    }
+  });
 };
 
 isEmailDuplicated = async (email) => {
   found = false;
   await users.find({
-    email : email
-  },(err,user) => {
+    email,
+  }, (err, user) => {
     if (err) {
       found = true;
-    }
-    else {
-      found = user.length ? true : false;
+    } else {
+      found = !!user.length;
     }
   });
   return found;
-}
+};
