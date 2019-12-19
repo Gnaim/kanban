@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { User } from '../entity/user';
+import { User } from '../../entity/user';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -18,14 +18,16 @@ export class SignupService {
   signup(user : User) : boolean {
       let isOk = false;
       let response : Observable<any>;
-      this.http.post<User>(this.URL,user,this.httpContentType).subscribe(
-        (res) => {
+      this.http.post<any>(this.URL,user,this.httpContentType).subscribe(
+        data => {
+          console.log(data);
           console.log("res");
-          console.log(res);
+          console.log(data);
         },
-        (err) => {
+        error => {
+          console.log(error);
           console.log("err");
-          console.log(err.error.text);
+          console.log(error.error.text);
         });
 
         return isOk;

@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HomePageComponent } from '../home-page.component';
-import { ProjectsService } from '../../../services/projects.service';
+import { ProjectsService } from '../../../services/projectService/projects.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 

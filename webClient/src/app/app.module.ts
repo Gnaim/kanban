@@ -34,9 +34,9 @@ import { KanbanComponent } from './compenents/home-page/single-project-details/k
 import { jqxKanbanComponent } from 'jqwidgets-ng/jqxkanban';
 import { jqxSplitterModule } from 'jqwidgets-ng/jqxsplitter';
 
-import { LoginService } from './services/login.service';
-import { SignupService } from './services/signup.service';
-import { ProjectsService } from './services/projects.service';
+import { LoginService } from './services/loginService/login.service';
+import { SignupService } from './services/signupService/signup.service';
+import { ProjectsService } from './services/projectService/projects.service';
 import { CardsService } from './services/cardService/cards.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './authentification/token.interceptor';
