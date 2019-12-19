@@ -40,6 +40,8 @@ import { ProjectsService } from './services/projectService/projects.service';
 import { CardsService } from './services/cardService/cards.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './authentification/token.interceptor';
+import { ForgetPasswordComponent } from './compenents/log-in/forget-password/forget-password.component';
+import { ResetPasswordComponent } from './compenents/reset-password/reset-password.component';
 
 
 @NgModule({
@@ -66,10 +68,12 @@ import { TokenInterceptor } from './authentification/token.interceptor';
     TaskFormComponent,
     ProfileComponent,
     KanbanComponent,
-    jqxKanbanComponent
+    jqxKanbanComponent,
+    ForgetPasswordComponent,
+    ResetPasswordComponent
   ],
 
-  entryComponents: [TaskFormComponent, ProjectFormComponent, MembreListComponent],
+  entryComponents: [TaskFormComponent, ProjectFormComponent, MembreListComponent, ForgetPasswordComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

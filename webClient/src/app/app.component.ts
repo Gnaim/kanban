@@ -12,7 +12,7 @@ export class AppComponent {
   constructor(private router: Router) {
     this.router.events.subscribe(e => {
       if (e instanceof NavigationStart) {
-        if (e.url === '/Login' || e.url === '/Signup' || e.url === '/') {
+        if (e.url === '/Login' || e.url === '/Signup' || e.url === '/' || e.url.includes('/ResetPassword')) {
           this.flag = true;
         } else {
           this.flag = false;

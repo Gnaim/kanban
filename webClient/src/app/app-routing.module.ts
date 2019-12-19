@@ -12,6 +12,7 @@ import { SingleProjectDetailsComponent } from './compenents/home-page/single-pro
 import { ProfileComponent } from './compenents/home-page/profile/profile.component';
 import { ProjectFormComponent } from './compenents/home-page/project-form/project-form.component';
 import { ErrorPageComponent } from './compenents/errors/error-page/error-page.component';
+import { ResetPasswordComponent } from './compenents/reset-password/reset-password.component';
 
 const homePageChildren: Routes = [
   { path: 'Dashboard', component: DashBoardComponent },
@@ -20,13 +21,14 @@ const homePageChildren: Routes = [
   { path: 'People', component: PeopleComponent },
   { path: 'Project/:id', component: SingleProjectDetailsComponent },
   { path: 'Profile', component: ProfileComponent },
-  { path: 'project-form',component:ProjectFormComponent }
+  { path: 'project-form', component: ProjectFormComponent }
 ];
 
 const routes: Routes = [
   { path: '', component: LogInComponent },
   { path: 'Login', component: LogInComponent },
   { path: 'Signup', component: SignUpComponent },
+  { path: 'ResetPassword/:token', component: ResetPasswordComponent },
   {
     path: 'Home',
     component: HomePageComponent,
@@ -39,4 +41,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

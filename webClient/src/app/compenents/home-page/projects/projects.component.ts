@@ -10,14 +10,14 @@ import { ProjectFormComponent } from '../project-form/project-form.component';
 export class ProjectsComponent implements OnInit {
   bsModalRef: BsModalRef;
 
-  constructor(private modalService: BsModalService) {}
+  constructor(private modalService: BsModalService) { }
 
   ngOnInit() {
   }
 
   openProjectCreation() {
-    
-    this.bsModalRef = this.modalService.show(ProjectFormComponent, {class: 'modal-lg'});
+
+    this.bsModalRef = this.modalService.show(ProjectFormComponent, { class: 'modal-lg' });
     this.bsModalRef.content.closeBtnName = 'Close';
   }
 

@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/loginService/login.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { ForgetPasswordComponent } from './forget-password/forget-password.component'
 
 
 
@@ -14,7 +15,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class LogInComponent implements OnInit {
   loginForm: FormGroup;
   submitted: boolean = false;
-  constructor(private router: Router, private loginService: LoginService, private formBuilder: FormBuilder) {
+  bsModalRef: BsModalRef;
+
+  constructor(private router: Router, private loginService: LoginService, private formBuilder: FormBuilder, private modalService: BsModalService) {
 
   }
 
@@ -50,6 +53,11 @@ export class LogInComponent implements OnInit {
       //Print the Error 
     }
 
+  }
+
+  openForgetPasswordPage() {
+    this.bsModalRef = this.modalService.show(ForgetPasswordComponent, { class: 'modal-lg' });
+    this.bsModalRef.content.closeBtnName = 'Close';
   }
 
 
