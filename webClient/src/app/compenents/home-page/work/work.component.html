@@ -4,6 +4,7 @@
         <h1 class="h3 mb-0 text-gray-800">My tasks</h1>
     </div>
 
+    <!--
       <div class="m-4 w-100 p-3 ">
           <tabset justified="true">
             <tab heading="My tasks"> 
@@ -25,6 +26,69 @@
               <hr class="m-0"/>
             </tab>
           </tabset>
+      </div>
+      -->
+      <div class="m-4 w-100 p-3 ">
+        <!-- #1 -->
+        <div class="card shadow mb-4">
+            <!-- Card Header - Accordion -->
+                <a href="#collapseCardExample" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCardExample">
+                    <h6 class="m-0 font-weight-bold text-primary">Collapsable Card Example</h6>
+                  </a>
+                  <!-- Card Content - Collapse -->
+                  <div class="collapse" id="collapseCardExample">
+                    <div class="card-body" style="padding:0.5rem;">
+                      <app-tasks-list class="mb-3"></app-tasks-list>
+                      <app-tasks-list class="mb-3"></app-tasks-list>
+                      <app-tasks-list class="mb-3"></app-tasks-list>
+                    </div>
+                  </div>
+        </div>
+        <!-- #2 -->
+        <div class="card shadow mb-4">
+            <!-- Card Header - Accordion -->
+                <a href="#collapseCardExample2" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCardExample">
+                    <h6 class="m-0 font-weight-bold text-primary">Collapsable Card Example</h6>
+                  </a>
+                  <!-- Card Content - Collapse -->
+                  <div class="collapse" id="collapseCardExample2">
+                    <div class="card-body" style="padding:0.5rem;">
+                      <app-tasks-list class="mb-3"></app-tasks-list>
+                      <app-tasks-list class="mb-3"></app-tasks-list>
+                      <app-tasks-list class="mb-3"></app-tasks-list>
+                    </div>
+                  </div>
+        </div>
+        <!-- #3 -->
+        <div class="card shadow mb-4">
+            <!-- Card Header - Accordion -->
+                <a href="#collapseCardExample3" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCardExample">
+                    <h6 class="m-0 font-weight-bold text-primary">Collapsable Card Example</h6>
+                  </a>
+                  <!-- Card Content - Collapse -->
+                  <div class="collapse" id="collapseCardExample3">
+                    <div class="card-body" style="padding:0.5rem;">
+                      <app-tasks-list class="mb-3"></app-tasks-list>
+                      <app-tasks-list class="mb-3"></app-tasks-list>
+                      <app-tasks-list class="mb-3"></app-tasks-list>
+                    </div>
+                  </div>
+        </div>
+        <!-- #4 -->
+        <div class="card shadow mb-4">
+            <!-- Card Header - Accordion -->
+                <a href="#collapseCardExample4" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCardExample">
+                    <h6 class="m-0 font-weight-bold text-primary">Collapsable Card Example</h6>
+                  </a>
+                  <!-- Card Content - Collapse -->
+                  <div class="collapse" id="collapseCardExample4">
+                    <div class="card-body" style="padding:0.5rem;">
+                      <app-tasks-list class="mb-3"></app-tasks-list>
+                      <app-tasks-list class="mb-3"></app-tasks-list>
+                      <app-tasks-list class="mb-3"></app-tasks-list>
+                    </div>
+                  </div>
+        </div>
       </div>
 
       <button class="float bg-primary" (click)="openTaskCreation()">
