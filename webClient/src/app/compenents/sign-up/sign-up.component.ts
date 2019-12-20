@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SignupService } from 'src/app/services/signupService/signup.service';
 import { User } from '../../entity/user';
+import { Response } from 'src/app/entity/response';
+import { ResponsesCodes } from 'src/app/services/helpers/responsesCodesEnum';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
@@ -13,7 +15,10 @@ export class SignUpComponent implements OnInit {
   signUpForm : FormGroup;
   submitted : boolean = false;
   user : User;
-
+  res : Response<Object>;
+  serverError : boolean = false;
+  mailError : boolean = false;
+  registrationSucces : boolean = false;
   constructor(private router: Router,private formBuilder: FormBuilder,private signupService : SignupService) {}
 
   ngOnInit() {
@@ -65,18 +70,30 @@ export class SignUpComponent implements OnInit {
     const phone = formValue['phone'];
     const password = formValue['password'];
     const repeatedPassword = formValue['repeatedPassword'];
-    const photo = this.onUpload();
-    this.user = new User(email,password,firstName,lastName,phone,repeatedPassword);
-    this.signupService.signup(this.user);
+    const uploadedImage = new FormData();
+    uploadedImage.append('files', this.selectedFile);
+    console.log(uploadedImage);
+    this.user = new User(email,password,firstName,lastName,phone,repeatedPassword,uploadedImage);
+    this.res = this.signupService.signup(this.user);
+    
+    if(this.res.getSuccessCode()){
+      this.registrationSucces = true;
+      this.serverError = false;
+      this.mailError = false;
+    }else if(this.res.getErrorCode()){
+      if(this.res.getErrorCode() == ResponsesCodes.SIGNUP_FAILED_EXISTING_MAIL){
+        this.registrationSucces = false;
+        this.serverError = false;
+        this.mailError = true;
+      }else if(this.res.getErrorCode() == ResponsesCodes.SERVER_ERROR){
+        this.registrationSucces = false;
+        this.serverError = true;
+        this.mailError = false;
+      }
+    }
   }
 
   onSelectFile(event){
-    this.selectedFile = event.target.files[0];
-  }
-
-  onUpload(){
-    let uploadedImage = new FormData();
-    uploadedImage.append('file', this.selectedFile);
-    return uploadedImage;
+    this.selectedFile = <File>event.target.files[0];
   }
 }
