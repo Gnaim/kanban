@@ -11,34 +11,38 @@ exports.post = (req, res, next) => {
   const { tel } = req.body;
   const { imageUrl } = req.body;
   const checkedIn = new Date();
-
-  isEmailDuplicated(email).then((exist) => {
-    // to do update methode with exec()
-    // to do add member to unconfirmed member
-    if (!exist) {
-      users.create({
-        email,
-        password,
-        firstName,
-        lastName,
-        tel,
-        imageUrl,
-        checkedIn,
-      }, (err, user) => {
-        if (err) {
-          res.status(500).send({message:'There was a problem to create user to the database.',
-                                error: 603});
-          console.error(err);
-        } else {
-          sendemail(email, firstName, lastName);
-          res.status(200).send({message:`confirmation mail has been sent to ${email}`});
-        }
-      });
-    } else {
-      res.status(602).send({message:`${email} already exists`,
-                            error: 602});
-    }
-  });
+  if (email == null || password == null || firstName == null || lastName == null ){
+    res.status(403).send({message:"email, password, last name and and first name are required to create project",
+                        error: 610})
+  }else{
+    isEmailDuplicated(email).then((exist) => {
+      // to do update methode with exec()
+      // to do add member to unconfirmed member
+      if (!exist) {
+        users.create({
+          email,
+          password,
+          firstName,
+          lastName,
+          tel,
+          imageUrl,
+          checkedIn,
+        }, (err, user) => {
+          if (err) {
+            res.status(500).send({message:'There was a problem to create user to the database.',
+                                  error: 603});
+            console.error(err);
+          } else {
+            sendemail(email, firstName, lastName);
+            res.status(200).send({message:`confirmation mail has been sent to ${email}`});
+          }
+        });
+      } else {
+        res.status(401).send({message:`${email} already exists`,
+                              error: 602});
+      }
+    });
+  }
 };
 
 isEmailDuplicated = async (email) => {
