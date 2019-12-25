@@ -29,6 +29,7 @@ const indexRouter = require('./routes/index');
 const projectsRouter = require('./routes/projects');
 const signUpRouter = require('./routes/signUp');
 const loginRouter = require('./routes/login');
+const userRouter = require('./routes/user');
 
 
 // module.exports = {
@@ -50,6 +51,7 @@ app.use('/', indexRouter);
 app.use('/projects', projectsRouter);
 app.use('/signUp', signUpRouter);
 app.use('/login', loginRouter);
+app.use('/user', userRouter);
 
 
 module.exports = app;
