@@ -15,7 +15,8 @@ exports.login = (req, res, next) => {
     email,
   }, (err, userFound) => {
     if (err) {
-      res.status(500).send('There was a problem to create user to the database.');
+      res.status(500).send({message:'There was a problem to create user to the database.',
+                            error: 603});
       console.error(err);
     } else if (userFound) {
       users.findById({
@@ -23,7 +24,8 @@ exports.login = (req, res, next) => {
       }, (err, user) => {
         if (err) {
           console.error(err);
-          res.status(500).send('thre was a server probleme');
+          res.status(500).send({messege:'There was a server probleme.',
+                                error: 603});
         } else {
           bcrypt.compare(password, user.password, (err, matches) => {
             if (matches) {
@@ -34,15 +36,16 @@ exports.login = (req, res, next) => {
                 token: auths.createJWToken(payload, '24h'),
               });
             } else {
-              // need to check status code
-              res.status(400).send('please check your email + password');
+              res.status(401).send({message:'please check your email + password.',
+                                    error: 600});
             }
           });
         }
       });
     } else {
       // need to check status code
-      res.status(400).send('please check your email');
+      res.status(401).send({message:'please check your email',
+                            error: 600});
     }
   });
 };

@@ -26,15 +26,17 @@ exports.post = (req, res, next) => {
         checkedIn,
       }, (err, user) => {
         if (err) {
-          res.send('There was a problem to create user to the database.');
+          res.status(500).send({message:'There was a problem to create user to the database.',
+                                error: 603});
           console.error(err);
         } else {
           sendemail(email, firstName, lastName);
-          res.send(`confirmation mail has been sent to ${email}`);
+          res.status(200).send({message:`confirmation mail has been sent to ${email}`});
         }
       });
     } else {
-      res.send(`${email} already exists`);
+      res.status(602).send({message:`${email} already exists`,
+                            error: 602});
     }
   });
 };

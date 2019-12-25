@@ -16,11 +16,13 @@ exports.isProjectMember = (req, res, next) => {
   }
   projects.findById(projectId, (err, project) => {
     if (err) {
-      res.status(500).send(`GET Error: There was a problem retrieving: ${err}`);
+      res.status(500).send({message:`GET Error: There was a problem retrieving: ${err}`,
+                            error: 603});
     } else if (getRole(EmailMember, project.members)) {
       next();
     } else {
-      res.status(401).send('not authorized , you are not a project member');
+      res.status(403).send({message:'not authorized , you are not a project member',
+                            error: 609});
     }
   });
 };
@@ -35,11 +37,13 @@ exports.isAdmin = (req, res, next) => {
   }
   projects.findById(projectId, (err, project) => {
     if (err) {
-      res.status(500).send(`GET Error: There was a problem retrieving: ${err}`);
+      res.status(500).send({message:`GET Error: There was a problem retrieving: ${err}`,
+                            error: 603});
     } else if (getRole(EmailMember, project.members) == 'admin') {
       next();
     } else {
-      res.status(401).send('not authorized , you are not a project member');
+      res.status(403).send({message:'not authorized , you are not a project member',
+                            error:609});
     }
   });
 };

@@ -22,12 +22,13 @@ exports.validateToken = (req, res, next) => {
       next();
     } catch (err) {
       // Throw an error just in case anything goes wrong with verification
-      res.status(401).send('Authentication occured on token value');
+      res.status(401).send({message:'Authentication occured on token value',
+                            error: 608});
     }
   } else {
     result = {
-      error: 'Authentication error. Token required.',
-      status: 401,
+      message: 'Authentication error. Token required.',
+      error: 608,
     };
     res.status(401).send(result);
   }
