@@ -10,7 +10,7 @@ exports.getAll = (req, res, next) => {
       role: 'admin',
     },
   })
-    .select('name')
+    .select('name description')
     .exec((err, projects) => {
       if (err) {
         res.status(500).send({message:'There was a problem adding the information to the database.',
@@ -38,7 +38,7 @@ exports.post = (req, res, next) => {
   const { description } = req.body;
 
 if( description == null || name == null ){
-  res.status(403).send({message:"both name and description are required to create project",
+  res.status(400).send({message:"both name and description are required to create project",
                         error: 610})
 } else {
   projects.create({

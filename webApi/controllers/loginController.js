@@ -11,8 +11,7 @@ exports.login = (req, res, next) => {
   const { password } = req.body;
 
   if (email == null || password == null) {
-    // status : 403 {message : "",error : 610}
-    res.status(403).send({message:'Bad request',
+    res.status(400).send({message:'Bad request',
                           error: 610})
   } else {
     users.findOne({

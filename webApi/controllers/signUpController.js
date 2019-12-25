@@ -12,7 +12,7 @@ exports.post = (req, res, next) => {
   const { imageUrl } = req.body;
   const checkedIn = new Date();
   if (email == null || password == null || firstName == null || lastName == null ){
-    res.status(403).send({message:"email, password, last name and and first name are required to create project",
+    res.status(400).send({message:"email, password, last name and and first name are required to create project",
                         error: 610})
   }else{
     isEmailDuplicated(email).then((exist) => {
