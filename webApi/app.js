@@ -6,16 +6,7 @@ const dotenv = require('dotenv');
 const mailSender = require('./utils/mailSender');
 const cors = require('cors');
 
-const options = cors.CorsOptions = {
-    allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "X-Access-Token"],
-    credentials: true,
-    methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
-    origin: "http://localhost:4200", // must be changed with localhost
-    preflightContinue: false
-};
-
 // get keys from config.env
-
 dotenv.config({ path: './config.env' });
 
 // model is where we store all the DB models, mongoose .
@@ -29,6 +20,7 @@ const indexRouter = require('./routes/index');
 const projectsRouter = require('./routes/projects');
 const signUpRouter = require('./routes/signUp');
 const loginRouter = require('./routes/login');
+const userRouter = require('./routes/user');
 
 
 // module.exports = {
@@ -40,16 +32,24 @@ const loginRouter = require('./routes/login');
 
 const app = express();
 
+// allow cors for localhost:4200
+app.options('*', function (req, res) {
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:4300"); // to change
+    res.setHeader('Access-Control-Allow-Methods', '*');
+    res.setHeader("Access-Control-Allow-Headers", "*");
+    res.end();
+});
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors(options));
 app.use('/', indexRouter);
 app.use('/projects', projectsRouter);
 app.use('/signUp', signUpRouter);
 app.use('/login', loginRouter);
+app.use('/user', userRouter);
 
 
 module.exports = app;
