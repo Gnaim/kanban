@@ -6,7 +6,7 @@ exports.getCardsByProject = (req, res, next) => {
     .select('members title description status')
     .exec((err, cards) => {
       if (err) {
-        res.status(500).send('There was a problem adding the information to the database.');
+        res.status(500).send({message:'There was a problem adding the information to the database.'});
       } else {
         res.status(200).format({
           json: () => {
@@ -28,18 +28,24 @@ exports.post = (req, res, next) => {
     status,
     description,
   };
-
   cards.create(newCard, (err, card) => {
     projects.findById(req.params.id)
       .exec((err, project) => {
         project.updateOne({ $push: { cards: card._id } }, (err) => {
           if (err) {
-            res.status(500).send(`GET Error: There was a problem retrieving: ${err}`);
+            res.status(500).send({message:`GET Error: There was a problem retrieving: ${err}`});
           } else {
-            res.status(200).format({
-              json: () => {
-                res.json(project);
-              },
+            projects.findById(req.params.id)
+            .exec((err, project) =>{
+              if (err) {
+                res.status(500).send({message:`GET Error: There was a problem retrieving: ${err}`});
+              } else {
+                res.status(200).format({
+                  json: () => {
+                    res.json(project);
+                  }
+                });
+              }
             });
           }
         });
@@ -52,7 +58,7 @@ exports.getById = (req, res, next) => {
     .populate('checklists')
     .exec((err, cards) => {
       if (err) {
-        res.status(500).send('There was a problem adding the information to the database.');
+        res.status(500).send({message:'There was a problem adding the information to the database.'});
       } else {
         res.status(200).format({
           json: () => {
