@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+const swaggerDocuemnt =  require( './swagger.json');
+const swaggerUi = require('swagger-ui-express');
 
 /**
  * Module dependencies.
@@ -14,6 +16,11 @@ var http = require('http');
 
 var port = normalizePort(process.env.SERVER_PORT || '3000');
 app.set('port', port);
+
+/**
+ * add swagger when the Http server start.
+ */
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocuemnt));
 
 /**
  * Create HTTP server.
