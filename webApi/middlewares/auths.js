@@ -28,7 +28,7 @@ exports.validateToken = (req, res, next) => {
   } else {
     result = {
       message: 'Authentication error. Token required.',
-      error: 608,
+      error: 609,
     };
     res.status(401).send(result);
   }
