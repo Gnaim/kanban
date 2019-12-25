@@ -11,6 +11,7 @@ exports.post = (req, res, next) => {
   const { tel } = req.body;
   const { imageUrl } = req.body;
   const checkedIn = new Date();
+<<<<<<< HEAD
 
   if (email == null || password == null || firstName == null || lastName == null ){
     res.status(400).send({message:"email, password, last name and and first name are required to create project",
@@ -20,6 +21,16 @@ exports.post = (req, res, next) => {
       // to do update methode with exec()
       // to do add member to unconfirmed member
       if (available) {
+=======
+  if (email == null || password == null || firstName == null || lastName == null ){
+    res.status(403).send({message:"email, password, last name and and first name are required to create project",
+                        error: 610})
+  }else{
+    isEmailDuplicated(email).then((exist) => {
+      // to do update methode with exec()
+      // to do add member to unconfirmed member
+      if (!exist) {
+>>>>>>> correct signup and login response messages
         users.create({
           email,
           password,
