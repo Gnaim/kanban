@@ -42,6 +42,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApplicationInterceptor } from './services/interceptor/application.interceptor';
 import { ForgetPasswordComponent } from './compenents/log-in/forget-password/forget-password.component';
 import { ResetPasswordComponent } from './compenents/reset-password/reset-password.component';
+import { AuthGuardService } from './services/guards/authguard.service';
 
 
 @NgModule({
@@ -86,7 +87,7 @@ import { ResetPasswordComponent } from './compenents/reset-password/reset-passwo
     HttpClientModule
   ],
 
-  providers: [LoginService, SignupService, ProjectsService, CardsService, {
+  providers: [LoginService, SignupService, ProjectsService, CardsService,AuthGuardService, {
     provide: HTTP_INTERCEPTORS,
     useClass: ApplicationInterceptor,
     multi: true

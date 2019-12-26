@@ -13,6 +13,7 @@ import { ProfileComponent } from './compenents/home-page/profile/profile.compone
 import { ProjectFormComponent } from './compenents/home-page/project-form/project-form.component';
 import { ErrorPageComponent } from './compenents/errors/error-page/error-page.component';
 import { ResetPasswordComponent } from './compenents/reset-password/reset-password.component';
+import { AuthGuardService as Guard} from './services/guards/authguard.service';
 
 const homePageChildren: Routes = [
   { path: 'Dashboard', component: DashBoardComponent },
@@ -25,16 +26,16 @@ const homePageChildren: Routes = [
 ];
 
 const routes: Routes = [
-  { path: '', component: LogInComponent },
-  { path: 'Login', component: LogInComponent },
-  { path: 'Signup', component: SignUpComponent },
+  { path: '', component: LogInComponent, canActivate : [Guard] },
+  { path: 'Login', component: LogInComponent, canActivate : [Guard]},
+  { path: 'Signup', component: SignUpComponent, canActivate : [Guard]},
   { path: 'ResetPassword/:token', component: ResetPasswordComponent },
   {
     path: 'Home',
     component: HomePageComponent,
     children: homePageChildren
   },
-  { path: 'Error', component: ErrorPageComponent }
+  { path: '**' , component: ErrorPageComponent}
 ];
 
 @NgModule({
