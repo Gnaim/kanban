@@ -12,43 +12,55 @@ exports.post = (req, res, next) => {
   const { imageUrl } = req.body;
   const checkedIn = new Date();
 
-  isEmailDuplicated(email).then((exist) => {
-    // to do update methode with exec()
-    // to do add member to unconfirmed member
-    if (!exist) {
-      users.create({
-        email,
-        password,
-        firstName,
-        lastName,
-        tel,
-        imageUrl,
-        checkedIn,
-      }, (err, user) => {
-        if (err) {
-          res.send('There was a problem to create user to the database.');
-          console.error(err);
-        } else {
-          sendemail(email, firstName, lastName);
-          res.send(`confirmation mail has been sent to ${email}`);
-        }
-      });
-    } else {
-      res.send(`${email} already exists`);
-    }
-  });
-};
+  if (email == null || password == null || firstName == null || lastName == null ){
+    res.status(400).send({message:"email, password, last name and and first name are required to create project",
+                        error: 610})
+  } else {
+    isEmailDuplicated(email).then((available) => {
+      // to do update methode with exec()
+      // to do add member to unconfirmed member
+      if (available) {
+        users.create({
+          email,
+          password,
+          firstName,
+          lastName,
+          tel,
+          imageUrl,
+          checkedIn,
+        }, (err, user) => {
+          if (err) {
+            res.status(500).send({message:'There was a problem to create user to the database.',
+            error: 603});
+          } else {
+            sendemail(email, firstName, lastName);
+            res.status(200).send({message:`confirmation mail has been sent to ${email}`});
+            }
+        });
+      } else {
+        res.status(401).send({message:`${email} already exists`,
+                              error: 602});
+      }
+    });
+  };
+  }
 
-isEmailDuplicated = async (email) => {
-  found = false;
-  await users.find({
-    email,
-  }, (err, user) => {
-    if (err) {
-      found = true;
-    } else {
-      found = !!user.length;
-    }
+var isEmailDuplicated = function(email) {
+  return new Promise(function(resolve, reject) {
+    available = false;
+    /*stuff using username, password*/
+    users.find({
+      email,
+    }, (err, user) => {
+      if (err) {
+        resolve(false);
+      } else {
+        if (user.length > 0) {
+          resolve(false);
+        } else {
+          resolve(true);
+        }
+      }
+    });
   });
-  return found;
-};
+}
