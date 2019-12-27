@@ -11,31 +11,16 @@ exports.getAll = (req, res, next) => {
     },
   })
     .populate('cards','title status members createdAt')
+    .select('name createdAt description updatedAt')
     .exec((err, projects) => {
       if (err) {
         res.status(500).send({message:'There was a problem adding the information to the database.',
                               error: 603});
       } 
       else {
-        // projects.populate('projects.cards','title status members createdAt')
-        // .exec((err, projects)=>{
-          console.log(projects.length);
-          // for (var i=0; projects.length>i; i++){
-          //   if (projects[i].cards != null){
-          //     console.log('in');
-          //     projects[i].populate('cards','title status members createdAt')
-          //     .exec((err,projects)=>{
-          //       if (err){
-          //         res.status(500).send({message:'There was a problem adding the information to the database.',
-          //                     error: 603});
-          //       }
-          //     });
-          //   }
-          // }
-
           res.status(200).format({
             json: () => {
-              res.json({projects});
+              res.json({projects:projects});
             }
           });
       }
@@ -54,33 +39,32 @@ exports.post = (req, res, next) => {
   const { logoUrl } = req.body;
   const { description } = req.body;
 
-if( description == null || name == null ){
-  res.status(400).send({message:"both name and description are required to create project",
-                        error: 610})
-} else {
-  projects.create({
-    name,
-    members,
-    createdAt,
-    logoUrl,
-    description,
-  },(err, project)=>{
-    if (err) {
-      res.status(500).send({message:'There was a problem adding the information to the database.',
-                            error: 603});
-      //console.error(err);
-    } else {
-      res.status(200).format({
-        // JSON response will show the newly created blob
-        json: () => {
-          res.json(project);
-        },
-      });
-    }
-  });
-}
+  if( description == null || name == null ){
+    res.status(400).send({message:"both name and description are required to create project",
+                          error: 610})
+  } else {
+    projects.create({
+      name,
+      members,
+      createdAt,
+      logoUrl,
+      description,
+    },(err, project)=>{
+      if (err) {
+        res.status(500).send({message:'There was a problem adding the information to the database.',
+                              error: 603});
+        //console.error(err);
+      } else {
+        res.status(200).format({
+          // JSON response will show the newly created blob
+          json: () => {
+            res.json(project);
+          },
+        });
+      }
+    });
+  }
 
-  
 };
 
 exports.getById = (req, res, next) => {
