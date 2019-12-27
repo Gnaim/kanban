@@ -10,17 +10,34 @@ exports.getAll = (req, res, next) => {
       role: 'admin',
     },
   })
-    .select('name description')
+    .populate('cards','title status members createdAt')
     .exec((err, projects) => {
       if (err) {
         res.status(500).send({message:'There was a problem adding the information to the database.',
                               error: 603});
-      } else {
-        res.status(200).format({
-          json: () => {
-            res.json({projects:projects});
-          }
-        });
+      } 
+      else {
+        // projects.populate('projects.cards','title status members createdAt')
+        // .exec((err, projects)=>{
+          console.log(projects.length);
+          // for (var i=0; projects.length>i; i++){
+          //   if (projects[i].cards != null){
+          //     console.log('in');
+          //     projects[i].populate('cards','title status members createdAt')
+          //     .exec((err,projects)=>{
+          //       if (err){
+          //         res.status(500).send({message:'There was a problem adding the information to the database.',
+          //                     error: 603});
+          //       }
+          //     });
+          //   }
+          // }
+
+          res.status(200).format({
+            json: () => {
+              res.json({projects});
+            }
+          });
       }
     });
 };
@@ -68,7 +85,7 @@ if( description == null || name == null ){
 
 exports.getById = (req, res, next) => {
 projects.findById(req.params.id,)
-  .populate('cards', 'title status members craetedAt')
+  .populate('cards', 'title status members createdAt')
   .exec((err, project) => {
     if (err) {
       res.status(500).send({message:`GET Error: There was a problem retrieving: ${err}`,
