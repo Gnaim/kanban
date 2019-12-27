@@ -10,17 +10,32 @@ exports.getAll = (req, res, next) => {
       role: 'admin',
     },
   })
+<<<<<<< HEAD
     .select('name description')
+=======
+    .populate('cards','title status members createdAt')
+    .select('name createdAt description updatedAt')
+>>>>>>> bb8d0239bdfa49030683896e9266c2212ed6e871
     .exec((err, projects) => {
       if (err) {
         res.status(500).send({message:'There was a problem adding the information to the database.',
                               error: 603});
+<<<<<<< HEAD
       } else {
         res.status(200).format({
           json: () => {
             res.json({projects:projects});
           }
         });
+=======
+      } 
+      else {
+          res.status(200).format({
+            json: () => {
+              res.json({projects:projects});
+            }
+          });
+>>>>>>> bb8d0239bdfa49030683896e9266c2212ed6e871
       }
     });
 };
@@ -37,6 +52,7 @@ exports.post = (req, res, next) => {
   const { logoUrl } = req.body;
   const { description } = req.body;
 
+<<<<<<< HEAD
 if( description == null || name == null ){
   res.status(400).send({message:"both name and description are required to create project",
                         error: 610})
@@ -64,11 +80,43 @@ if( description == null || name == null ){
 }
 
   
+=======
+  if( description == null || name == null ){
+    res.status(400).send({message:"both name and description are required to create project",
+                          error: 610})
+  } else {
+    projects.create({
+      name,
+      members,
+      createdAt,
+      logoUrl,
+      description,
+    },(err, project)=>{
+      if (err) {
+        res.status(500).send({message:'There was a problem adding the information to the database.',
+                              error: 603});
+        //console.error(err);
+      } else {
+        res.status(200).format({
+          // JSON response will show the newly created blob
+          json: () => {
+            res.json(project);
+          },
+        });
+      }
+    });
+  }
+
+>>>>>>> bb8d0239bdfa49030683896e9266c2212ed6e871
 };
 
 exports.getById = (req, res, next) => {
 projects.findById(req.params.id,)
+<<<<<<< HEAD
   .populate('cards', 'title status members craetedAt')
+=======
+  .populate('cards', 'title status members createdAt')
+>>>>>>> bb8d0239bdfa49030683896e9266c2212ed6e871
   .exec((err, project) => {
     if (err) {
       res.status(500).send({message:`GET Error: There was a problem retrieving: ${err}`,
