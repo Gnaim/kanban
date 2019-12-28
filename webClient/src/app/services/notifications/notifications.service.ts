@@ -74,6 +74,18 @@ export class MyNotificationsService {
                             this.options);
     }
 
+    showProjectUpdateSuccess() {
+      this.toastr.success("Project updated successfuly",
+                          "Success",
+                          this.options);
+   }
+
+    showProjectDeleteSuccess() {
+      this.toastr.success("Project deleted successfuly",
+                          "Success",
+                          this.options);
+    }
+
     public showErrorNotification(error:HttpErrorResponse){
         if(error.error.error){
           if(error.error.error == ResponsesCodes.SIGNUP_FAILED_EXISTING_MAIL){

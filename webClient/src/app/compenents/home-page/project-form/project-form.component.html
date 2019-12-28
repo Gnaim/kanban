@@ -5,7 +5,9 @@
             <div class="col-lg-12 p-5">
 
                 <div class="text-center">
-                    <h1 class="h2 text-gray-900 mb-4">Create Project</h1>
+                        
+                    <h1 *ngIf="!isUpdate" class="h2 text-gray-900 mb-4">Create Project</h1>
+                    <h1 *ngIf="isUpdate" class="h2 text-gray-900 mb-4">Update Project</h1>
                 </div>
                 <form [formGroup]="projectForm" class="project col" (ngSubmit)="createProject()">
                     <div class="form-group">
@@ -59,7 +61,8 @@
                         </div>
                     </div>
                     <!-- [disabled]='projectForm.invalid' -->
-                    <button type="submit" class="btn btn-primary btn-block">Create Project</button>
+                    <button *ngIf="!isUpdate" type="submit" class="btn btn-primary btn-block">Create Project</button>
+                    <button *ngIf="isUpdate" type="submit" class="btn btn-primary btn-block">Update Project</button>
                 </form>
             </div>
         </div>

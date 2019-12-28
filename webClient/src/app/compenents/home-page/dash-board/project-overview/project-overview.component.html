@@ -8,7 +8,9 @@
               <div class="h10 mb-0 font-weight-bold text-danger float-right">Created on {{ creationDate | date }} </div>  
             </div>
             <div class="col-auto">
-                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                <span data-toggle="tooltip" data-placement="bottom" title="Delete project">
+                <i class="fas fa-trash fa-2x text-gray-300" (click)="deleteProject()"></i>
+                </span>
             </div>
           </div>
         </div>

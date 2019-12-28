@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
 import { Project } from '../../entity/Project';
-import { Observable } from 'rxjs';
 import { HttpHelpers } from '../helpers/httpHelpers';
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectsService {
-
 
   constructor(private http: HttpClient) { }
 
@@ -17,6 +14,15 @@ export class ProjectsService {
   }
 
   createProject(project: Project) {
-    return this.http.post(HttpHelpers.PROJECTS_URL,project,{ observe : "response"});
+    return this.http.post(HttpHelpers.PROJECTS_URL,project,{observe:"response"});
   }
+
+  deleteProject(id: number) {
+    return this.http.delete(HttpHelpers.PROJECTS_URL + "/" + id,{observe:"body"});
+  }
+
+  updateProject(project: Project) {
+    return this.http.put(HttpHelpers.PROJECTS_URL,project,{observe:"response"});
+  }
+  
 }
