@@ -3,13 +3,13 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor,
-  HttpHeaders
+  HttpInterceptor
 } from '@angular/common/http';
 import { HttpErrorResponse } from '@angular/common/http'
 import { LoginService } from '../loginService/login.service';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { HttpHelpers } from '../helpers/httpHelpers';
 
 @Injectable()
 export class ApplicationInterceptor implements HttpInterceptor {
@@ -17,23 +17,25 @@ export class ApplicationInterceptor implements HttpInterceptor {
   constructor(public loginService: LoginService) {}
   
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    request = request.clone({
-                setHeaders: {
-                  Authorization: `Bearer ${this.loginService.getToken()}`,
-                  'Content-Type' : 'application/json'
-                }
-              });
+    
+    if(!request.url.includes(HttpHelpers.LOGIN_URL) && !request.url.includes(HttpHelpers.LOGIN_URL)){
+      console.log(request);
+      request = request.clone({
+                  setHeaders: {
+                    Authorization: `Bearer ${this.loginService.getToken()}`,
+                    'Content-Type' : 'application/json'
+                  }
+                });
+    }
     return next.handle(request).pipe(catchError(this.handleError));
   }
 
   private handleError(error : HttpErrorResponse){
     if (error instanceof ErrorEvent){
-      console.log("Client Side");
-      console.log(error);
+      console.log("========== Client Side ==========");
       return throwError(error);
     }else if(error instanceof HttpErrorResponse){
-      console.log("Server Side");
-      console.log(error);
+      console.log("========== Server Side ==========");
       return throwError(error);
     } 
   }
