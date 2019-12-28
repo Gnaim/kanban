@@ -14,15 +14,15 @@ import { ProjectFormComponent } from './compenents/home-page/project-form/projec
 import { ErrorPageComponent } from './compenents/errors/error-page/error-page.component';
 import { ResetPasswordComponent } from './compenents/reset-password/reset-password.component';
 import { AuthGuardService as Guard} from './services/guards/authguard.service';
+import { TokenGuardService as TokenGuard} from './services/guards/tokenguard.service';
 
 const homePageChildren: Routes = [
-  { path: 'Dashboard', component: DashBoardComponent },
-  { path: 'Projects', component: ProjectsComponent },
-  { path: 'Work', component: WorkComponent },
-  { path: 'People', component: PeopleComponent },
-  { path: 'Project/:id', component: SingleProjectDetailsComponent },
-  { path: 'Profile', component: ProfileComponent },
-  { path: 'project-form', component: ProjectFormComponent }
+  { path: 'Dashboard', component: DashBoardComponent, canActivate : [TokenGuard]},
+  { path: 'Projects', component: ProjectsComponent, canActivate : [TokenGuard] },
+  { path: 'Work', component: WorkComponent, canActivate : [TokenGuard] },
+  { path: 'People', component: PeopleComponent, canActivate : [TokenGuard] },
+  { path: 'Project/:id', component: SingleProjectDetailsComponent, canActivate : [TokenGuard] },
+  { path: 'Profile', component: ProfileComponent, canActivate : [TokenGuard] }
 ];
 
 const routes: Routes = [
