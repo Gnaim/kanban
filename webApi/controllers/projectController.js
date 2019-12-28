@@ -14,7 +14,7 @@ exports.getAll = (req, res, next) => {
     },
   })
     .populate('cards','title status members createdAt')
-    .select('name createdAt description updatedAt')
+    .select('name createdAt members description updatedAt')
     .exec((err, projects) => {
       if (err) {
         res.status(500).send({message:'There was a problem adding the information to the database.',
