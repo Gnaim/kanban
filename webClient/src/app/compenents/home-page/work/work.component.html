@@ -1,96 +1,34 @@
-<div class="row">
+<div *ngIf="emptyResponse" class="row img-empty-tasks">
+    <div class=" ml-2  p-3 w-100 ">
+        <h1 class="h3 mb-0 text-gray-800 ">My tasks</h1>
+  </div>             
+</div>
 
+<div *ngIf="!emptyResponse" class="row">
     <div class="mt-3 ml-4">
         <h1 class="h3 mb-0 text-gray-800">My tasks</h1>
     </div>
 
-    <!--
-      <div class="m-4 w-100 p-3 ">
-          <tabset justified="true">
-            <tab heading="My tasks"> 
-              <app-tasks-list ></app-tasks-list>
-              <hr class="m-0"/>
-              <app-tasks-list class="mb-2"></app-tasks-list>
-              <hr class="m-0"/>
-              <app-tasks-list class="mb-3"></app-tasks-list>
-              <hr class="m-0"/>
-              <app-tasks-list ></app-tasks-list>
-              <hr class="m-0"/>
-              <app-tasks-list class="mb-2"></app-tasks-list>
-              <hr class="m-0"/>
-              <app-tasks-list class="mb-3"></app-tasks-list>
-              <hr class="m-0"/>
-            </tab>
-            <tab heading="All tasks">
-              <app-tasks-list></app-tasks-list>
-              <hr class="m-0"/>
-            </tab>
-          </tabset>
-      </div>
-      -->
       <div class="m-4 w-100 p-3 ">
         <!-- #1 -->
-        <div class="card shadow mb-4">
+        <div *ngFor="let project of projects; let i = index">
+        <div class="card shadow mb-4"  *ngIf="projects[i].cards.length !== 0">
             <!-- Card Header - Accordion -->
                 <a href="#collapseCardExample" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCardExample">
-                    <h6 class="m-0 font-weight-bold text-primary">Collapsable Card Example</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">{{project.name}}</h6>
                   </a>
                   <!-- Card Content - Collapse -->
                   <div class="collapse" id="collapseCardExample">
                     <div class="card-body" style="padding:0.5rem;">
-                      <app-tasks-list class="mb-3"></app-tasks-list>
-                      <app-tasks-list class="mb-3"></app-tasks-list>
-                      <app-tasks-list class="mb-3"></app-tasks-list>
+                      <app-tasks-list class="mb-3" *ngFor="let card of projects[i].cards"
+                      [card]="card"
+                      [memberName]="'Lakhloufi anass'">
+                      </app-tasks-list>
                     </div>
                   </div>
-        </div>
-        <!-- #2 -->
-        <div class="card shadow mb-4">
-            <!-- Card Header - Accordion -->
-                <a href="#collapseCardExample2" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCardExample">
-                    <h6 class="m-0 font-weight-bold text-primary">Collapsable Card Example</h6>
-                  </a>
-                  <!-- Card Content - Collapse -->
-                  <div class="collapse" id="collapseCardExample2">
-                    <div class="card-body" style="padding:0.5rem;">
-                      <app-tasks-list class="mb-3"></app-tasks-list>
-                      <app-tasks-list class="mb-3"></app-tasks-list>
-                      <app-tasks-list class="mb-3"></app-tasks-list>
-                    </div>
-                  </div>
-        </div>
-        <!-- #3 -->
-        <div class="card shadow mb-4">
-            <!-- Card Header - Accordion -->
-                <a href="#collapseCardExample3" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCardExample">
-                    <h6 class="m-0 font-weight-bold text-primary">Collapsable Card Example</h6>
-                  </a>
-                  <!-- Card Content - Collapse -->
-                  <div class="collapse" id="collapseCardExample3">
-                    <div class="card-body" style="padding:0.5rem;">
-                      <app-tasks-list class="mb-3"></app-tasks-list>
-                      <app-tasks-list class="mb-3"></app-tasks-list>
-                      <app-tasks-list class="mb-3"></app-tasks-list>
-                    </div>
-                  </div>
-        </div>
-        <!-- #4 -->
-        <div class="card shadow mb-4">
-            <!-- Card Header - Accordion -->
-                <a href="#collapseCardExample4" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCardExample">
-                    <h6 class="m-0 font-weight-bold text-primary">Collapsable Card Example</h6>
-                  </a>
-                  <!-- Card Content - Collapse -->
-                  <div class="collapse" id="collapseCardExample4">
-                    <div class="card-body" style="padding:0.5rem;">
-                      <app-tasks-list class="mb-3"></app-tasks-list>
-                      <app-tasks-list class="mb-3"></app-tasks-list>
-                      <app-tasks-list class="mb-3"></app-tasks-list>
-                    </div>
-                  </div>
-        </div>
+        </div>  
       </div>
-
+    </div>
       <button class="float bg-primary" (click)="openTaskCreation()">
           <i class="fa fa-plus my-float"></i>
       </button>
