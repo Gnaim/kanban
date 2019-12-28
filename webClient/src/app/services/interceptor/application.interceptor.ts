@@ -19,6 +19,7 @@ export class ApplicationInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     
     if(!request.url.includes(HttpHelpers.LOGIN_URL) && !request.url.includes(HttpHelpers.LOGIN_URL)){
+      console.log("Request sent : ");
       console.log(request);
       request = request.clone({
                   setHeaders: {
@@ -33,9 +34,11 @@ export class ApplicationInterceptor implements HttpInterceptor {
   private handleError(error : HttpErrorResponse){
     if (error instanceof ErrorEvent){
       console.log("========== Client Side ==========");
+      console.log(error);
       return throwError(error);
     }else if(error instanceof HttpErrorResponse){
       console.log("========== Server Side ==========");
+      console.log(error);
       return throwError(error);
     } 
   }
