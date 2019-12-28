@@ -1,25 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormGroupDirective } from '@angular/forms';
 import { SignupService } from 'src/app/services/signupService/signup.service';
 import { User } from '../../entity/user';
 import { Response } from 'src/app/entity/response';
 import { ResponsesCodes } from 'src/app/services/helpers/responsesCodesEnum';
+import { Observable } from 'rxjs';
+import { MyNotificationsService } from 'src/app/services/notifications/notifications.service';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss']
 })
+
 export class SignUpComponent implements OnInit {
   selectedFile : File;
   signUpForm : FormGroup;
   submitted : boolean = false;
   user : User;
-  res : Response<Object>;
-  serverError : boolean = false;
-  mailError : boolean = false;
-  registrationSucces : boolean = false;
-  constructor(private router: Router,private formBuilder: FormBuilder,private signupService : SignupService) {}
+
+  constructor(private router: Router,private formBuilder: FormBuilder,
+              private signupService : SignupService,private notification :MyNotificationsService) {}
 
   ngOnInit() {
     this.initForm();
@@ -64,6 +65,7 @@ export class SignUpComponent implements OnInit {
     if(this.signUpForm.invalid){
       return; //stop if the form is not valid
     }
+    
     const firstName = formValue['firstName'];
     const lastName = formValue['lastName'];
     const email = formValue['email'];
@@ -73,25 +75,18 @@ export class SignUpComponent implements OnInit {
     const uploadedImage = new FormData();
     uploadedImage.append('files', this.selectedFile);
     console.log(uploadedImage);
-    this.user = new User(email,password,firstName,lastName,phone,repeatedPassword,uploadedImage);
-    this.res = this.signupService.signup(this.user);
+    this.user = new User(email,password,firstName,lastName,phone,uploadedImage);
     
-    if(this.res.getSuccessCode()){
-      this.registrationSucces = true;
-      this.serverError = false;
-      this.mailError = false;
-    }else if(this.res.getErrorCode()){
-      if(this.res.getErrorCode() == ResponsesCodes.SIGNUP_FAILED_EXISTING_MAIL){
-        this.registrationSucces = false;
-        this.serverError = false;
-        this.mailError = true;
-      }else if(this.res.getErrorCode() == ResponsesCodes.SERVER_ERROR){
-        this.registrationSucces = false;
-        this.serverError = true;
-        this.mailError = false;
-      }
+    this.signupService.signup(this.user).subscribe(
+          (data) => {
+            this.signUpForm.reset();
+            this.submitted = false;
+            this.notification.showSignUpSucces();
+          }, 
+          (error) => { 
+            this.notification.showErrorNotification(error);
+          })
     }
-  }
 
   onSelectFile(event){
     this.selectedFile = <File>event.target.files[0];

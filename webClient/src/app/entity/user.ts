@@ -6,10 +6,9 @@ export class User {
     firstName:string;
     lastName:string;
     tel:number;
-    repeatedPassword:string;
     image:FormData;
 
-    constructor(email:string,password:string,firstName?:string,lastName?:string,tel?:number,repeatedPassword?:string,image?:FormData) {
+    constructor(email:string,password:string,firstName?:string,lastName?:string,tel?:number,image?:FormData) {
             if(typeof email === "undefined" ||email === null){
                 this.email = "";
             }else {
@@ -34,11 +33,6 @@ export class User {
                 this.tel = 0;
             }else {
                 this.tel = tel;
-            }
-            if(typeof repeatedPassword === "undefined" ||repeatedPassword === null){
-                this.repeatedPassword = "";
-            }else {
-                this.repeatedPassword = repeatedPassword;
             }
             if(typeof image === "undefined" ||image === null){
                 this.image = null;

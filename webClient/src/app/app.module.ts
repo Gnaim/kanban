@@ -38,10 +38,15 @@ import { SignupService } from './services/signupService/signup.service';
 import { ProjectsService } from './services/projectService/projects.service';
 import { CardsService } from './services/cardService/cards.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptor } from './authentification/token.interceptor';
+import { ApplicationInterceptor } from './services/interceptor/application.interceptor';
 import { ForgetPasswordComponent } from './compenents/log-in/forget-password/forget-password.component';
 import { ResetPasswordComponent } from './compenents/reset-password/reset-password.component';
+import { AuthGuardService } from './services/guards/authguard.service';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+import { MyNotificationsService } from './services/notifications/notifications.service';
+import { TokenGuardService } from './services/guards/tokenguard.service';
 
 @NgModule({
   declarations: [
@@ -81,14 +86,17 @@ import { ResetPasswordComponent } from './compenents/reset-password/reset-passwo
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    DragDropModule
+    DragDropModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
 
-  providers: [LoginService, SignupService, ProjectsService, CardsService, {
-    provide: HTTP_INTERCEPTORS,
-    useClass: TokenInterceptor,
-    multi: true
-  }],
+  providers: [LoginService, SignupService, ProjectsService, CardsService,
+    AuthGuardService, MyNotificationsService, TokenGuardService, {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApplicationInterceptor,
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
