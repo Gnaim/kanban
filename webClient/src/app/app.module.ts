@@ -44,6 +44,9 @@ import { ForgetPasswordComponent } from './compenents/log-in/forget-password/for
 import { ResetPasswordComponent } from './compenents/reset-password/reset-password.component';
 import { AuthGuardService } from './services/guards/authguard.service';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+import { MyNotificationsService } from './services/notifications/notifications.service';
 
 @NgModule({
   declarations: [
@@ -84,10 +87,12 @@ import { AuthGuardService } from './services/guards/authguard.service';
     FormsModule,
     jqxSplitterModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
 
-  providers: [LoginService, SignupService, ProjectsService, CardsService,AuthGuardService, {
+  providers: [LoginService, SignupService, ProjectsService, CardsService,AuthGuardService,MyNotificationsService, {
     provide: HTTP_INTERCEPTORS,
     useClass: ApplicationInterceptor,
     multi: true
