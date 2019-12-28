@@ -2,74 +2,23 @@
 
 <!-- Custom Text Color Utilities -->
 <div class="card shadow mb-4 m-4">
-  <div class="card-header py-3">
-    <h6 class="m-0 font-weight-bold text-primary">Project name</h6>
-  </div>
-  <div class="card-body">
+      <a href="#{{idCollapse}}" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCardExample">
+        <h6 class="m-0 font-weight-bold text-primary">{{name}}</h6>
+      </a>
+  <div class="collapse" id="{{idCollapse}}">   
+  <div class="card-body" *ngFor="let member of members">
     <div class="d-flex align-items-center">
       <div class="dropdown-list-image mr-3">
-        <img
-          class="rounded-circle"
-         
-          alt=""
-        />
+        <i *ngIf="member.role == 'admin'" class="fas fa-user-tie fa-2x"></i>  
+        <i *ngIf="member.role == 'member'" class="fas fa-user fa-2x"></i>
         <div class="status-indicator bg-success"></div>
       </div>
       <div class="font-weight-bold">
-        <div class="text-truncate">Nom Prenom</div>
-        <div class="small text-gray-500">Role</div>
+        <div class="text-truncate">{{member.email}}</div>
+        <div class="small text-gray-500">{{member.role}}</div>
       </div>
     </div>
+  </div>
   </div>
   <hr class="sidebar-divider divider-margin" />
-  <div class="card-body">
-    <div class="d-flex align-items-center">
-      <div class="dropdown-list-image mr-3">
-        <img
-          class="rounded-circle"
-          
-          alt=""
-        />
-        <div class="status-indicator bg-success"></div>
-      </div>
-      <div class="font-weight-bold">
-        <div class="text-truncate">Nom Prenom</div>
-        <div class="small text-gray-500">Role</div>
-      </div>
-    </div>
-  </div>
-  <hr class="sidebar-divider divider-margin" />
-  <div class="card-body">
-    <div class="d-flex align-items-center">
-      <div class="dropdown-list-image mr-3">
-        <img
-          class="rounded-circle"
-          
-          alt=""
-        />
-        <div class="status-indicator bg-success"></div>
-      </div>
-      <div class="font-weight-bold">
-        <div class="text-truncate">Nom Prenom</div>
-        <div class="small text-gray-500">Role</div>
-      </div>
-    </div>
-  </div>
-  <hr class="sidebar-divider divider-margin" />
-  <div class="card-body">
-    <div class="d-flex align-items-center">
-      <div class="dropdown-list-image mr-3">
-        <img
-          class="rounded-circle"
-          
-          alt=""
-        />
-        <div class="status-indicator bg-success"></div>
-      </div>
-      <div class="font-weight-bold">
-        <div class="text-truncate">Nom Prenom</div>
-        <div class="small text-gray-500">Role</div>
-      </div>
-    </div>
-  </div>
 </div>

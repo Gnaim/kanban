@@ -32,14 +32,18 @@ export class WorkComponent implements OnInit {
           this.projects = jsonResponse.projects as Project[];
           console.log(this.projects);
           let size = this.projects.length;
-          for(let i=0; i<size ;i++){
-            if(this.projects[i].cards.length != 0){
-              this.emptyResponse = false;
-              return;
+          if(size != 0){
+            for(let i=0; i<size ;i++){
+              if(this.projects[i].cards.length != 0){
+                this.emptyResponse = false;
+                return;
+              }
+              if(i == (size-1)){
+                this.emptyResponse = true;
+              }
             }
-            if(i == (size-1)){
-              this.emptyResponse = true;
-            }
+          }else{
+            this.emptyResponse = true;
           }
         },
         (error) => {
