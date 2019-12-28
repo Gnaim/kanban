@@ -1,8 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { HomePageComponent } from '../home-page.component';
 import { ProjectsService } from '../../../services/projectService/projects.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Project } from 'src/app/entity/Project';
+import { HttpHelpers } from 'src/app/services/helpers/httpHelpers';
+import { BsModalRef } from 'ngx-bootstrap';
+import { MyNotificationsService } from 'src/app/services/notifications/notifications.service';
 
 @Component({
   selector: 'app-project-form',
@@ -12,57 +15,54 @@ import { Router } from '@angular/router';
 export class ProjectFormComponent implements OnInit {
 
   projectForm: FormGroup;
-  submitted: boolean = false;
-  constructor(private router: Router, private projectsService: ProjectsService, private formBuilder: FormBuilder) {
-
-  }
+  project : Project;
   selectedMembers = [];
+  submitted: boolean = false;
+  isUpdate : boolean = false;
   members = [
     "Anass", "Anis", "Malek", "Naim"
   ];
 
-  priorities = [
-    { name: "High", class: "fa-arrow-up" },
-    { name: "Normale", class: "fa-grip-lines" },
-    { name: "Low", class: "fa-arrow-down" }
+  constructor(public bsModalRef: BsModalRef,private router: Router,
+     private projectsService: ProjectsService, private formBuilder: FormBuilder, private notification : MyNotificationsService) {
+  }
+  
+  ngOnInit() {
+    this.initForm();
+  }
 
-  ];
   initForm() {
     this.projectForm = this.formBuilder.group({
       title: ['', [Validators.required, Validators.pattern('.+')]],
-      priority: ['', [Validators.required]],
       description: ['', [Validators.required, Validators.pattern('.+')]],
       membersProject: [[], []],
     });
   }
+
   get getFormErrors() {
     return this.projectForm.controls; // to get access to errors in form
   }
 
   createProject() {
     this.submitted = true;
+
     if (this.projectForm.invalid) {
       return; //stop if the form is not valid
     }
+
     const formValue = this.projectForm.value;
     const title = formValue['title'];
-    const priority = formValue['priority'];
     const description = formValue['description'];
-    const members = formValue['membersProject'];
-    console.log("members :" + members);
-    console.log(`title:${title} \n priority:${priority} \n description:${description}`)
-    let result: boolean = this.projectsService.createProject(title, priority, description, members);
-
-    if (result == true) {
-      this.router.navigate(['/Home/Projects']);
-    } else {
-
-      //Print the Error 
-    }
-
+    this.project = new Project(title, description);
+    
+    this.projectsService.createProject(this.project).subscribe(
+      (response) => {  
+        console.log(HttpHelpers.parseData(response));
+        this.bsModalRef.hide();
+      },
+      (error) => {
+        this.notification.showErrorNotification(error);
+      }
+    )
   }
-  ngOnInit() {
-    this.initForm();
-  }
-
 }
