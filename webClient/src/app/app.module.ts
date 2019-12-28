@@ -31,8 +31,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { KanbanComponent } from './compenents/home-page/single-project-details/kanban/kanban.component';
 
-import { jqxKanbanComponent } from 'jqwidgets-ng/jqxkanban';
-import { jqxSplitterModule } from 'jqwidgets-ng/jqxsplitter';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { LoginService } from './services/loginService/login.service';
 import { SignupService } from './services/signupService/signup.service';
@@ -73,7 +72,6 @@ import { TokenGuardService } from './services/guards/tokenguard.service';
     TaskFormComponent,
     ProfileComponent,
     KanbanComponent,
-    jqxKanbanComponent,
     ForgetPasswordComponent,
     ResetPasswordComponent
   ],
@@ -86,19 +84,19 @@ import { TokenGuardService } from './services/guards/tokenguard.service';
     ModalModule.forRoot(),
     NgSelectModule,
     FormsModule,
-    jqxSplitterModule,
     ReactiveFormsModule,
     HttpClientModule,
+    DragDropModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot()
   ],
 
   providers: [LoginService, SignupService, ProjectsService, CardsService,
-    AuthGuardService,MyNotificationsService,TokenGuardService, {
-    provide: HTTP_INTERCEPTORS,
-    useClass: ApplicationInterceptor,
-    multi: true
-  }],
+    AuthGuardService, MyNotificationsService, TokenGuardService, {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApplicationInterceptor,
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

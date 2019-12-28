@@ -1,133 +1,76 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { jqxKanbanComponent } from 'jqwidgets-ng/jqxkanban/public_api';
+import { Component, OnInit } from '@angular/core';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { Board } from './models/board.model';
+import { Column } from './models/column.model';
+import { Card } from 'src/app/entity/card';
+import { CardsService } from 'src/app/services/cardService/cards.service';
+import { CardStatus } from 'src/app/services/helpers/CardStatus';
 
 @Component({
-  selector: 'app-kanban',
-  templateUrl: './kanban.component.html',
-  styleUrls: ['./kanban.component.scss']
+    selector: 'app-kanban',
+    templateUrl: './kanban.component.html',
+    styleUrls: ['./kanban.component.scss'],
 })
 export class KanbanComponent implements OnInit {
-  
-  ngOnInit() {
-    
-  } 
 
-  @ViewChild('myKanbanOne',{static : false}) myKanbanOne: jqxKanbanComponent;
-  @ViewChild('myKanbanTwo',{static : false}) myKanbanTwo: jqxKanbanComponent;
-  @ViewChild('myKanbanThree',{static : false}) myKanbanThree: jqxKanbanComponent;
-  fields: any =
-  [
-      { name: 'status', map: 'state', type: 'string' },
-      { name: 'text', map: 'label', type: 'string' },
-      { name: 'tags', type: 'string' },
-      { name: 'color', map: 'hex', type: 'string' },
-      { name: 'resourceId', type: 'number' }
-  ];
-  source: any =
-  {
-      localData:
-      [
-          { state: 'new', label: 'Combine Orders', tags: 'orders, combine', hex: '#5dc3f0', resourceId: 3 },
-          { state: 'new', label: 'Change Billing Address', tags: 'billing', hex: '#f19b60', resourceId: 1 },
-          { state: 'new', label: 'One item added to the cart', tags: 'cart', hex: '#5dc3f0', resourceId: 3 },
-          { state: 'new', label: 'Edit Item Price', tags: 'price, edit', hex: '#5dc3f0', resourceId: 4 },
-          { state: 'new', label: 'Login 404 issue', tags: 'issue, login', hex: '#6bbd49' }
-      ],
-      dataType: 'array',
-      dataFields: this.fields
-  };
-  dataAdapter: any = new jqx.dataAdapter(this.source);
-  source2: any =
-  {
-      localData:
-      [
-          { state: 'ready', label: 'Logout issue', tags: 'logout, issue', hex: '#5dc3f0', resourceId: 7 },
-          { state: 'ready', label: 'Remember password issue', tags: 'password, issue', hex: '#6bbd49', resourceId: 8 },
-          { state: 'ready', label: 'Cart calculation issue', tags: 'cart, calculation', hex: '#f19b60', resourceId: 9 },
-          { state: 'ready', label: 'Remove topic issue', tags: 'topic, issue', hex: '#6bbd49' }
-      ],
-      dataType: 'array',
-      dataFields: this.fields
-  };
-  dataAdapter2: any = new jqx.dataAdapter(this.source2);
-  source3: any =
-  {
-      localData:
-      [
-          { state: 'done', label: 'Delete orders', tags: 'orders, combine', hex: '#f19b60', resourceId: 4 },
-          { state: 'work', label: 'Add New Address', tags: 'address', hex: '#6bbd49', resourceId: 5 },
-          { state: 'new', label: 'Rename items', tags: 'rename', hex: '#5dc3f0', resourceId: 6 },
-          { state: 'work', label: 'Update cart', tags: 'cart, update', hex: '#6bbd49' }
-      ],
-      dataType: 'array',
-      dataFields: this.fields
-  };
-  dataAdapter3: any = new jqx.dataAdapter(this.source3);
-  resourcesAdapterFunc = (): any => {
-      let resourcesSource =
-          {
-              localData:
-              [
-                  { id: 0, name: 'No name', image: '../jqwidgets/styles/images/common.png', common: true },
-                  { id: 1, name: 'Andrew Fuller', image: '../images/andrew.png' },
-                  { id: 2, name: 'Janet Leverling', image: '../images/janet.png' },
-                  { id: 3, name: 'Steven Buchanan', image: '../images/steven.png' },
-                  { id: 4, name: 'Nancy Davolio', image: '../images/nancy.png' },
-                  { id: 5, name: 'Michael Buchanan', image: '../images/Michael.png' },
-                  { id: 6, name: 'Margaret Buchanan', image: '../images/margaret.png' },
-                  { id: 7, name: 'Robert Buchanan', image: '../images/robert.png' },
-                  { id: 8, name: 'Laura Buchanan', image: '../images/Laura.png' },
-                  { id: 9, name: 'Laura Buchanan', image: '../images/Anne.png' }
-              ],
-              dataType: 'array',
-              dataFields:
-              [
-                  { name: 'id', type: 'number' },
-                  { name: 'name', type: 'string' },
-                  { name: 'image', type: 'string' },
-                  { name: 'common', type: 'boolean' }
-              ]
-          };
-      let resourcesDataAdapter = new jqx.dataAdapter(resourcesSource);
-      return resourcesDataAdapter;
-  }
-  kanbanOneColumns: any[] =
-  [
-      { text: 'Backlog', dataField: 'new', maxItems: 10 }
-  ];
-  kanbanOneColumnRenderer: any = (element: any, collapsedElement: any, column: any): void => {
-      if (element[0]) {
-          let headerStatus = element[0].getElementsByClassName('jqx-kanban-column-header-status')[0];
-          let columnItems = this.myKanbanOne.getColumnItems(column.dataField).length;
-          headerStatus.innerHTML = ' (' + columnItems + '/' + column.maxItems + ')';
-      }
-  }
-  kanbanTwoColumns: any[] =
-  [
-      { text: 'Ready', dataField: 'ready', maxItems: 10 }
-  ];
-  kanbanTwoColumnRenderer: any = (element: any, collapsedElement: any, column: any): void => {
-      if (element[0]) {
-          let headerStatus = element[0].getElementsByClassName('jqx-kanban-column-header-status')[0];
-          let columnItems = this.myKanbanTwo.getColumnItems(column.dataField).length;
-          headerStatus.innerHTML = ' (' + columnItems + '/' + column.maxItems + ')';
-      }
-  }
-  kanbanThreeColumns: any[] =
-  [
-      { text: 'Backlog', dataField: 'new', maxItems: 5 },
-      { text: 'In Progress', dataField: 'work', maxItems: 5 },
-      { text: 'Done', dataField: 'done', maxItems: 5 }
-  ];
-  kanbanThreeColumnRenderer: any = (element: any, collapsedElement: any, column: any): void => {
-      if (element[0]) {
-          let columnItems = this.myKanbanThree.getColumnItems(column.dataField).length;
-          let headerStatus = element[0].getElementsByClassName('jqx-kanban-column-header-status')[0];
-          headerStatus.innerHTML = ' (' + columnItems + '/' + column.maxItems + ')';
-          let collapsedHeaderStatus = collapsedElement[0].getElementsByClassName('jqx-kanban-column-header-status')[0];
-          collapsedHeaderStatus.innerHTML = ' (' + columnItems + '/' + column.maxItems + ')';
-      }
-  }
-  mainSplitterPanels: any[] = [{ size: 250, min: 100 }, { min: 250 }];
-  rightSplitterPanels: any[] = [{ min: 200, size: 350, collapsible: false }, { min: 200 }];
+    backLogColumn: Column;
+    inProgressColumn: Column;
+    doneColumn: Column;
+    constructor(private cardsService: CardsService) {
+
+        this.loadData();
+
+
+    }
+    loadData() {
+
+        const allProjectCards: Array<Card> = this.cardsService.getCardsByProject("ss");
+
+        this.backLogColumn = new Column("BACKLOG", allProjectCards.filter(this.cardStatusPredicate(CardStatus.TODO)));
+        this.inProgressColumn = new Column("IN-PROGRESS", allProjectCards.filter(this.cardStatusPredicate(CardStatus.IN_PROGESS)));
+        this.doneColumn = new Column("DONE", allProjectCards.filter(this.cardStatusPredicate(CardStatus.DONE)));
+
+
+    }
+
+
+    cardStatusPredicate(status: CardStatus) {
+        return (a: Card) => a.status == status;
+
+    }
+    board: Board = new Board('Project Board', [this.backLogColumn, this.inProgressColumn, this.doneColumn]);
+
+    ngOnInit() {
+    }
+
+    drop(event: CdkDragDrop<string[]>) {
+        if (event.previousContainer === event.container) {
+            moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+        } else {
+            transferArrayItem(event.previousContainer.data,
+                event.container.data,
+                event.previousIndex,
+                event.currentIndex);
+            this.updateTask(event.previousContainer, event.container, event.previousContainer.data);
+        }
+    }
+
+
+    updateTask(previousContainer, container, data) {
+        // case backlog to inProgress
+
+        //case in progress backlog 
+
+        //case backlog finish 
+
+        // case finish backlog 
+
+        // case in progress to finish 
+
+        // case finish to in progress
+
+
+    }
+
+
 }

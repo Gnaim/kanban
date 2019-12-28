@@ -1,18 +1,20 @@
 import { User } from './user';
+import { CardStatus } from '../services/helpers/CardStatus';
 
 export class Card {
-    id : number;
+    id: number;
     title: string;
     type: string; // ajouter un type type
-    status: string; // ajouter un type statut
+    status: CardStatus; // ajouter un type statut
     description: string;
-    creationDate : number; //milliseconds 
-	updateDate : number; //milliseconds 
+    creationDate: number; //milliseconds 
+    updateDate: number; //milliseconds 
     members: User[];
 
-    constructor(title: string,type: string,status: string,
-        description: string,creationDate : number,updateDate : number,
-        members: User[]) {
+
+    constructor(title?: string, type?: string, status?: CardStatus,
+        description?: string, creationDate?: number, updateDate?: number,
+        members?: User[]) {
         this.type = type;
         this.title = title;
         this.status = status;
@@ -21,5 +23,7 @@ export class Card {
         this.updateDate = updateDate;
         this.members = members;
     }
+
+
 
 }
