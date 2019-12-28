@@ -25,6 +25,7 @@ router.route('/:id/cards')
 
 router.route('/:id/cards/:cardId')
   .get(verifyJWTToken, isProjectMember, cardController.getById)
-  .put(verifyJWTToken, isProjectMember, cardController.UpdateCardById);
+  .put(verifyJWTToken, isProjectMember, cardController.UpdateCardById)
+  .delete(verifyJWTToken, isProjectMember, cardController.deleteCardById);
 
 module.exports = router;

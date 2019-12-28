@@ -1,5 +1,8 @@
 const projects = mongoose.model('Project');
 const cards = mongoose.model('Project');
+const users = mongoose.model('User');
+const bcrypt = require('bcrypt');
+const auths = require('../middlewares/auths');
 
 exports.getAll = (req, res, next) => {
   // to do find project where the user is member and not user is admin
@@ -85,20 +88,18 @@ projects.findById(req.params.id,)
 
 exports.UpdateProjectById = (req, res, next) => {
   // to do find just admin can update members and the project must have at least one admin
-  // to do update methode with exec()
   const name  = req.body.name ? req.body.name : '' ;
   const logoUrl  = req.body.logoUrl ? req.body.logoUrl : 'default url' ;
   const members  = req.body.members ? req.body.members : [] ;
   const description  = req.body.description ? req.body.description : '';
-  const cards  = req.body.cards ? req.body.cards : [] ;
-  console.log(req.params.id);
+///
+
   projects.findOneAndUpdate(req.params.id, {
     name: name,
     logoUrl: logoUrl,
     description: description,
-    members: members,
-    cards: cards,
-  }, (err, project) => {
+    members: req.body.members,
+  }).exec((err,project)=>{
     if (err) {
       console.log(err);
       res.status(500).send({message:`GET Error: There was a problem retrieving: ${err}`,
@@ -111,7 +112,46 @@ exports.UpdateProjectById = (req, res, next) => {
       });
     }
   });
-};
+
+  ///
+  // atleastOneAdmin=false;
+  // done=false;
+  // for (var i=0; i<req.body.members.length; i++){
+  //   member = req.body.members[i];
+  //   console.log(member)
+  //   users.findOne({
+  //     'email':member.email
+  //   }, function(err,user){
+  //     if(err){
+  //       res.status(500).send({message:`GET Error: There was a problem retrieving: ${err}`,
+  //                               error: 603});
+  //     }else{
+  //       if(user){
+  //         if(member.role=='admin'){
+  //           atleastOneAdmin=true;
+  //         }          
+  //       }else{
+  //         res.status(400).send({message:`This email in not a user: ${member.email}`,
+  //                               error: 611});//need to find the correct code error
+  //       }
+  //     }
+  //   });
+  //   if(i==req.body.members.length-1)done=true;
+  // }
+  // while(!(done || atleastOneAdmin)){
+    
+  // }
+  // if(atleastOneAdmin){
+    
+    
+    
+    
+  // }
+  // else{
+  //   res.status(400).send({message:`There must be at least one admin in members`,
+  //                               error: 611});
+  // }
+}
 
 exports.deleteProjectById = (req, res, next) => {
   projects.deleteOne({ _id: req.params.id })

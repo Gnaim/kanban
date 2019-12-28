@@ -71,4 +71,42 @@ exports.getById = (req, res, next) => {
 
 
 exports.UpdateCardById = (req, res, next) => {
+  const title  = req.body.title ? req.body.title : '' ;
+  const status  = req.body.status ? req.body.status : 'backlog' ;
+  const members  = req.body.members ? req.body.members : [] ;
+  const description  = req.body.description ? req.body.description : '';
+  const checklist = req.body.checklist ? req.body.checklist : [];
+
+  cards.findOneAndUpdate(req.params.cardId, {
+    title: title,
+    status: status,
+    description: description,
+    members: members,
+    checklist: checklist,
+  }).exec((err,card)=>{
+    if (err) {
+      console.log(err);
+      res.status(500).send({message:`GET Error: There was a problem retrieving: ${err}`,
+                            error: 603});
+    } else {
+      res.status(200).format({
+        json: () => {
+          res.json({card:card});
+        },
+      });
+    }
+  });
 };
+
+exports.deleteCardById = (req, res, next) => {
+  cards.deleteOne({ _id: req.params.cardId })
+  .exec((err, card)=>{
+    if (err) {
+      res.status(500).send({message:`${err}`,
+                            error: 603});
+    }
+    else {
+      res.status(200).send({mesage:'card has been deleted'});
+    }
+  })
+}
