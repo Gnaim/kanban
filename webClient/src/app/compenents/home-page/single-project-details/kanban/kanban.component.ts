@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Board } from './models/board.model';
 import { Column } from './models/column.model';
+import { Card } from 'src/app/entity/card';
+import { CardsService } from 'src/app/services/cardService/cards.service';
+import { CardStatus } from 'src/app/services/helpers/CardStatus';
 
 @Component({
     selector: 'app-kanban',
@@ -10,27 +13,32 @@ import { Column } from './models/column.model';
 })
 export class KanbanComponent implements OnInit {
 
-    constructor() { }
+    backLogColumn: Column;
+    inProgressColumn: Column;
+    doneColumn: Column;
+    constructor(private cardsService: CardsService) {
 
-    board: Board = new Board('Test Board', [
-        // new Column('BACKLOG', [
-        //     "Some random idea",
-        //     "This is another random idea",
-        //     "build an awesome application"
-        // ]),
-        // new Column('IN-PROGRESS', [
-        //     "Lorem ipsum",
-        //     "foo",
-        //     "This was in the 'Research' column"
-        // ]),
-        // new Column('DONE', [
-        //     'Get to work',
-        //     'Pick up groceries',
-        //     'Go home',
-        //     'Fall asleep'
-        // ])
+        this.loadData();
 
-    ]);
+
+    }
+    loadData() {
+
+        const allProjectCards: Array<Card> = this.cardsService.getCardsByProject("ss");
+
+        this.backLogColumn = new Column("BACKLOG", allProjectCards.filter(this.cardStatusPredicate(CardStatus.TODO)));
+        this.inProgressColumn = new Column("IN-PROGRESS", allProjectCards.filter(this.cardStatusPredicate(CardStatus.IN_PROGESS)));
+        this.doneColumn = new Column("DONE", allProjectCards.filter(this.cardStatusPredicate(CardStatus.DONE)));
+
+
+    }
+
+
+    cardStatusPredicate(status: CardStatus) {
+        return (a: Card) => a.status == status;
+
+    }
+    board: Board = new Board('Project Board', [this.backLogColumn, this.inProgressColumn, this.doneColumn]);
 
     ngOnInit() {
     }

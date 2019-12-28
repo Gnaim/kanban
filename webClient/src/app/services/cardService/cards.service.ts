@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CardsService {
+
   fail: boolean = true;
   CARD_ADD_URL = "http://127.0.0.1:3000/cards";
   httpOptions = {
@@ -23,15 +24,21 @@ export class CardsService {
     description: string,
     point: number,
     members: string[]): boolean {
-/*
-    let response: Observable<any> = this.http.post<Card>(this.CARD_ADD_URL, new Card(type, title, description, point, members), this.httpOptions);
-    response.subscribe((response: Object) => {
-      console.log(response);
-      this.fail = false;
-
-    }, (err) => { this.fail = true; });
-*/
+    /*
+        let response: Observable<any> = this.http.post<Card>(this.CARD_ADD_URL, new Card(type, title, description, point, members), this.httpOptions);
+        response.subscribe((response: Object) => {
+          console.log(response);
+          this.fail = false;
+    
+        }, (err) => { this.fail = true; });
+    */
     return !this.fail;
+
+  }
+
+
+  getCardsByProject(projectId: string): any {
+
 
   }
 }
