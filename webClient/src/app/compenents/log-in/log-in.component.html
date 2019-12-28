@@ -36,15 +36,6 @@
                     Login
                   </button>
                   <hr />
-                  <div *ngIf="loginFailed" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
-                    <strong>Error occured !</strong>. Your mail or password are wrong. Please try again.               
-                  </div>
-                  <div *ngIf="serverError" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
-                    <strong>Error occured !</strong>. Internal server error try again in a few minutes.              
-                  </div>
-                  <div *ngIf="badRequest" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
-                    <strong>Error occured !</strong>. Bad bad request was sent to the server. Retry !              
-                  </div>
                 <!--  <button class="btn btn-google btn-user btn-block">
                     <i class="fab fa-google fa-fw"></i> Login with Google
                   </button>   

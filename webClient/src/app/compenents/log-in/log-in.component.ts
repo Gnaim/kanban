@@ -5,8 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component'
 import { User } from 'src/app/entity/user';
-import { ResponsesCodes } from 'src/app/services/helpers/responsesCodesEnum';
-
+import { MyNotificationsService } from 'src/app/services/notifications/notifications.service';
 
 
 @Component({
@@ -18,12 +17,11 @@ export class LogInComponent implements OnInit {
   loginForm: FormGroup;
   user : User;
   submitted: boolean = false;
-  loginFailed : boolean = false;
-  serverError : boolean = false;
-  badRequest : boolean = false;
   bsModalRef: BsModalRef;
 
-  constructor(private router: Router, private loginService: LoginService, private formBuilder: FormBuilder, private modalService: BsModalService) {
+  constructor(private router: Router, private loginService: LoginService,
+     private formBuilder: FormBuilder, private modalService: BsModalService,
+     private notification : MyNotificationsService) {
   }
 
   ngOnInit() {
@@ -43,8 +41,7 @@ export class LogInComponent implements OnInit {
 
   onSubmitForm() {
     this.submitted = true;
-    this.loginFailed = false;
-    this.serverError = false;
+    
     if (this.loginForm.invalid) {
       return; //stop if the form is not valid
     }
@@ -63,19 +60,7 @@ export class LogInComponent implements OnInit {
         this.router.navigate(['/Home/Projects']);
       },
       (error) => {
-          if(error.error.error == ResponsesCodes.LOGIN_FAILED){
-            this.loginFailed = true;
-            this.serverError = false;
-            this.badRequest = false;
-          }else if(error.error.error == ResponsesCodes.SERVER_ERROR || error.status == 404){
-            this.loginFailed = false;
-            this.serverError = true;
-            this.badRequest = false;
-          }else if(error.error.error == ResponsesCodes.BAD_REQUEST){
-            this.badRequest = true;
-            this.loginFailed = false;
-            this.serverError = false;
-          }
+        this.notification.showErrorNotification(error);
       })
   }
 
