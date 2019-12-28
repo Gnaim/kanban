@@ -13,10 +13,10 @@ export class ProjectsService {
   constructor(private http: HttpClient) { }
 
   getMyProjects() {
-    return this.http.get(HttpHelpers.PROJECTS_URL,HttpHelpers.HTTP_OPTIONS);
+    return this.http.get(HttpHelpers.PROJECTS_URL, HttpHelpers.HTTP_OPTIONS);
   }
 
   createProject(project: Project) {
-    return this.http.post(HttpHelpers.PROJECTS_URL,project,{ observe : "response"});
+    return this.http.post(HttpHelpers.PROJECTS_URL, project, HttpHelpers.HTTP_OPTIONS);
   }
 }

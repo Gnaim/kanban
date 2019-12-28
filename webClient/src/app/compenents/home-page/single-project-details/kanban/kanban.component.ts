@@ -26,48 +26,36 @@ export class KanbanComponent implements OnInit {
 
         const allProjectCards: Array<Card> = this.cardsService.getCardsByProject("ss");
 
-        this.backLogColumn = new Column("BACKLOG", allProjectCards.filter(this.cardStatusPredicate(CardStatus.TODO)));
-        this.inProgressColumn = new Column("IN-PROGRESS", allProjectCards.filter(this.cardStatusPredicate(CardStatus.IN_PROGESS)));
-        this.doneColumn = new Column("DONE", allProjectCards.filter(this.cardStatusPredicate(CardStatus.DONE)));
+        this.backLogColumn = new Column("BACKLOG", allProjectCards.filter((a: Card, index: number, array: Card[]) => { a.status == CardStatus.TODO }));
+        this.inProgressColumn = new Column("IN-PROGRESS", allProjectCards.filter((a: Card, index: number, array: Card[]) => { a.status == CardStatus.IN_PROGESS }));
+        this.doneColumn = new Column("DONE", allProjectCards.filter((a: Card, index: number, array: Card[]) => { a.status == CardStatus.DONE }));
 
 
     }
 
-
-    cardStatusPredicate(status: CardStatus) {
-        return (a: Card) => a.status == status;
-
-    }
     board: Board = new Board('Project Board', [this.backLogColumn, this.inProgressColumn, this.doneColumn]);
 
     ngOnInit() {
     }
 
-    drop(event: CdkDragDrop<string[]>) {
+    drop(event: CdkDragDrop<Card[]>) {
         if (event.previousContainer === event.container) {
             moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
         } else {
+            let status: CardStatus = event.container.data[0].status;
             transferArrayItem(event.previousContainer.data,
                 event.container.data,
                 event.previousIndex,
                 event.currentIndex);
-            this.updateTask(event.previousContainer, event.container, event.previousContainer.data);
+            this.updateTask(event.item.data, status);
         }
     }
 
 
-    updateTask(previousContainer, container, data) {
-        // case backlog to inProgress
+    updateTask(card: Card, status: CardStatus) {
 
-        //case in progress backlog 
-
-        //case backlog finish 
-
-        // case finish backlog 
-
-        // case in progress to finish 
-
-        // case finish to in progress
+        card.status = status;
+        this.cardsService.updateCard(card);
 
 
     }
