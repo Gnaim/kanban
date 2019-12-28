@@ -31,8 +31,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { KanbanComponent } from './compenents/home-page/single-project-details/kanban/kanban.component';
 
-import { jqxKanbanComponent } from 'jqwidgets-ng/jqxkanban';
-import { jqxSplitterModule } from 'jqwidgets-ng/jqxsplitter';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { LoginService } from './services/loginService/login.service';
 import { SignupService } from './services/signupService/signup.service';
@@ -68,7 +67,6 @@ import { ResetPasswordComponent } from './compenents/reset-password/reset-passwo
     TaskFormComponent,
     ProfileComponent,
     KanbanComponent,
-    jqxKanbanComponent,
     ForgetPasswordComponent,
     ResetPasswordComponent
   ],
@@ -81,9 +79,9 @@ import { ResetPasswordComponent } from './compenents/reset-password/reset-passwo
     ModalModule.forRoot(),
     NgSelectModule,
     FormsModule,
-    jqxSplitterModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    DragDropModule
   ],
 
   providers: [LoginService, SignupService, ProjectsService, CardsService, {
