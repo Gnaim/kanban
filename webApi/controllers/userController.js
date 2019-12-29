@@ -14,16 +14,12 @@ exports.getById = (req, res, next) => {
         "code": "603"
       });
     } else {
-      res.status(200).format({
-        json: () => {
-          res.json(user);
-        },
-      });
+      res.status(200).send({message: 'user updated successfully'});
     }
   });
 };
 
-exports.UpdateProjectById = (req, res, next) => {
+exports.UpdateUserById = (req, res, next) => {
   const payload = req.decoded;
   const previousEmail = payload.data.email;
   let realPassword;
@@ -74,7 +70,7 @@ exports.UpdateProjectById = (req, res, next) => {
           newPasswordSent = realPassword;
         }
         if (!stop) {
-          users.findOneAndUpdate({
+          users.unpdate({
             email: previousEmail
           },
           {

@@ -9,6 +9,6 @@ const userController = require('./../controllers/userController');
 
 router.route('/')
   .get(verifyJWTToken, userController.getById)
-  .put(verifyJWTToken, userController.UpdateProjectById);
+  .put(verifyJWTToken, userController.UpdateUserById);
 
 module.exports = router;

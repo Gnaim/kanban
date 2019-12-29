@@ -9,7 +9,7 @@ const cardSchema = new mongoose.Schema({
   //   attachment: [{ type: Schema.ObjectId, ref: 'Attachment' }],
   checklists: [{ type: Schema.ObjectId, ref: 'Checklist' }],
   members: [{ type: Schema.ObjectId, ref: 'User' }],
-  status: { type: String, required: true },
+  status: { type: String, required: true, default: 'backlog' },
 });
 cardSchema.set('timestamps', true);
 
