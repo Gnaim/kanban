@@ -16,26 +16,38 @@ export class KanbanComponent implements OnInit {
     backLogColumn: Column;
     inProgressColumn: Column;
     doneColumn: Column;
+    board: Board;
     constructor(private cardsService: CardsService) {
+        let allProjectCards: Array<Card> = new Array();
 
-        this.loadData();
+        allProjectCards.push(new Card("titlgge1", "dev", CardStatus.TODO, "teeest", 121212, 121212));
+        allProjectCards.push(new Card("20", "dev", CardStatus.TODO, "create a test for the added feature", 121212, 121212));
+        allProjectCards.push(new Card("kjlgdhlsa", "dev", CardStatus.TODO, "create a feature", 121212, 121212));
+        allProjectCards.push(new Card("titlgge1", "dev", CardStatus.IN_PROGESS, "create a test for the added feature", 121212, 121212));
+        allProjectCards.push(new Card("title2", "dev", CardStatus.TODO, "create a test for the added feature", 121212, 121212));
+        allProjectCards.push(new Card("title3", "dev", CardStatus.IN_PROGESS, "create a test for the added feature", 121212, 121212));
+        allProjectCards.push(new Card("tite1", "dev", CardStatus.DONE, "create a test for the added feature", 121212, 121212));
+        allProjectCards.push(new Card("titlgge2", "dev", CardStatus.TODO, "create a test for the added feature", 121212, 121212));
+        allProjectCards.push(new Card("titlgge4", "dev", CardStatus.DONE, "create a test for the added feature", 121212, 121212));
+        console.log(allProjectCards);
+        this.backLogColumn = new Column("BACKLOG", allProjectCards.filter((a: Card, index: number, array: Card[]) => { return a.status == CardStatus.TODO; }));
+        this.inProgressColumn = new Column("IN-PROGRESS", allProjectCards.filter((a: Card, index: number, array: Card[]) => { return a.status == CardStatus.IN_PROGESS; }));
+        this.doneColumn = new Column("DONE", allProjectCards.filter((a: Card, index: number, array: Card[]) => { return a.status == CardStatus.DONE; }));
 
-
+        console.log(this.backLogColumn.tasks);
+        this.board = new Board('Project Board', [this.backLogColumn, this.inProgressColumn, this.doneColumn]);
     }
     loadData() {
 
-        const allProjectCards: Array<Card> = this.cardsService.getCardsByProject("ss");
-
-        this.backLogColumn = new Column("BACKLOG", allProjectCards.filter((a: Card, index: number, array: Card[]) => { a.status == CardStatus.TODO }));
-        this.inProgressColumn = new Column("IN-PROGRESS", allProjectCards.filter((a: Card, index: number, array: Card[]) => { a.status == CardStatus.IN_PROGESS }));
-        this.doneColumn = new Column("DONE", allProjectCards.filter((a: Card, index: number, array: Card[]) => { a.status == CardStatus.DONE }));
+        // let allProjectCards: Array<Card> = this.cardsService.getCardsByProject("ss");
 
 
     }
 
-    board: Board = new Board('Project Board', [this.backLogColumn, this.inProgressColumn, this.doneColumn]);
+
 
     ngOnInit() {
+        this.loadData();
     }
 
     drop(event: CdkDragDrop<Card[]>) {
@@ -54,6 +66,7 @@ export class KanbanComponent implements OnInit {
 
     updateTask(card: Card, status: CardStatus) {
 
+        console.log(" drop event:" + card.status + " ==> " + status);
         card.status = status;
         this.cardsService.updateCard(card);
 

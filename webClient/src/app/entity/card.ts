@@ -15,8 +15,10 @@ export class Card {
     constructor(title?: string, type?: string, status?: CardStatus,
         description?: string, creationDate?: number, updateDate?: number,
         members?: User[]) {
+        console.log(title);
         this.type = type;
         this.title = title;
+        console.log(this.title);
         this.status = status;
         this.description = description;
         this.creationDate = creationDate;

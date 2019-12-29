@@ -24,27 +24,24 @@
 
                     <div class="tasks-container" cdkDropList [cdkDropListData]="column.tasks"
                         (cdkDropListDropped)="drop($event)">
-                        <div class="task" cdkDrag [cdkDragData]="item" *ngFor="let taskItem of column.tasks" cdkDrag>
-                            <!--      {{ item }} todo create a design for a task -->
+                        <div class="task card border-left-primary shadow h-400 py-2" cdkDrag [cdkDragData]="taskItem"
+                            *ngFor="let taskItem of column.tasks" cdkDrag>
 
-                            <!-- Earnings (Monthly) Card Example -->
-                            <div class="col-xl-3 col-md-6 mb-4">
-                                <div class="card border-left-primary border-top-primary shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                    {{ taskItem.title}}</div>
-                                                <div class="h8 mb-0 font-weight-bold text-gray-800">
-                                                    {{taskItem.description}}</div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                            </div>
-                                        </div>
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            {{ taskItem.title}}</div>
+                                        <div class="h8 mb-0 font-weight-bold text-gray-800">
+                                            {{taskItem.description}}</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
                                     </div>
                                 </div>
                             </div>
+
+
 
 
                         </div>
