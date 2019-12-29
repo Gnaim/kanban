@@ -16,58 +16,59 @@ export class KanbanComponent implements OnInit {
     backLogColumn: Column;
     inProgressColumn: Column;
     doneColumn: Column;
+    board: Board;
     constructor(private cardsService: CardsService) {
+        let allProjectCards: Array<Card> = new Array();
 
-        this.loadData();
+        allProjectCards.push(new Card("titlgge1", "dev", CardStatus.TODO, "teeest", 121212, 121212));
+        allProjectCards.push(new Card("20", "dev", CardStatus.TODO, "create a test for the added feature", 121212, 121212));
+        allProjectCards.push(new Card("kjlgdhlsa", "dev", CardStatus.TODO, "create a feature", 121212, 121212));
+        allProjectCards.push(new Card("titlgge1", "dev", CardStatus.IN_PROGESS, "create a test for the added feature", 121212, 121212));
+        allProjectCards.push(new Card("title2", "dev", CardStatus.TODO, "create a test for the added feature", 121212, 121212));
+        allProjectCards.push(new Card("title3", "dev", CardStatus.IN_PROGESS, "create a test for the added feature", 121212, 121212));
+        allProjectCards.push(new Card("tite1", "dev", CardStatus.DONE, "create a test for the added feature", 121212, 121212));
+        allProjectCards.push(new Card("titlgge2", "dev", CardStatus.TODO, "create a test for the added feature", 121212, 121212));
+        allProjectCards.push(new Card("titlgge4", "dev", CardStatus.DONE, "create a test for the added feature", 121212, 121212));
+        // console.log(allProjectCards);
+        this.backLogColumn = new Column("BACKLOG", allProjectCards.filter((a: Card, index: number, array: Card[]) => { return a.status == CardStatus.TODO; }));
+        this.inProgressColumn = new Column("IN-PROGRESS", allProjectCards.filter((a: Card, index: number, array: Card[]) => { return a.status == CardStatus.IN_PROGESS; }));
+        this.doneColumn = new Column("DONE", allProjectCards.filter((a: Card, index: number, array: Card[]) => { return a.status == CardStatus.DONE; }));
 
-
+        // console.log(this.backLogColumn.tasks);
+        this.board = new Board('Project Board', [this.backLogColumn, this.inProgressColumn, this.doneColumn]);
     }
     loadData() {
 
-        const allProjectCards: Array<Card> = this.cardsService.getCardsByProject("ss");
-
-        this.backLogColumn = new Column("BACKLOG", allProjectCards.filter(this.cardStatusPredicate(CardStatus.TODO)));
-        this.inProgressColumn = new Column("IN-PROGRESS", allProjectCards.filter(this.cardStatusPredicate(CardStatus.IN_PROGESS)));
-        this.doneColumn = new Column("DONE", allProjectCards.filter(this.cardStatusPredicate(CardStatus.DONE)));
+        // let allProjectCards: Array<Card> = this.cardsService.getCardsByProject("ss");
 
 
     }
 
 
-    cardStatusPredicate(status: CardStatus) {
-        return (a: Card) => a.status == status;
-
-    }
-    board: Board = new Board('Project Board', [this.backLogColumn, this.inProgressColumn, this.doneColumn]);
 
     ngOnInit() {
+
     }
 
-    drop(event: CdkDragDrop<string[]>) {
+    drop(event: CdkDragDrop<Card[]>) {
         if (event.previousContainer === event.container) {
             moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
         } else {
+            let status: CardStatus = event.container.data[0].status;
             transferArrayItem(event.previousContainer.data,
                 event.container.data,
                 event.previousIndex,
                 event.currentIndex);
-            this.updateTask(event.previousContainer, event.container, event.previousContainer.data);
+            this.updateTask(event.item.data, status);
         }
     }
 
 
-    updateTask(previousContainer, container, data) {
-        // case backlog to inProgress
+    updateTask(card: Card, status: CardStatus) {
 
-        //case in progress backlog 
-
-        //case backlog finish 
-
-        // case finish backlog 
-
-        // case in progress to finish 
-
-        // case finish to in progress
+        console.log(" drop event:" + card.status + " ==> " + status);
+        card.status = status;
+        this.cardsService.updateCard(card);
 
 
     }

@@ -10,19 +10,23 @@ export class ProjectsService {
   constructor(private http: HttpClient) { }
 
   getMyProjects() {
-    return this.http.get(HttpHelpers.PROJECTS_URL,HttpHelpers.HTTP_OPTIONS);
+    return this.http.get(HttpHelpers.PROJECTS_URL, HttpHelpers.HTTP_OPTIONS);
+  }
+  getProjectById(id: string) {
+    return this.http.get(HttpHelpers.PROJECTS_URL + "/" + id, HttpHelpers.HTTP_OPTIONS);
   }
 
+
   createProject(project: Project) {
-    return this.http.post(HttpHelpers.PROJECTS_URL,project,{observe:"response"});
+    return this.http.post(HttpHelpers.PROJECTS_URL, project, { observe: "response" });
   }
 
   deleteProject(id: number) {
-    return this.http.delete(HttpHelpers.PROJECTS_URL + "/" + id,{observe:"body"});
+    return this.http.delete(HttpHelpers.PROJECTS_URL + "/" + id, { observe: "body" });
   }
 
   updateProject(project: Project) {
-    return this.http.put(HttpHelpers.PROJECTS_URL,project,{observe:"response"});
+    return this.http.put(HttpHelpers.PROJECTS_URL, project, { observe: "response" });
   }
-  
+
 }
