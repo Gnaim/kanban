@@ -93,8 +93,9 @@ exports.UpdateProjectById = (req, res, next) => {
   const members  = req.body.members ? req.body.members : [] ;
   const description  = req.body.description ? req.body.description : '';
 ///
-
-  projects.findOneAndUpdate(req.params.id, {
+  
+    projects.update({_id: req.params.id}, {
+    // _id : req.params.id,
     name: name,
     logoUrl: logoUrl,
     description: description,
@@ -102,14 +103,11 @@ exports.UpdateProjectById = (req, res, next) => {
   }).exec((err,project)=>{
     if (err) {
       console.log(err);
-      res.status(500).send({message:`GET Error: There was a problem retrieving: ${err}`,
+      res.status(500).send({message:`${err}`,
                             error: 603});
     } else {
-      res.status(200).format({
-        json: () => {
-          res.json({project:project});
-        },
-      });
+      console.log(req.params.id);
+      res.status(200).send({message: 'project updated successfully'});
     }
   });
 

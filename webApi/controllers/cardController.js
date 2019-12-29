@@ -25,32 +25,37 @@ exports.post = (req, res, next) => {
   const newCard = {
     _project: projectId,
     title,
-    status,
     description,
   };
-  cards.create(newCard, (err, card) => {
-    projects.findById(req.params.id)
-      .exec((err, project) => {
-        project.updateOne({ $push: { cards: card._id } }, (err) => {
-          if (err) {
-            res.status(500).send({message:`GET Error: There was a problem retrieving: ${err}`});
-          } else {
-            projects.findById(req.params.id)
-            .exec((err, project) =>{
-              if (err) {
-                res.status(500).send({message:`GET Error: There was a problem retrieving: ${err}`});
-              } else {
-                res.status(200).format({
-                  json: () => {
-                    res.json(project);
-                  }
-                });
-              }
-            });
-          }
+  if(title == null || description == null){
+    res.status(400).send({message:"both title and description are required to create a card",
+                          error: 610})
+  }
+  else{
+    cards.create(newCard, (err, card) => {
+      projects.findById(req.params.id)
+        .exec((err, project) => {
+          project.updateOne({ $push: { cards: card._id } }, (err) => {
+            if (err) {
+              res.status(500).send({message:`GET Error: There was a problem retrieving: ${err}`});
+            } else {
+              projects.findById(req.params.id)
+              .exec((err, project) =>{
+                if (err) {
+                  res.status(500).send({message:`GET Error: There was a problem retrieving: ${err}`});
+                } else {
+                  res.status(200).format({
+                    json: () => {
+                      res.json(project);
+                    }
+                  });
+                }
+              });
+            }
+          });
         });
-      });
-  });
+    });
+  }
 };
 
 exports.getById = (req, res, next) => {
@@ -77,23 +82,19 @@ exports.UpdateCardById = (req, res, next) => {
   const description  = req.body.description ? req.body.description : '';
   const checklist = req.body.checklist ? req.body.checklist : [];
 
-  cards.findOneAndUpdate(req.params.cardId, {
+  cards.update({_id: req.params.cardId}, {
     title: title,
     status: status,
     description: description,
     members: members,
-    checklist: checklist,
+    // checklist: checklist,
   }).exec((err,card)=>{
     if (err) {
       console.log(err);
-      res.status(500).send({message:`GET Error: There was a problem retrieving: ${err}`,
+      res.status(500).send({message:`${err}`,
                             error: 603});
     } else {
-      res.status(200).format({
-        json: () => {
-          res.json({card:card});
-        },
-      });
+      res.status(200).send({message:'card updated successfully'});
     }
   });
 };
