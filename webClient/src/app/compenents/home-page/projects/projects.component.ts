@@ -17,6 +17,7 @@ export class ProjectsComponent implements OnInit {
   projects : Project[];
   response : Response<Project>;
   emptyProjects : boolean = false;
+  inPopin : boolean = false;
 
   constructor(private modalService: BsModalService,
               private projectService: ProjectsService,
@@ -49,23 +50,24 @@ export class ProjectsComponent implements OnInit {
   openProjectCreation() {
     this.bsModalRef = this.modalService.show(ProjectFormComponent, { class: 'modal-lg' });
     this.modalService.onHidden.subscribe((reason:string) => {
-      if(reason != "backdrop-click"){     
-        this.notification.showProjectCreationSuccess();
-        this.getProjects();
+      console.log("openProjectCreation");
+        if(reason != "backdrop-click"){     
+          this.notification.showProjectCreationSuccess();
+          this.getProjects();
       }
     })
   }
 
-  openProjectUpdate() {
+   /* openProjectUpdate() {
     const initialState = {
       isUpdate : true,
       class: 'modal-lg'
     }
-   /* this.bsModalRef = this.modalService.show(ProjectFormComponent,{initialState});
+  this.bsModalRef = this.modalService.show(ProjectFormComponent,{initialState});
     this.modalService.onHidden.subscribe((reason:string) => {
       //if(reason != "backdrop-click"){     
         this.notification.showProjectUpdateSuccess();
      // }
     })*/
-  }
+  
 }
