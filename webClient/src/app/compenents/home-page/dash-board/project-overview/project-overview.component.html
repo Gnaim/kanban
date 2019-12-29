@@ -1,18 +1,18 @@
-
-    <div class="card border-left-primary shadow h-100 py-2">
-        <div class="card-body">
-          <div class="row no-gutters align-items-center">
-            <div class="col mr-2">        
-              <div class=" h4 text-xs font-weight-bold text-primary text-uppercase mb-1"><a routerLink="/Home/Project/projetct-name"> {{projectName}}</a> </div>       
-              <div class="h10 mb-0 font-weight-bold text-gray-800 w-90"> {{projectDescription}} </div> 
-              <div class="h10 mb-0 font-weight-bold text-danger float-right">Created on {{ creationDate | date }} </div>  
-            </div>
-            <div class="col-auto">
-                <span data-toggle="tooltip" data-placement="bottom" title="Delete project">
-                <i class="fas fa-trash fa-2x text-gray-300" (click)="deleteProject()"></i>
-                </span>
-            </div>
-          </div>
-        </div>
+<div class="card border-left-primary shadow h-100 py-2">
+  <div class="card-body">
+    <div class="row no-gutters align-items-center">
+      <div class="col mr-2">
+        <div class=" h4 text-xs font-weight-bold text-primary text-uppercase mb-1"><a
+            [routerLink]="['/Home/Project/',projectId]">
+            {{projectName}}</a> </div>
+        <div class="h10 mb-0 font-weight-bold text-gray-800 w-90"> {{projectDescription}} </div>
+        <div class="h10 mb-0 font-weight-bold text-danger float-right">Created on {{ creationDate | date }} </div>
       </div>
-    
+      <div class="col-auto">
+        <span data-toggle="tooltip" data-placement="bottom" title="Delete project">
+          <i class="fas fa-trash fa-2x text-gray-300" (click)="deleteProject()"></i>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

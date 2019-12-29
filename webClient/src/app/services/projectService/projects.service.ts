@@ -12,6 +12,10 @@ export class ProjectsService {
   getMyProjects() {
     return this.http.get(HttpHelpers.PROJECTS_URL, HttpHelpers.HTTP_OPTIONS);
   }
+  getProjectById(id: string) {
+    return this.http.get(HttpHelpers.PROJECTS_URL + "/" + id, HttpHelpers.HTTP_OPTIONS);
+  }
+
 
   createProject(project: Project) {
     return this.http.post(HttpHelpers.PROJECTS_URL, project, { observe: "response" });
@@ -23,7 +27,6 @@ export class ProjectsService {
 
   updateProject(project: Project) {
     return this.http.put(HttpHelpers.PROJECTS_URL, project, { observe: "response" });
-
   }
 
 }
