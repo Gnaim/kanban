@@ -1,9 +1,11 @@
 import { Card } from 'src/app/entity/card';
+import { CardStatus } from 'src/app/services/helpers/CardStatus';
 
 export class Column {
 
-    constructor(public name: string, public tasks: Array<Card>) {
+    constructor(public name: string, public tasks: Array<Card>, public status: CardStatus) {
         tasks.sort(this.cardsCompare);
+
     }
 
     cardsCompare(a: Card, b: Card): number {

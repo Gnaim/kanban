@@ -30,9 +30,9 @@ export class KanbanComponent implements OnInit {
         allProjectCards.push(new Card("titlgge2", "dev", CardStatus.TODO, "create a test for the added feature", 121212, 121212));
         allProjectCards.push(new Card("titlgge4", "dev", CardStatus.DONE, "create a test for the added feature", 121212, 121212));
         // console.log(allProjectCards);
-        this.backLogColumn = new Column("BACKLOG", allProjectCards.filter((a: Card, index: number, array: Card[]) => { return a.status == CardStatus.TODO; }));
-        this.inProgressColumn = new Column("IN-PROGRESS", allProjectCards.filter((a: Card, index: number, array: Card[]) => { return a.status == CardStatus.IN_PROGESS; }));
-        this.doneColumn = new Column("DONE", allProjectCards.filter((a: Card, index: number, array: Card[]) => { return a.status == CardStatus.DONE; }));
+        this.backLogColumn = new Column("BACKLOG", allProjectCards.filter((a: Card, index: number, array: Card[]) => { return a.status == CardStatus.TODO; }), CardStatus.TODO);
+        this.inProgressColumn = new Column("IN-PROGRESS", allProjectCards.filter((a: Card, index: number, array: Card[]) => { return a.status == CardStatus.IN_PROGESS; }), CardStatus.IN_PROGESS);
+        this.doneColumn = new Column("DONE", allProjectCards.filter((a: Card, index: number, array: Card[]) => { return a.status == CardStatus.DONE; }), CardStatus.DONE);
 
         // console.log(this.backLogColumn.tasks);
         this.board = new Board('Project Board', [this.backLogColumn, this.inProgressColumn, this.doneColumn]);
@@ -50,13 +50,13 @@ export class KanbanComponent implements OnInit {
 
     }
 
-    drop(event: CdkDragDrop<Card[]>) {
+    drop(event: CdkDragDrop<Column>) {
         if (event.previousContainer === event.container) {
-            moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+            moveItemInArray(event.container.data.tasks, event.previousIndex, event.currentIndex);
         } else {
-            let status: CardStatus = event.container.data[0].status;
-            transferArrayItem(event.previousContainer.data,
-                event.container.data,
+            let status: CardStatus = event.container.data.status;
+            transferArrayItem(event.previousContainer.data.tasks,
+                event.container.data.tasks,
                 event.previousIndex,
                 event.currentIndex);
             this.updateTask(event.item.data, status);
