@@ -1,6 +1,8 @@
 
-  <div *ngIf="emptyProjects" class="row img-empty">
-                       
+  <div *ngIf="emptyProjects" class="row img-empty-projects">
+      <div class=" ml-2  p-3 w-100 ">
+          <h1 class="h3 mb-0 text-gray-800 ">My Projects</h1>
+    </div>             
   </div>
   <div *ngIf="!emptyProjects" class="row"> 
       <div class=" ml-2  p-3 w-100 ">
@@ -14,7 +16,8 @@
                   [id]="project._id"
                   [name]="project.name"
                   [description]="project.description"
-                  [createdAt]="project.createdAt">
+                  [createdAt]="project.createdAt"
+                  (refreshData)="getProjects()">
               </app-project-overview>
           </div>
       </div>

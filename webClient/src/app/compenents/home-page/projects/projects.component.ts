@@ -28,6 +28,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   getProjects() {
+    console.log("GET PROJECTS");
     this.projectService.getMyProjects().subscribe(
       (projects) =>{
         let jsonResponse = HttpHelpers.parseData(projects);
@@ -53,5 +54,18 @@ export class ProjectsComponent implements OnInit {
         this.getProjects();
       }
     })
+  }
+
+  openProjectUpdate() {
+    const initialState = {
+      isUpdate : true,
+      class: 'modal-lg'
+    }
+   /* this.bsModalRef = this.modalService.show(ProjectFormComponent,{initialState});
+    this.modalService.onHidden.subscribe((reason:string) => {
+      //if(reason != "backdrop-click"){     
+        this.notification.showProjectUpdateSuccess();
+     // }
+    })*/
   }
 }
