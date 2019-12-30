@@ -2,6 +2,26 @@
 
 <!-- Custom Text Color Utilities -->
 <div class="card shadow mb-4 m-4">
+    <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Project members</h6>
+    </div>
+<div class="card-body" *ngFor="let member of membersList;">
+  <div class="d-flex align-items-center">
+    <div class="dropdown-list-image mr-3">
+      <i *ngIf="member.role == 'admin'" class="fas fa-user-tie fa-2x"></i>  
+      <i *ngIf="member.role == 'member'" class="fas fa-user fa-2x"></i>
+      <div class="status-indicator bg-success"></div>
+    </div>
+    <div class="font-weight-bold">
+      <div class="text-truncate">{{member.email}}</div>
+      <div class="small text-gray-500">{{member.role}}</div>
+    </div>
+  </div>
+</div>
+ <!-- <hr class="sidebar-divider divider-margin" /> -->
+</div>
+<!--
+<div class="card shadow mb-4 m-4">
         <div class="card-header py-3">
           <h6 class="m-0 font-weight-bold text-primary">Project name</h6>
         </div>
@@ -73,4 +93,4 @@
           </div>
         </div>
       </div>
-      
+      -->

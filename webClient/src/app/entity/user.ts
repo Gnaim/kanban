@@ -7,9 +7,10 @@ export class User {
     lastName:string;
     tel:number;
     profession:string;
+    role:string;
     image:FormData;
 
-    constructor(email:string,password:string,firstName?:string,lastName?:string,tel?:number,image?:FormData,profession?:string) {
+    constructor(email:string,password:string,firstName?:string,lastName?:string,tel?:number,image?:FormData,profession?:string,role?:string) {
             if(typeof email === "undefined" ||email === null){
                 this.email = "";
             }else {
@@ -34,6 +35,11 @@ export class User {
                 this.profession = "";
             }else {
                 this.profession = profession;
+            }
+            if(typeof role === "undefined" ||role === null){
+                this.role = "";
+            }else {
+                this.role = role;
             }
             if(typeof tel === "undefined" ||tel === null){
                 this.tel = 0;

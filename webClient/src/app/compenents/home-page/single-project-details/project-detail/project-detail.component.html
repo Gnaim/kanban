@@ -3,7 +3,7 @@
     <div class="row no-gutters align-items-center">
       <div class="col mr-2">
         <div class=" h4 text-xs font-weight-bold text-primary text-uppercase mb-1">
-          <span class="  text-dark-50 small float-right">Created by : member name</span>
+          <span class="  text-dark-50 small float-right">Created by : {{ adminName }}</span>
           {{project.name}}
         </div>
 
@@ -12,16 +12,16 @@
         </div>
         <div class="text-center">
           <span data-toggle="tooltip" data-placement="bottom" title="click to see project's members">
-            <i class="fa-2x text-gray-300 m-2">5</i>
+            <i class="fa-2x text-gray-300 m-2">{{project.members.length}}</i>
             <i class="fas fa-users fa-2x text-gray-300 m-2" (click)="openMembersList()">
             </i>
           </span>
           <span data-toggle="tooltip" data-placement="bottom" title="number of tasks">
-            <i class="fa-2x text-gray-300 m-2">25</i>
+            <i class="fa-2x text-gray-300 m-2">{{project.cards.length}}</i>
             <i class="fas fa-tasks fa-2x text-gray-300 m-2" data-toggle="tooltip" data-placement="bottom"
               title="number of tasks"></i>
           </span>
-          <div class="text-dark small float-right">last update : {{project.updateDate}}</div>
+          <div class="text-dark small float-right">last update : {{project.updatedAt | date: 'short'}}</div>
         </div>
 
 
