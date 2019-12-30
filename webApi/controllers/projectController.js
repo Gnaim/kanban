@@ -13,7 +13,7 @@ exports.getAll = (req, res, next) => {
       role: 'admin',
     },
   })
-    .populate('cards','title status members createdAt')
+    .populate('cards','title status members type checklist createdAt')
     .select('name createdAt members description updatedAt')
     .exec((err, projects) => {
       if (err) {
@@ -71,7 +71,7 @@ exports.post = (req, res, next) => {
 
 exports.getById = (req, res, next) => {
 projects.findById(req.params.id,)
-  .populate('cards', 'title status members createdAt')
+  .populate('cards', 'title status type checklist members createdAt createdBy')
   .exec((err, project) => {
     if (err) {
       res.status(500).send({message:`GET Error: There was a problem retrieving: ${err}`,

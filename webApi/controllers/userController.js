@@ -6,7 +6,7 @@ exports.getById = (req, res, next) => {
   users.findOne({
     email: payload.data.email
   })
-  .select('email firstName lastName tel imageUrl')
+  .select('email firstName lastName tel profession imageUrl')
   .exec((err, user) => {
     if (err) {
       res.status(500).send({
@@ -14,7 +14,11 @@ exports.getById = (req, res, next) => {
         "code": "603"
       });
     } else {
-      res.status(200).send({message: 'user updated successfully'});
+      res.status(200).format({
+        json: () => {
+          res.json(user);
+        },
+      });
     }
   });
 };
@@ -29,6 +33,7 @@ exports.UpdateUserById = (req, res, next) => {
   const firstName = req.body.firstName ? req.body.firstName : '' ;
   const lastName = req.body.lastName ? req.body.lastName : '' ;
   const tel = req.body.tel ? req.body.tel : '' ;
+  const profession = req.body.profession ? req.body.profession: '';
   const imageUrl = req.body.imageUrl ? req.body.imageUrl : '' ;
   let stop = false;
 
@@ -70,7 +75,7 @@ exports.UpdateUserById = (req, res, next) => {
           newPasswordSent = realPassword;
         }
         if (!stop) {
-          users.unpdate({
+          users.update({
             email: previousEmail
           },
           {
