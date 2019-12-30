@@ -1,12 +1,4 @@
 <div class="root">
-    <div class="navbar has-background-dark">
-        <div class="navbar-brand">
-            <div class="navbar-item">
-                <h1 class="app-name has-gradient-text">kanban</h1>
-            </div>
-        </div>
-    </div>
-
     <div class="board">
 
         <div class="board-bar">
@@ -22,7 +14,7 @@
                         {{ column.name }}
                     </div>
 
-                    <div class="tasks-container" cdkDropList [cdkDropListData]="column.tasks"
+                    <div class="tasks-container" cdkDropList [cdkDropListData]="column"
                         (cdkDropListDropped)="drop($event)">
                         <div class="task card border-left-primary shadow h-400 py-2" cdkDrag [cdkDragData]="taskItem"
                             *ngFor="let taskItem of column.tasks" cdkDrag>
