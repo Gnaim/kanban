@@ -9,10 +9,10 @@
                     <div class="col-md-4">
                         <div class="profile-img">
                             <img src="assets/images/member.png" alt=""/>
-                            <div class="file btn btn-lg btn-primary">
+                           <!-- <div class="file btn btn-lg btn-primary">
                                 Change Photo
                                 <input type="file" name="file"/>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -31,7 +31,8 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Click to edit"/>
+                        <input *ngIf="!editMode" type="submit" class="profile-edit-btn" name="btnAddMore" value="Click to edit" (click)="swithToEdit()"/>
+                        <input *ngIf="editMode" type="submit" class="profile-edit-btn" name="btnAddMore" value="Cancel" (click)="cancelEdit()"/>
                     </div>
                 </div>
                 <div class="row">
@@ -43,7 +44,7 @@
                     <div class="col-md-8">
                         <div class="tab-content profile-tab" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                        
+                                    <div *ngIf="!editMode">    
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <label>First name</label>
@@ -91,7 +92,131 @@
                                                 <div class="col-md-6">
                                                     <p>***********</p>
                                                 </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="editMode" >
+                                        <form [formGroup]="editForm" (ngSubmit)="onSubmitForm()" class="user">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>First name</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        formControlName="firstName"
+                                                        id="exampleFirstName"
+                                                        placeholder="First Name"
+                                                    />
+                                                </div>
                                             </div>
+                                            <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label>Last name</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        formControlName="lastName"
+                                                        id="exampleFirstName"
+                                                        placeholder="Last Name"
+                                                    />
+                                                    </div>
+                                                </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Email</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        formControlName="email"
+                                                        id="exampleFirstName"
+                                                        placeholder="Email adress"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Phone</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input
+                                                        type="number"
+                                                        class="form-control"
+                                                        formControlName="phoneNumber"
+                                                        id="exampleFirstName"
+                                                        placeholder="Phone number"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Profession</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        formControlName="profession"
+                                                        id="exampleFirstName"
+                                                        placeholder="Profession"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label>Old password</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input
+                                                            type="password"
+                                                            class="form-control"
+                                                            formControlName="oldPassword"
+                                                            id="exampleFirstName"
+                                                            placeholder="Old password"
+                                                        />
+                                                    </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>New password</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input
+                                                        type="password"
+                                                        class="form-control"
+                                                        formControlName="newPassword"
+                                                        id="exampleFirstName"
+                                                        placeholder="New password"
+                                                    />
+                                            </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Confirm new password</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input
+                                                        type="password"
+                                                        class="form-control"
+                                                        formControlName="newPasswordConfirmation"
+                                                        id="exampleFirstName"
+                                                        placeholder="Confirm new password"
+                                                    />
+                                            </div>
+                                            </div>
+                                            <div class="row">
+                                            <div class="col-md-4">
+                                            </div>
+                                            <button class="col-md-2 btn btn-primary btn-user btn-block mt-2">
+                                                Update Profile
+                                            </button>
+                                            </div>
+                                        </form>
+                                    </div>
                             </div>
                         </div>
                     </div>
