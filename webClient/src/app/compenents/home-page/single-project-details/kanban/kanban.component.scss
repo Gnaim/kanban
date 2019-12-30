@@ -60,12 +60,12 @@
                 flex-basis: 0; // to force the columns to all be the same size, regardless of content
 
                 min-width: 300px;
-                margin: 50px;
-                padding: 25px;
+                margin: 10px;
+                padding: 10px;
 
                 border-radius: 4px;
-
-                background: rgba(rgb(109, 156, 187), 0.5);
+                
+                background: rgba(rgb(206, 209, 214), 0.43);
 
                 &:not(:first-child) {
                     margin-left: 0;

@@ -22,12 +22,12 @@ export class KanbanComponent implements OnInit {
 
         allProjectCards.push(new Card("titlgge1", "dev", CardStatus.TODO, "teeest", 121212, 121212));
         allProjectCards.push(new Card("20", "dev", CardStatus.TODO, "create a test for the added feature", 121212, 121212));
-        allProjectCards.push(new Card("kjlgdhlsa", "dev", CardStatus.TODO, "create a feature", 121212, 121212));
+        allProjectCards.push(new Card("kjlgdhlsa", "bug", CardStatus.TODO, "create a feature", 121212, 121212));
         allProjectCards.push(new Card("titlgge1", "dev", CardStatus.IN_PROGESS, "create a test for the added feature", 121212, 121212));
-        allProjectCards.push(new Card("title2", "dev", CardStatus.TODO, "create a test for the added feature", 121212, 121212));
+        allProjectCards.push(new Card("title2", "bug", CardStatus.TODO, "create a test for the added feature", 121212, 121212));
         allProjectCards.push(new Card("title3", "dev", CardStatus.IN_PROGESS, "create a test for the added feature", 121212, 121212));
-        allProjectCards.push(new Card("tite1", "dev", CardStatus.DONE, "create a test for the added feature", 121212, 121212));
-        allProjectCards.push(new Card("titlgge2", "dev", CardStatus.TODO, "create a test for the added feature", 121212, 121212));
+        allProjectCards.push(new Card("tite1", "bug", CardStatus.DONE, "create a test for the added feature", 121212, 121212));
+        allProjectCards.push(new Card("titlgge2", "bug", CardStatus.TODO, "create a test for the added feature", 121212, 121212));
         allProjectCards.push(new Card("titlgge4", "dev", CardStatus.DONE, "create a test for the added feature", 121212, 121212));
         // console.log(allProjectCards);
         this.backLogColumn = new Column("BACKLOG", allProjectCards.filter((a: Card, index: number, array: Card[]) => { return a.status == CardStatus.TODO; }), CardStatus.TODO);
