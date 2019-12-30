@@ -9,10 +9,11 @@ exports.post = (req, res, next) => {
   const { firstName } = req.body;
   const { lastName } = req.body;
   const { tel } = req.body;
+  const { profession } = req.body;
   const { imageUrl } = req.body;
   const checkedIn = new Date();
 
-  if (email == null || password == null || firstName == null || lastName == null ){
+  if (email == null || password == null || firstName == null || lastName == null || tel == null || profession == null){
     res.status(400).send({message:"email, password, last name and and first name are required to create project",
                         error: 610})
   }else{
@@ -26,6 +27,7 @@ exports.post = (req, res, next) => {
           firstName,
           lastName,
           tel,
+          profession,
           imageUrl,
           checkedIn,
         }, (err, user) => {
