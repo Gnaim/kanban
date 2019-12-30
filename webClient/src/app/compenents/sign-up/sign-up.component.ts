@@ -47,6 +47,7 @@ export class SignUpComponent implements OnInit {
       lastName : ['',[Validators.required]],
       email : ['',[Validators.required,Validators.email]],
       phone : ['',[Validators.required]],
+      profession : ['',[Validators.required]],
       password : ['',[Validators.required,Validators.pattern('[a-zA-Z0-9]{8,24}')]],
       repeatedPassword : ['',[Validators.required,Validators.pattern('[a-zA-Z0-9]{8,24}')]],
       photo : ['',[]],
@@ -71,11 +72,11 @@ export class SignUpComponent implements OnInit {
     const email = formValue['email'];
     const phone = formValue['phone'];
     const password = formValue['password'];
-    const repeatedPassword = formValue['repeatedPassword'];
+    const profession = formValue['profession'];
     const uploadedImage = new FormData();
     uploadedImage.append('files', this.selectedFile);
     console.log(uploadedImage);
-    this.user = new User(email,password,firstName,lastName,phone,uploadedImage);
+    this.user = new User(email,password,firstName,lastName,phone,uploadedImage,profession);
     
     this.signupService.signup(this.user).subscribe(
           (data) => {

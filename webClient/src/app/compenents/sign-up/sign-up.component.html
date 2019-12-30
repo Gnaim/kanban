@@ -60,6 +60,18 @@
                     <div *ngIf="getFormErrors.phone.errors.required">Phone number is missing or mal formed</div>
                   </div>
                 </div>
+                <div class="form-group">
+                    <input
+                      type="text"
+                      class="form-control form-control-user"
+                      id="exampleProfession"
+                      formControlName="profession"
+                      placeholder="Your profession"
+                    />
+                    <div *ngIf="submitted && getFormErrors.profession.errors" class="text-danger m-2">
+                      <div *ngIf="getFormErrors.profession.errors.required">Profession is missing</div>
+                    </div>
+                  </div>
               <div class="form-group row">
                 <div class="col-sm-6 mb-3 mb-sm-0">
                   <input
