@@ -12,7 +12,6 @@ export class TasksListComponent implements OnInit {
   @Input('memberName') memberName : string;
   
   ngOnInit() {
-    console.log(this.card);
   }
   
 }

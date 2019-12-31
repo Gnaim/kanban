@@ -1,36 +1,34 @@
-<div *ngIf="emptyResponse" class="row img-empty-tasks">
-    <div class=" ml-2  p-3 w-100 ">
-        <h1 class="h3 mb-0 text-gray-800 ">My tasks</h1>
-  </div>             
-</div>
 
-<div *ngIf="!emptyResponse" class="row">
-    <div class="mt-3 ml-4">
-        <h1 class="h3 mb-0 text-gray-800">My tasks</h1>
+<div *ngIf="errorGetTasks" class="row error-get-data"></div>
+<div *ngIf="!errorGetTasks">
+  <div *ngIf="isLoading" class="row loading-data"></div>
+  <div *ngIf="!isLoading">
+    <div *ngIf="emptyResponse" class="row img-empty-tasks">
+        <div class=" ml-2  p-3 w-100 ">
+            <h1 class="h3 mb-0 text-gray-800 ">My tasks</h1>
+      </div>             
     </div>
 
-      <div class="m-4 w-100 p-3 ">
-        <!-- #1 -->
-        <div *ngFor="let project of projects; let i = index">
-        <div class="card shadow mb-4"  *ngIf="projects[i].cards.length !== 0">
-            <!-- Card Header - Accordion -->
-                <a href="#collapseCardExample" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCardExample">
-                    <h6 class="m-0 font-weight-bold text-primary">{{project.name}}</h6>
-                  </a>
-                  <!-- Card Content - Collapse -->
-                  <div class="collapse" id="collapseCardExample">
-                    <div class="card-body" style="padding:0.5rem;">
-                      <app-tasks-list class="mb-3" *ngFor="let card of projects[i].cards"
-                      [card]="card"
-                      [memberName]="'Lakhloufi anass'">
-                      </app-tasks-list>
-                    </div>
-                  </div>
-        </div>  
-      </div>
+    <div *ngIf="!emptyResponse" class="">
+        <div class="mt-3 ml-4">
+            <h1 class="h3 mb-0 text-gray-800">My tasks</h1>
+        </div>
+        <div class="m-4 w-100 p-3 ">
+          <div *ngFor="let project of projects; let i = index">
+            <div class="card shadow mb-4"  *ngIf="projects[i].cards.length !== 0">
+              <a href="#collapseCardExample" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCardExample">
+                <h6 class="m-0 font-weight-bold text-primary">{{project.name}}</h6>
+              </a>
+              <div class="collapse" id="collapseCardExample">
+                <div class="card-body" style="padding:0.5rem;">
+                  <app-tasks-list class="mb-3" *ngFor="let card of projects[i].cards"
+                          [card]="card" [memberName]="'Lakhloufi anass'">
+                  </app-tasks-list>
+                </div>
+              </div>
+            </div>  
+          </div>
+        </div>
     </div>
-      <button class="float bg-primary" (click)="openTaskCreation()">
-          <i class="fa fa-plus my-float"></i>
-      </button>
+  </div>
 </div>
-
