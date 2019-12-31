@@ -6,6 +6,7 @@ export class HttpHelpers {
     static readonly LOGIN_URL: string = HttpHelpers.BASE_URL + "login";
     static readonly PROJECTS_URL: string = HttpHelpers.BASE_URL + "projects";
     static readonly CARDS_URL: string = HttpHelpers.BASE_URL + "cards";
+    static readonly DASHBOARD_URL: string = HttpHelpers.BASE_URL + "dashboard";
 
     static parseData(data: any) {
         return JSON.parse(JSON.stringify(data));

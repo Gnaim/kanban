@@ -47,6 +47,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { MyNotificationsService } from './services/notifications/notifications.service';
 import { TokenGuardService } from './services/guards/tokenguard.service';
+import { DashboardService } from './services/dahsboardService/dashboard.service';
 
 @NgModule({
   declarations: [
@@ -91,7 +92,7 @@ import { TokenGuardService } from './services/guards/tokenguard.service';
     ToastrModule.forRoot()
   ],
 
-  providers: [LoginService, SignupService, ProjectsService, CardsService,
+  providers: [LoginService, SignupService, ProjectsService, CardsService, DashboardService,
     AuthGuardService, MyNotificationsService, TokenGuardService, {
       provide: HTTP_INTERCEPTORS,
       useClass: ApplicationInterceptor,

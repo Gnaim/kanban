@@ -2,15 +2,15 @@ import { User } from './user';
 import { Card } from './card';
 
 export class Project {
-    id:number;
+    _id:number;
     name: string;   
     description: string;
-    creationDate : number; //milliseconds 
-	updateDate : number; //milliseconds 
+    createdAt : number; //milliseconds 
+	updatedAt : number; //milliseconds 
     members: User[];
     cards : Card[];
 
-    constructor(name:string,description: string,id?:number,creationDate?: number,updateDate?: number,members?:User[],cards?: Card[]) {
+    constructor(name:string,description: string,_id?:number,createdAt?: number,updatedAt?: number,members?:User[],cards?: Card[]) {
         if(typeof name === "undefined" ||name === null){
             this.name = "";
         }else {
@@ -21,20 +21,20 @@ export class Project {
         }else {
             this.description=description;
         }
-        if(typeof id === "undefined" ||id === null){
-            this.id = null;
+        if(typeof _id === "undefined" ||_id === null){
+            this._id = null;
         }else {
-            this.id=id;
+            this._id=_id;
         }
-        if(typeof creationDate === "undefined" ||creationDate === null){
-            this.creationDate = null;
+        if(typeof createdAt === "undefined" ||createdAt === null){
+            this.createdAt = null;
         }else {
-            this.creationDate=creationDate;
+            this.createdAt=createdAt;
         }
-        if(typeof updateDate === "undefined" ||updateDate === null){
-            this.updateDate = null;
+        if(typeof updatedAt === "undefined" ||updatedAt === null){
+            this.updatedAt = null;
         }else {
-            this.updateDate=updateDate;
+            this.updatedAt=updatedAt;
         }
         if(typeof members === "undefined" ||members === null){
             this.members = null;
