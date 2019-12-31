@@ -1,14 +1,12 @@
-<div class="mt-4 ml-4">
-  <h1 class="h3 mb-0 text-gray-800">My people</h1>
-</div>
-
-<div *ngIf="emptyResponse" class="row row-margin img-empty-people">
-</div>
-
-<div *ngIf="!emptyResponse" class="row row-margin">
-  <app-project-members class="col-lg-4"
-                      *ngFor="let project of projects"
-                      [projectName]="project.name"
-                      [members]="project.members">
-  </app-project-members>
+<div *ngIf="errorGetData" class="error-get-data"></div>
+<div *ngIf="isLoading && !errorGetData" class="loading-data"></div>
+  <div class="mt-4 ml-4">
+    <h1 class="h3 mb-0 text-gray-800">My people</h1>
+  </div>
+  <div *ngIf="emptyResponse && !isLoading && !errorGetData" class="row row-margin img-empty-people">
+  </div>
+  <div *ngIf="!emptyResponse" class="row row-margin">
+    <app-project-members class="col-lg-4" *ngFor="let project of projects"
+                         [projectName]="project.name" [members]="project.members">
+    </app-project-members>
 </div>

@@ -11,10 +11,10 @@ export class ProjectMembersComponent implements OnInit {
   @Input('projectName') name: string;
   @Input('members') members: User[];
   idCollapse : string;
+
   constructor() { }
 
   ngOnInit() {
-    console.log(this.members);
     this.idCollapse = "a" + Math.random().toString(36).substring(7);
   }
 

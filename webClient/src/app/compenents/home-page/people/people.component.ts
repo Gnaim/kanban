@@ -13,10 +13,15 @@ export class PeopleComponent implements OnInit {
 
   projects : Project[];
   emptyResponse : boolean;
+  isLoading : boolean;
+  errorGetData : boolean;
 
   constructor(private projectService: ProjectsService,private notification : MyNotificationsService){ }
 
   ngOnInit() {
+    this.isLoading = true;
+    this.emptyResponse = false;
+    this.errorGetData = false;
     this.getMembersByProject();
   }
 
@@ -30,9 +35,11 @@ export class PeopleComponent implements OnInit {
       }else{
         this.emptyResponse = true;
       }
+      this.isLoading = false;
     },
     (error) => {
-      this.notification.showErrorNotification(error);
+      this.errorGetData = this.notification.showErrorNotification(error);
+      this.isLoading = false;
     })
   }
 }
