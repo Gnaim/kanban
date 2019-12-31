@@ -23,9 +23,10 @@ export class ProjectFormComponent implements OnInit {
     "Anass", "Anis", "Malek", "Naim"
   ];
 
-  constructor(public bsModalRef: BsModalRef,private router: Router,
-     private projectsService: ProjectsService, private formBuilder: FormBuilder, private notification : MyNotificationsService) {
-  }
+  constructor(private bsModalRef: BsModalRef,private router: Router,
+              private projectsService: ProjectsService,
+              private formBuilder: FormBuilder,
+              private notification : MyNotificationsService) {}
   
   ngOnInit() {
     this.initForm();
@@ -33,8 +34,8 @@ export class ProjectFormComponent implements OnInit {
 
   initForm() {
     this.projectForm = this.formBuilder.group({
-      title: ['', [Validators.required, Validators.pattern('.+')]],
-      description: ['', [Validators.required, Validators.pattern('.+')]],
+      title: ['', [Validators.required]],
+      description: ['', [Validators.required]],
       membersProject: [[], []],
     });
   }
@@ -43,9 +44,16 @@ export class ProjectFormComponent implements OnInit {
     return this.projectForm.controls; // to get access to errors in form
   }
 
+  submitForm(){
+    if (this.isUpdate == true) {
+      this.updateProject();
+    }else{
+      this.createProject();
+    }
+  }
+
   createProject() {
     this.submitted = true;
-
     if (this.projectForm.invalid) {
       return; //stop if the form is not valid
     }
@@ -54,7 +62,7 @@ export class ProjectFormComponent implements OnInit {
     const title = formValue['title'];
     const description = formValue['description'];
     this.project = new Project(title, description);
-    
+
     this.projectsService.createProject(this.project).subscribe(
       (response) => {  
         console.log(HttpHelpers.parseData(response));
@@ -62,7 +70,10 @@ export class ProjectFormComponent implements OnInit {
       },
       (error) => {
         this.notification.showErrorNotification(error);
-      }
-    )
+      })
+  }
+
+  updateProject(){
+
   }
 }
