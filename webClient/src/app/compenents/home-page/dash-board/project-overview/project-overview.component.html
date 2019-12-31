@@ -4,9 +4,9 @@
       <div class="col mr-2">
         <div class=" h4 text-xs font-weight-bold text-primary text-uppercase mb-1"><a
             [routerLink]="['/Home/Project/',projectId]">
-            {{projectName}}</a> </div>
-        <div class="h10 mb-0 font-weight-bold text-gray-800 w-90"> {{projectDescription}} </div>
-        <div class="h10 mb-0 font-weight-bold text-danger float-right">Created on {{ creationDate | date }} </div>
+            {{project.name}}</a> </div>
+        <div class="h10 mb-0 font-weight-bold text-gray-800 w-90"> {{project.description}} </div>
+        <div class="h10 mb-0 font-weight-bold text-danger float-right">Created on {{ project.createdAt | date }} </div>
       </div>
       <div class="col-auto">
         <span data-toggle="tooltip" data-placement="bottom" title="Delete project">

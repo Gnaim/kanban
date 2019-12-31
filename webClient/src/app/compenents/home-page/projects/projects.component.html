@@ -1,30 +1,28 @@
 
-  <div *ngIf="emptyProjects" class="row img-empty-projects">
+<div *ngIf="errorGetProject" class="row error-get-data"></div>
+<div *ngIf="!errorGetProject">
+  <div *ngIf="loadingData" class="row loading-data"></div>
+  <div *ngIf="!loadingData">
+    <div *ngIf="emptyProjects" class="row img-empty-projects">
       <div class=" ml-2  p-3 w-100 ">
-          <h1 class="h3 mb-0 text-gray-800 ">My Projects</h1>
-    </div>             
-  </div>
-  <div *ngIf="!emptyProjects" class="row"> 
+        <h1 class="h3 mb-0 text-gray-800 ">My Projects</h1>
+      </div>             
+    </div>
+    <div *ngIf="!emptyProjects" class="row"> 
       <div class=" ml-2  p-3 w-100 ">
-              <h1 class="h3 mb-0 text-gray-800 ">My Projects</h1>
+        <h1 class="h3 mb-0 text-gray-800 ">My Projects</h1>
       </div>
-        <!-- PROJECT List-->
-        <div class="ml-2  p-3 w-100">  
-          <div class="row ">
-              <app-project-overview class="col-xl-5 col-md-6 m-4" 
-                  *ngFor="let project of projects"
-                  [id]="project._id"
-                  [name]="project.name"
-                  [description]="project.description"
-                  [createdAt]="project.createdAt"
-                  (refreshData)="getProjects()">
-              </app-project-overview>
-          </div>
-      </div>
-
-       
-    </div>    
+      <!-- PROJECT List-->
+      <div class="ml-2  p-3 w-100">  
+        <div class="row ">
+          <app-project-overview class="col-xl-5 col-md-6 m-4" *ngFor="let project of projects"
+                    [project]="project" (refreshData)="getProjects()">
+          </app-project-overview>
+        </div>
+      </div>    
+    </div>
+  </div>    
     <button class="float bg-primary" (click)="openProjectCreation()">
-        <i class="fa fa-plus my-float"></i>
-    </button>       
-
+      <i class="fa fa-plus my-float"></i>
+    </button>
+</div>       

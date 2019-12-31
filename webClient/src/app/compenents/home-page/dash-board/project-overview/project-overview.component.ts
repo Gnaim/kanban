@@ -10,27 +10,17 @@ import { Project } from 'src/app/entity/Project';
 })
 export class ProjectOverviewComponent implements OnInit {
 
-  @Input('id') projectId : number;
-  @Input('name') projectName : string;
-  @Input('description') projectDescription : string; 
-  @Input('createdAt') creationDate : string;
-  @Output('refreshData') getProjectsEvent = new EventEmitter();
+  private projectId : number;
   @Input('project') project : Project;
-
+  @Output('refreshData') getProjectsEvent = new EventEmitter();
+  
   constructor(private projectService: ProjectsService,private notification:MyNotificationsService) { }
 
   ngOnInit() {
-    if(this.project){
-      console.log(this.project);
       this.projectId = this.project._id;
-      this.projectName = this.project.name;
-      this.projectDescription = this.project.description;
-      this.creationDate = this.project.createdAt.toString();
-    }
   }
 
   deleteProject() {
-    console.log("ID : "+this.projectId);
     this.projectService.deleteProject(this.projectId).subscribe(
       (response) => {
         this.notification.showProjectDeleteSuccess();  

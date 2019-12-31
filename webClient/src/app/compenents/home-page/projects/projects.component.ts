@@ -15,42 +15,43 @@ import { MyNotificationsService } from 'src/app/services/notifications/notificat
 export class ProjectsComponent implements OnInit {
   bsModalRef: BsModalRef;
   projects : Project[];
-  response : Response<Project>;
-  emptyProjects : boolean = false;
-  inPopin : boolean = false;
+  emptyProjects : boolean;
+  errorGetProject : boolean;
+  loadingData : Boolean;
 
   constructor(private modalService: BsModalService,
               private projectService: ProjectsService,
               private notification : MyNotificationsService) { }
 
   ngOnInit() {
+    this.loadingData = true;
     this.emptyProjects = false;
+    this.errorGetProject = false;
     this.getProjects();
   }
 
   getProjects() {
-    console.log("GET PROJECTS");
     this.projectService.getMyProjects().subscribe(
       (projects) =>{
         let jsonResponse = HttpHelpers.parseData(projects);
         this.projects = jsonResponse.projects as Project[];
-        console.log(this.projects instanceof Project);
+
         if(this.projects.length == 0){
           this.emptyProjects = true;
         }else{
-          console.log("full");
           this.emptyProjects = false;
         }
+        this.loadingData = false;
       },
       (error) => {
-        this.notification.showErrorNotification(error);
+        this.errorGetProject = this.notification.showErrorNotification(error);
+        this.loadingData = false;
       })
   }
 
   openProjectCreation() {
     this.bsModalRef = this.modalService.show(ProjectFormComponent, { class: 'modal-lg' });
     this.modalService.onHidden.subscribe((reason:string) => {
-      console.log("openProjectCreation");
         if(reason != "backdrop-click"){     
           this.notification.showProjectCreationSuccess();
           this.getProjects();

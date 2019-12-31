@@ -87,24 +87,35 @@ export class MyNotificationsService {
     }
 
     public showErrorNotification(error:HttpErrorResponse){
+      let errorBoolean = false;
         if(error.error.error){
           if(error.error.error == ResponsesCodes.SIGNUP_FAILED_EXISTING_MAIL){
             this.showSignUpError();
-          }else if (error.error.error == ResponsesCodes.SERVER_ERROR){
-            this.showServerError();
-          }else if (error.error.error == ResponsesCodes.BAD_REQUEST){
-            this.showBadRequestError();
           }else if(error.error.error == ResponsesCodes.LOGIN_FAILED){
             this.showLoginFailedError();
+          }else if (error.error.error == ResponsesCodes.SERVER_ERROR){
+            errorBoolean = true;
+            this.showServerError();
+          }else if (error.error.error == ResponsesCodes.BAD_REQUEST){
+            errorBoolean = true;
+            this.showBadRequestError();
           }else if(error.error.error == ResponsesCodes.INVALID_TOKEN){
+            errorBoolean = true;
             this.showInvalidTokenError();
+          }else{
+            errorBoolean = true;
+            this.showError();
           }
         }else if(error.status == 404){
+          errorBoolean = true;
           this.showError();
         }else if(error.status == 400){
+          errorBoolean = true;
           this.showBadRequestError();
         }else{
+          errorBoolean = true;
           this.showError();
         }
+        return errorBoolean;
       }
 }
