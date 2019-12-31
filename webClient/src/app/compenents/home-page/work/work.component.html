@@ -1,9 +1,7 @@
 
 <div *ngIf="errorGetTasks" class="row error-get-data"></div>
-<div *ngIf="!errorGetTasks">
-  <div *ngIf="isLoading" class="row loading-data"></div>
-  <div *ngIf="!isLoading">
-    <div *ngIf="emptyResponse" class="row img-empty-tasks">
+  <div *ngIf="isLoading && !errorGetTasks" class="row loading-data"></div>
+    <div *ngIf="emptyResponse && !isLoading && !errorGetTasks" class="row img-empty-tasks">
         <div class=" ml-2  p-3 w-100 ">
             <h1 class="h3 mb-0 text-gray-800 ">My tasks</h1>
       </div>             
@@ -29,6 +27,4 @@
             </div>  
           </div>
         </div>
-    </div>
-  </div>
 </div>
