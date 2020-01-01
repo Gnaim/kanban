@@ -44,7 +44,9 @@ export class KanbanComponent implements OnInit {
 
     }
 
-
+    showTask(){
+        console.log("showTask");
+    }
 
     ngOnInit() {
 

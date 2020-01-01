@@ -5,13 +5,19 @@
     <img src="assets/gif/loader.gif" style="width:500px;height:400px;"/>
 </div>
 <div *ngIf="!isLoading && !errorGetData" class="row">
-    <div class="ml-2  p-3 w-100">
+<div class="ml-2  p-3 w-100">
         <div class="row fix-side-bar">
             <app-project-detail class="col-xl-11 col-md-6 m-4" [project]="project">
             </app-project-detail>
             <app-kanban class="col-xl-11 col-md-6 m-4"></app-kanban>
-            <button class="float bg-primary" (click)="openTaskCreation()">
-                <i class="fa fa-plus my-float"></i>
+            <button data-toggle="tooltip" data-placement="left" title="Delete project" class="float bg-danger" (click)="deleteProject()">
+                <i class="fas fa-trash-alt my-float"></i>
+            </button>
+            <button data-toggle="tooltip" data-placement="left" title="Edit project" class="float-edit bg-success" (click)="openEditProject()">
+                <i class="fas fa-pencil-alt my-float"></i>
+            </button>
+            <button data-toggle="tooltip" data-placement="left" title="Create new task" class="float-add-task bg-primary" (click)="openTaskCreation()">
+                <i class="fas fa-plus my-float"></i>
             </button>
         </div>
 </div>
