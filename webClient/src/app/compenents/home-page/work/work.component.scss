@@ -1,25 +1,6 @@
-.img-empty-tasks {
-	background-image: url("../../../../images/no_tasks.png");
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: 30% 30%;
-	height: 100%;
-}
-
-.loading-data {
-	background-image: url("../../../../assets/gif/loader.gif");
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: 45% 45%;
-	height: 100%;
-}
-
-.error-get-data {
-	background-image: url("../../../../assets/gif/error.gif");
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: 45% 45%;
-	height: 100%;
+.fix-side-bar{
+	width : calc(100% - 18rem)!important;
+	float: right;
 }
 
 .float{

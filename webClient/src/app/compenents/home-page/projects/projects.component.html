@@ -1,14 +1,16 @@
 
-<div *ngIf="errorGetProject" class="row error-get-data"></div>
+<div *ngIf="errorGetProject" class="fix-side-bar" style="text-align: center;margin-top:11%">
+    <img src="assets/gif/error.gif" />
+</div>
 <div *ngIf="!errorGetProject">
-  <div *ngIf="loadingData" class="row loading-data"></div>
+  <div *ngIf="loadingData" class="fix-side-bar" style="text-align: center;margin-top:11%">
+      <img src="assets/gif/loader.gif" style="width:500px;height:400px;"/>
+  </div>
   <div *ngIf="!loadingData">
-    <div *ngIf="emptyProjects" class="row img-empty-projects">
-      <div class=" ml-2  p-3 w-100 ">
-        <h1 class="h3 mb-0 text-gray-800 ">My Projects</h1>
-      </div>             
+    <div *ngIf="emptyProjects" class="fix-side-bar" style="text-align: center;margin-top:11%">
+        <img src="assets/images/no_projects.png" style="width:400px;height:300px;"/>            
     </div>
-    <div *ngIf="!emptyProjects" class="row"> 
+    <div *ngIf="!emptyProjects" class="row fix-side-bar"> 
       <div class=" ml-2  p-3 w-100 ">
         <h1 class="h3 mb-0 text-gray-800 ">My Projects</h1>
       </div>

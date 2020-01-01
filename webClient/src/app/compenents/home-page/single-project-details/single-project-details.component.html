@@ -1,8 +1,17 @@
-<div class="row">
+<div *ngIf="errorGetData" class="fix-side-bar" style="text-align: center;margin-top:11%">
+     <img src="assets/gif/error.gif" />
+</div>
+<div *ngIf="isLoading && !errorGetData" class="fix-side-bar" style="text-align: center;margin-top:11%">
+    <img src="assets/gif/loader.gif" style="width:500px;height:400px;"/>
+</div>
+<div *ngIf="!isLoading && !errorGetData" class="row">
     <div class="ml-2  p-3 w-100">
-        <div class="row">
-            <app-project-detail class="col-xl-11 col-md-6 m-4" *ngIf="projectLoaded" [project]="project">
+        <div class="row fix-side-bar">
+            <app-project-detail class="col-xl-11 col-md-6 m-4" [project]="project">
             </app-project-detail>
-                <app-kanban class="col-xl-11 col-md-6 m-4"></app-kanban>
+            <app-kanban class="col-xl-11 col-md-6 m-4"></app-kanban>
+            <button class="float bg-primary" (click)="openTaskCreation()">
+                <i class="fa fa-plus my-float"></i>
+            </button>
         </div>
-    </div>
+</div>

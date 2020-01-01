@@ -13,29 +13,34 @@ import { MyNotificationsService } from 'src/app/services/notifications/notificat
 export class SingleProjectDetailsComponent implements OnInit {
   project: Project;
   id: string;
-  projectLoaded: boolean = false;
-  constructor(private activatedRoute: ActivatedRoute, private projectService: ProjectsService, private notification: MyNotificationsService) {
+  isLoading: boolean;
+  errorGetData : boolean;
+
+  constructor(private activatedRoute: ActivatedRoute,
+              private projectService: ProjectsService, 
+              private notification: MyNotificationsService) {}
+
+  ngOnInit() {
+    this.isLoading = true;
+    this.errorGetData = false;
     this.activatedRoute.paramMap.subscribe((params) => {
       console.log(params.keys);
       this.id = params.get('id');
     });
+    this.getProject();
+  }
 
-    projectService.getProjectById(this.id).subscribe(
+  getProject(){
+    this.projectService.getProjectById(this.id).subscribe(
       (project) => {
         let jsonResponse = HttpHelpers.parseData(project);
         this.project = jsonResponse.project as Project;
         console.log(this.project);
-        this.projectLoaded = true;
+        this.isLoading = false;
       },
       (error) => {
-        this.notification.showErrorNotification(error);
+        this.errorGetData = this.notification.showErrorNotification(error);
+        this.isLoading = false;
       });
-
   }
-
-  ngOnInit() {
-
-
-  }
-
 }

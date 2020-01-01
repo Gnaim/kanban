@@ -1,13 +1,14 @@
 
-<div *ngIf="errorGetTasks" class="row error-get-data"></div>
-  <div *ngIf="isLoading && !errorGetTasks" class="row loading-data"></div>
-    <div *ngIf="emptyResponse && !isLoading && !errorGetTasks" class="row img-empty-tasks">
-        <div class=" ml-2  p-3 w-100 ">
-            <h1 class="h3 mb-0 text-gray-800 ">My tasks</h1>
-      </div>             
-    </div>
-
-    <div *ngIf="!emptyResponse" class="">
+<div *ngIf="errorGetTasks" class="fix-side-bar" style="text-align: center;margin-top:11%">
+    <img src="assets/gif/error.gif" />
+</div>
+<div *ngIf="isLoading && !errorGetTasks" class="fix-side-bar" style="text-align: center;margin-top:11%">
+  <img src="assets/gif/loader.gif" style="width:500px;height:400px;"/>
+</div>
+<div *ngIf="emptyResponse && !isLoading && !errorGetTasks" class="fix-side-bar" style="text-align: center;margin-top:11%">
+  <img src="assets/images/no_tasks.png" style="width:400px;height:300px;"/>             
+</div>
+    <div *ngIf="!emptyResponse  && !isLoading && !errorGetTasks" class="fix-side-bar">
         <div class="mt-3 ml-4">
             <h1 class="h3 mb-0 text-gray-800">My tasks</h1>
         </div>
@@ -27,4 +28,4 @@
             </div>  
           </div>
         </div>
-</div>
+    </div>
