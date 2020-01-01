@@ -25,16 +25,20 @@ export class LoginService {
   }
 
   public setTokenInfo(token: string,durationInHours : number) {
-    let currentDate = new Date(new Date().getTime() + (durationInHours * 60 * 60 * 1000) ); //convert hours to milliseconds
-    let expireIn : string = currentDate.toString();
-    console.log("expireIn : " + expireIn);
+ //   let currentDate = new Date(new Date().getTime() + (durationInHours * 60 * 60 * 1000) ); //convert hours to milliseconds
+ //   let expireIn : string = currentDate.toString();
+ //   console.log("expireIn : " + expireIn);
     localStorage.setItem('token', token);
-    localStorage.setItem('expireIn', expireIn);
+   // localStorage.setItem('expireIn', expireIn);
   }
-
+/*
   public isTokenExpired(): boolean {
     let expirationDate = new Date(this.getTokenExpirationTime());
     let currentDate = new Date();
     return currentDate>expirationDate;
+  }
+*/
+  public removeToken(){
+    localStorage.removeItem('token');
   }
 }

@@ -77,7 +77,7 @@ export class ProfileComponent implements OnInit {
         this.currentUser = jsonResponse as User;
         this.isLoading = false;
       },(error) => { 
-        console.log(error);
+        this.errorGetProfile = this.notification.showErrorNotification(error);
         this.isLoading = false;
       })
 

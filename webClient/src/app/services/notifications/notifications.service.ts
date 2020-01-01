@@ -2,20 +2,24 @@ import { Injectable } from '@angular/core';
 import { ToastrService, IndividualConfig } from 'ngx-toastr';
 import { ResponsesCodes } from '../helpers/responsesCodesEnum';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { LoginService } from '../loginService/login.service';
  
 @Injectable()
 export class MyNotificationsService {
  
     options : IndividualConfig;
     
-    constructor(private toastr: ToastrService) {
+    constructor(private toastr: ToastrService,
+                private router: Router,
+                private loginService: LoginService) {
         this.options = this.toastr.toastrConfig;
         this.options.extendedTimeOut = 2000;
         this.options.easeTime = 500;
         this.options.enableHtml = true;
         this.options.progressBar = true;
         this.options.progressAnimation = 'decreasing';
-        this.options.positionClass = 'toast-bottom-center';
+        this.options.positionClass = 'toast-bottom-right';
         this.options.onActivateTick = true;
     }
     
@@ -102,6 +106,8 @@ export class MyNotificationsService {
           }else if(error.error.error == ResponsesCodes.INVALID_TOKEN){
             errorBoolean = true;
             this.showInvalidTokenError();
+            this.loginService.removeToken();
+            this.router.navigate(['Login']);
           }else{
             errorBoolean = true;
             this.showError();

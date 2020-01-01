@@ -8,7 +8,7 @@ export class AuthGuardService implements CanActivate {
   constructor(public loginService: LoginService, public router: Router) {}
 
   canActivate(): boolean {
-    if (this.loginService.getToken() && !this.loginService.isTokenExpired()) {
+    if (this.loginService.getToken()) {
         this.router.navigate(['/Home/Projects']);
       return false;
     }
