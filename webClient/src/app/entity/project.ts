@@ -2,7 +2,7 @@ import { User } from './user';
 import { Card } from './card';
 
 export class Project {
-    _id:number;
+    _id:string;
     name: string;   
     description: string;
     createdAt : number; //milliseconds 
@@ -10,7 +10,7 @@ export class Project {
     members: User[];
     cards : Card[];
 
-    constructor(name:string,description: string,_id?:number,createdAt?: number,updatedAt?: number,members?:User[],cards?: Card[]) {
+    constructor(name:string,description: string,members?:User[],_id?:string,createdAt?: number,updatedAt?: number,cards?: Card[]) {
         if(typeof name === "undefined" ||name === null){
             this.name = "";
         }else {

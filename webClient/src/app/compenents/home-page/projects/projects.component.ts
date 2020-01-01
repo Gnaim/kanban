@@ -53,22 +53,8 @@ export class ProjectsComponent implements OnInit {
     this.bsModalRef = this.modalService.show(ProjectFormComponent, { class: 'modal-lg' });
     this.modalService.onHidden.subscribe((reason:string) => {
         if(reason != "backdrop-click"){     
-          this.notification.showProjectCreationSuccess();
-          this.getProjects();
+          this.ngOnInit();
       }
     })
   }
-
-   /* openProjectUpdate() {
-    const initialState = {
-      isUpdate : true,
-      class: 'modal-lg'
-    }
-  this.bsModalRef = this.modalService.show(ProjectFormComponent,{initialState});
-    this.modalService.onHidden.subscribe((reason:string) => {
-      //if(reason != "backdrop-click"){     
-        this.notification.showProjectUpdateSuccess();
-     // }
-    })*/
-  
 }

@@ -10,7 +10,7 @@ import { Project } from 'src/app/entity/Project';
 })
 export class ProjectOverviewComponent implements OnInit {
 
-  private projectId : number;
+  private projectId : string;
   @Input('project') project : Project;
   @Output('refreshData') getProjectsEvent = new EventEmitter();
   

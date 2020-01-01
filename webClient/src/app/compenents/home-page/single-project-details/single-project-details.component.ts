@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ProjectsService } from 'src/app/services/projectService/projects.service';
 import { Project } from 'src/app/entity/Project';
 import { HttpHelpers } from 'src/app/services/helpers/httpHelpers';
 import { MyNotificationsService } from 'src/app/services/notifications/notifications.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { ProjectFormComponent } from '../project-form/project-form.component';
 
 @Component({
   selector: 'app-single-project-details',
@@ -15,9 +17,12 @@ export class SingleProjectDetailsComponent implements OnInit {
   id: string;
   isLoading: boolean;
   errorGetData : boolean;
+  bsModalRef: BsModalRef;
 
   constructor(private activatedRoute: ActivatedRoute,
               private projectService: ProjectsService, 
+              private router: Router,
+              private modalService: BsModalService,
               private notification: MyNotificationsService) {}
 
   ngOnInit() {
@@ -42,5 +47,35 @@ export class SingleProjectDetailsComponent implements OnInit {
         this.errorGetData = this.notification.showErrorNotification(error);
         this.isLoading = false;
       });
+  }
+
+  openEditProject(){
+    const initialState = {
+      project : this.project,
+      isUpdate : true,
+      class: 'modal-lg'
+    }
+    this.bsModalRef = this.modalService.show(ProjectFormComponent,{initialState});
+    this.modalService.onHidden.subscribe((reason:string) => {
+        if(reason != "backdrop-click"){     
+          this.ngOnInit();
+      }
+    })
+  }
+
+  deleteProject(){
+    if(this.id){
+      this.projectService.deleteProject(this.id).subscribe(
+        (response) => {
+          this.notification.showProjectDeleteSuccess();  
+          this.router.navigate(['/Home/Projects']);
+        },
+        (error) => {
+          this.notification.showErrorNotification(error);
+        }
+      );
+    }else{
+      this.notification.showError();
+    }
   }
 }

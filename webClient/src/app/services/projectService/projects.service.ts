@@ -21,12 +21,12 @@ export class ProjectsService {
     return this.http.post(HttpHelpers.PROJECTS_URL, project, { observe: "response" });
   }
 
-  deleteProject(id: number) {
+  deleteProject(id: string) {
     return this.http.delete(HttpHelpers.PROJECTS_URL + "/" + id, { observe: "body" });
   }
 
   updateProject(project: Project) {
-    return this.http.put(HttpHelpers.PROJECTS_URL, project, { observe: "response" });
+    return this.http.put(HttpHelpers.PROJECTS_URL + "/" + project._id, project, { observe: "response" });
   }
 
 }
