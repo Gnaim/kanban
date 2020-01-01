@@ -8,10 +8,21 @@ import { Component, OnInit } from '@angular/core';
 export class ProfileComponent implements OnInit {
 
   editMode : boolean = false;
+  isLoading: boolean;
+  errorGetProfile : boolean;
 
   constructor() { }
 
   ngOnInit() {
+    this.isLoading = true;
+    this.errorGetProfile = false;
+    this.getMyProfile();
+  }
+
+
+  getMyProfile(){
+    this.isLoading = false;
+    this.errorGetProfile = true;
   }
 
   swithToEdit(){

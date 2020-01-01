@@ -1,5 +1,10 @@
-
-<div class="container emp-profile fix-side-bar">
+<div *ngIf="errorGetProfile" class="fix-side-bar" style="text-align: center;margin-top:11%">
+    <img src="assets/gif/error.gif" />
+</div>
+<div *ngIf="isLoading && !errorGetProfile" class="fix-side-bar" style="text-align: center;margin-top:11%">
+  <img src="assets/gif/loader.gif" style="width:500px;height:400px;"/>
+</div>
+<div *ngIf="!isLoading && !errorGetProfile" class="container emp-profile fix-side-bar">
             <form method="post">
                 <div class="row">
                     <div class="col-md-4">
