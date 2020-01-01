@@ -19,10 +19,10 @@
                     <div class="col-md-6">
                         <div class="profile-head">
                                     <h5>
-                                        Kshiti Ghelani
+                                        {{currentUser.lastName | uppercase}}  {{currentUser.firstName}}
                                     </h5>
                                     <h6>
-                                        Web Developer and Designer
+                                       {{currentUser.profession}}
                                     </h6>
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item">
@@ -45,13 +45,21 @@
                     <div class="col-md-8">
                         <div class="tab-content profile-tab" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                    <div *ngIf="!editMode">    
+                                    <div *ngIf="!editMode">
+                                        <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label>Email</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p>{{currentUser.email}}</p>
+                                                    </div>
+                                        </div>    
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <label>First name</label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>Kshiti Ghelani</p>
+                                                <p>{{currentUser.firstName}}</p>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -59,23 +67,15 @@
                                                     <label>Last name</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <p>Kshiti Ghelani</p>
+                                                    <p>{{currentUser.lastName}}</p>
                                                 </div>
                                             </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Email</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>kshitighelani@gmail.com</p>
-                                            </div>
-                                        </div>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <label>Phone</label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>123 456 7890</p>
+                                                <p>0{{currentUser.tel}}</p>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -83,7 +83,7 @@
                                                 <label>Profession</label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>Web Developer and Designer</p>
+                                                <p>{{currentUser.profession}}</p>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -97,6 +97,20 @@
                                     </div>
                                     <div *ngIf="editMode" >
                                         <form [formGroup]="editForm" (ngSubmit)="onSubmitForm()" class="user">
+                                            <div class="row">
+                                                        <div class="col-md-6">
+                                                            <label>Email</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input
+                                                                type="text"
+                                                                class="form-control"
+                                                                formControlName="email"
+                                                                id="exampleEmail"
+                                                                placeholder="Email adress"
+                                                            />
+                                                        </div>
+                                                    </div>
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <label>First name</label>
@@ -120,25 +134,11 @@
                                                         type="text"
                                                         class="form-control"
                                                         formControlName="lastName"
-                                                        id="exampleFirstName"
+                                                        id="exampleLastName"
                                                         placeholder="Last Name"
                                                     />
                                                     </div>
                                                 </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <label>Email</label>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <input
-                                                        type="text"
-                                                        class="form-control"
-                                                        formControlName="email"
-                                                        id="exampleFirstName"
-                                                        placeholder="Email adress"
-                                                    />
-                                                </div>
-                                            </div>
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <label>Phone</label>
@@ -148,7 +148,7 @@
                                                         type="number"
                                                         class="form-control"
                                                         formControlName="phoneNumber"
-                                                        id="exampleFirstName"
+                                                        id="examplephoneNumber"
                                                         placeholder="Phone number"
                                                     />
                                                 </div>
@@ -162,7 +162,7 @@
                                                         type="text"
                                                         class="form-control"
                                                         formControlName="profession"
-                                                        id="exampleFirstName"
+                                                        id="exampleProfession"
                                                         placeholder="Profession"
                                                     />
                                                 </div>
@@ -176,7 +176,7 @@
                                                             type="password"
                                                             class="form-control"
                                                             formControlName="oldPassword"
-                                                            id="exampleFirstName"
+                                                            id="exampleoldPassword"
                                                             placeholder="Old password"
                                                         />
                                                     </div>
@@ -190,7 +190,7 @@
                                                         type="password"
                                                         class="form-control"
                                                         formControlName="newPassword"
-                                                        id="exampleFirstName"
+                                                        id="examplenewPassword"
                                                         placeholder="New password"
                                                     />
                                             </div>
@@ -204,7 +204,7 @@
                                                         type="password"
                                                         class="form-control"
                                                         formControlName="newPasswordConfirmation"
-                                                        id="exampleFirstName"
+                                                        id="examplenewPasswordConfirmation"
                                                         placeholder="Confirm new password"
                                                     />
                                             </div>

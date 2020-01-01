@@ -7,10 +7,11 @@ export class User {
     lastName:string;
     tel:number;
     profession:string;
+    newPassword:string;
     role:string;
     image:FormData;
 
-    constructor(email:string,password:string,firstName?:string,lastName?:string,tel?:number,image?:FormData,profession?:string,role?:string) {
+    constructor(email:string,password:string,firstName?:string,lastName?:string,tel?:number,image?:FormData,profession?:string,role?:string,newPassword?:string) {
             if(typeof email === "undefined" ||email === null){
                 this.email = "";
             }else {
@@ -20,6 +21,11 @@ export class User {
                 this.password = "";
             }else {
                 this.password = password;
+            }
+            if(typeof newPassword === "undefined" ||newPassword === null){
+                this.newPassword = "";
+            }else {
+                this.newPassword = newPassword;
             }
             if(typeof firstName === "undefined" ||firstName === null){
                 this.firstName = "";

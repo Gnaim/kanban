@@ -48,6 +48,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { MyNotificationsService } from './services/notifications/notifications.service';
 import { TokenGuardService } from './services/guards/tokenguard.service';
 import { DashboardService } from './services/dahsboardService/dashboard.service';
+import { UserService } from './services/userServie/user.service';
 
 @NgModule({
   declarations: [
@@ -93,7 +94,7 @@ import { DashboardService } from './services/dahsboardService/dashboard.service'
   ],
 
   providers: [LoginService, SignupService, ProjectsService, CardsService, DashboardService,
-    AuthGuardService, MyNotificationsService, TokenGuardService, {
+    AuthGuardService, MyNotificationsService, TokenGuardService,UserService, {
       provide: HTTP_INTERCEPTORS,
       useClass: ApplicationInterceptor,
       multi: true
