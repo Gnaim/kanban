@@ -76,4 +76,8 @@ export class ProjectFormComponent implements OnInit {
   updateProject(){
 
   }
+
+  addUser(email) {
+    return { email: email, role: "member" };
+  }
 }

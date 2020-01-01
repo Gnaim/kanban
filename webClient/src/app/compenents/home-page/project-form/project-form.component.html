@@ -29,9 +29,9 @@
                     </div>
 
                     <div class="form-group" *ngIf="isUpdate">
-                        <ng-select class="select form-control-task" [items]="members" [multiple]="true"
-                            [closeOnSelect]="false" [hideSelected]="true" bindLabel="name"
-                            placeholder="Selected Members..." formControlName="membersProject">
+                        <ng-select class="form-control-task" [items]="[]" [addTag]="addUser"  [isOpen]="false"
+                                   placeholder="Enter members mail to add to the project..." formControlName="membersProject"
+                                   [hideSelected]="true"  multiple="true" bindLabel="email" [(ngModel)]="selectedMembers">
                         </ng-select>
                         <div *ngIf="submitted && getFormErrors.membersProject.errors" class="text-danger m-2">
                             <div *ngIf="getFormErrors.membersProject.errors.required">the members field is missing</div>
