@@ -1,6 +1,6 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Last Tasks</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Project tasks</h6>
     </div>
     <div class="card-body border-left-primary shadow h-100">
         <div class="board">
@@ -22,8 +22,8 @@
                                             {{taskItem.description}}</div>
                                     </div>
                                     <div class="col-auto"> 
-                                        <i *ngIf="taskItem.type=='bug'" class="fas fa-bug fa-2x text-gray-300"></i>
-                                        <i *ngIf="taskItem.type=='dev'" class="fas fa-file-code fa-2x text-gray-300"></i>
+                                        <i *ngIf="taskItem.type=='bug' || taskItem.type=='Bug'" class="fas fa-bug fa-2x text-gray-300"></i>
+                                        <i *ngIf="taskItem.type=='dev' || taskItem.type=='Dev'" class="fas fa-file-code fa-2x text-gray-300"></i>
                                     </div>
                                 </div>
                             </div>

@@ -3,6 +3,10 @@ import { BsModalRef } from 'ngx-bootstrap';
 import { CardsService } from '../../../services/cardService/cards.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Project } from 'src/app/entity/Project';
+import { Card } from 'src/app/entity/card';
+import { CardStatus } from 'src/app/services/helpers/CardStatus';
+import { MyNotificationsService } from 'src/app/services/notifications/notifications.service';
 
 
 @Component({
@@ -11,31 +15,49 @@ import { Router } from '@angular/router';
   styleUrls: ['./task-form.component.scss']
 })
 export class TaskFormComponent implements OnInit {
+  
   people = [
     "Anass", "Anis", "Malek", "Naim"
   ];
-
   types = ["Dev", "Bug"];
   selectedPeople = [];
   cardForm: FormGroup;
   submitted: boolean = false;
-  constructor(public bsModalRef: BsModalRef, private router: Router, private cardsService: CardsService, private formBuilder: FormBuilder) {
+  project: Project;
+  isUpdate:boolean;
+
+  constructor(private bsModalRef: BsModalRef,
+              private router: Router, 
+              private notification:MyNotificationsService,
+              private cardsService: CardsService, 
+              private formBuilder: FormBuilder) {
 
   }
-  get getFormErrors() {
-    return this.cardForm.controls; // to get access to errors in form
-  }
+
   ngOnInit() {
     this.cardForm = this.formBuilder.group({
       type: ['', [Validators.required]],
-      title: ['', [Validators.required, Validators.pattern('.+')]],
-      description: ['', [Validators.required, Validators.pattern('.+')]],
-      point: [0, [Validators.required, Validators.pattern('[0-9]')]],
+      title: ['', [Validators.required]],
+      description: ['', [Validators.required]],
       members: [[], []],
     });
+    if(this.isUpdate && this.isUpdate == true){
+      //remplir le form avec les doonnes
+    }
   }
 
+  get getFormErrors() {
+    return this.cardForm.controls; // to get access to errors in form
+  }
 
+  submitForm(){
+    if(this.isUpdate && this.isUpdate == true){
+      this.updateCard();
+    }else{
+      this.createCard();
+    }
+  }
+  
   createCard() {
     this.submitted = true;
     if (this.cardForm.invalid) {
@@ -45,20 +67,22 @@ export class TaskFormComponent implements OnInit {
     const type = formValue['type'];
     const title = formValue['title'];
     const description = formValue['description'];
-    const point = formValue['point'];
-    const members = formValue['members'];
-    // console.log("members :" + members);
-    // console.log(`title:${title} \n priority:${point} \n description:${description}`)
-    let result: boolean = this.cardsService.createCard(type, title, description, point, members);
-
-    if (result == true) {
-      this.router.navigate(['/Home/Cards']);
-    } else {
-
-      //Print the Error 
-    }
+    const card : Card = new Card(title,type,null,description);
+    
+    this.cardsService.createCard(card,this.project._id).subscribe(
+      (response) => {
+        console.log(response);
+        this.notification.showTaskCreationSuccess();
+        this.bsModalRef.hide();
+      },(error) => {
+        this.notification.showErrorNotification(error);
+      }
+    );
 
   }
 
+  updateCard(){
+
+  }
 
 }

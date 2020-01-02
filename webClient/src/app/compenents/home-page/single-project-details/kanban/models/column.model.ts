@@ -5,14 +5,12 @@ export class Column {
 
     constructor(public name: string, public tasks: Array<Card>, public status: CardStatus) {
         tasks.sort(this.cardsCompare);
-
     }
 
     cardsCompare(a: Card, b: Card): number {
-        if (a.creationDate > a.creationDate) return 1;
+        if (a.createdAt > a.createdAt) return 1;
         if (a.title = b.title) return 0;
         if (a.title < b.title) return -1;
-
     }
 
     addCard(card: Card) {
@@ -26,7 +24,6 @@ export class Column {
             this.tasks.splice(index, 1);
         }
         this.tasks.sort(this.cardsCompare);
-
     }
 
 }

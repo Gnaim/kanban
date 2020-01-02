@@ -78,11 +78,29 @@ export class MyNotificationsService {
                             this.options);
     }
 
+    showTaskCreationSuccess() {
+      this.toastr.success("Task created successfuly",
+                          "Success",
+                          this.options);
+   }
+
+    showTaskUpdateSuccess() {
+    this.toastr.success("Task updated successfuly",
+                        "Success",
+                        this.options);
+    }
+
     showProjectUpdateSuccess() {
       this.toastr.success("Project updated successfuly",
                           "Success",
                           this.options);
    }
+
+   showTaskDeleteSuccess() {
+    this.toastr.success("Task deleted successfuly",
+                        "Success",
+                        this.options);
+    }
 
     showProjectDeleteSuccess() {
       this.toastr.success("Project deleted successfuly",

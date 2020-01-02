@@ -6,6 +6,8 @@ import { HttpHelpers } from 'src/app/services/helpers/httpHelpers';
 import { MyNotificationsService } from 'src/app/services/notifications/notifications.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { ProjectFormComponent } from '../project-form/project-form.component';
+import { TaskFormComponent } from '../task-form/task-form.component';
+import { Card } from 'src/app/entity/card';
 
 @Component({
   selector: 'app-single-project-details',
@@ -14,6 +16,7 @@ import { ProjectFormComponent } from '../project-form/project-form.component';
 })
 export class SingleProjectDetailsComponent implements OnInit {
   project: Project;
+  projectCards: Card[];
   id: string;
   isLoading: boolean;
   errorGetData : boolean;
@@ -29,7 +32,6 @@ export class SingleProjectDetailsComponent implements OnInit {
     this.isLoading = true;
     this.errorGetData = false;
     this.activatedRoute.paramMap.subscribe((params) => {
-      console.log(params.keys);
       this.id = params.get('id');
     });
     this.getProject();
@@ -38,9 +40,11 @@ export class SingleProjectDetailsComponent implements OnInit {
   getProject(){
     this.projectService.getProjectById(this.id).subscribe(
       (project) => {
-        let jsonResponse = HttpHelpers.parseData(project);
+        console.log(project);
+        let jsonResponse = HttpHelpers.parseData(project.body);
         this.project = jsonResponse.project as Project;
         console.log(this.project);
+        this.projectCards = this.project.cards;
         this.isLoading = false;
       },
       (error) => {
@@ -52,10 +56,9 @@ export class SingleProjectDetailsComponent implements OnInit {
   openEditProject(){
     const initialState = {
       project : this.project,
-      isUpdate : true,
-      class: 'modal-lg'
+      isUpdate : true
     }
-    this.bsModalRef = this.modalService.show(ProjectFormComponent,{initialState});
+    this.bsModalRef = this.modalService.show(ProjectFormComponent,{initialState,class: 'modal-lg'});
     this.modalService.onHidden.subscribe((reason:string) => {
         if(reason != "backdrop-click"){     
           this.ngOnInit();
@@ -77,5 +80,17 @@ export class SingleProjectDetailsComponent implements OnInit {
     }else{
       this.notification.showError();
     }
+  }
+
+  openTaskCreation(){
+    const initialState = {
+      project : this.project
+    }
+    this.bsModalRef = this.modalService.show(TaskFormComponent,{initialState,class: 'modal-lg'});
+    this.modalService.onHidden.subscribe((reason:string) => {
+        if(reason != "backdrop-click"){     
+          this.ngOnInit();
+      }
+    })
   }
 }

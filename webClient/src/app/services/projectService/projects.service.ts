@@ -13,7 +13,7 @@ export class ProjectsService {
     return this.http.get(HttpHelpers.PROJECTS_URL, HttpHelpers.HTTP_OPTIONS);
   }
   getProjectById(id: string) {
-    return this.http.get(HttpHelpers.PROJECTS_URL + "/" + id, HttpHelpers.HTTP_OPTIONS);
+    return this.http.get<Project>(HttpHelpers.PROJECTS_URL + "/" + id, { observe: "response" });
   }
 
 
