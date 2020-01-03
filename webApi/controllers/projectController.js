@@ -128,7 +128,6 @@ exports.UpdateProjectById = (req, res, next) => {
     } else {
       console.log("UPDATE PROJECT :" + req.params.id);
       inviteNonExistingMembers(req.params._id, membersToInvite, res);
-      updateDeletedInvitation(req.params._id, membersToInvite, res);
 
       res.status(200).send({ message: 'project updated successfully' });
     }
@@ -191,9 +190,7 @@ function getNonExistingMember(members, res) {
   return nonExistingMember;
 
 }
-function updateDeletedInvitation(projectId, members, res) {
-  // todo if we have time 
-}
+
 function inviteNonExistingMembers(projectId, members, res) {
   members.forEach(member => {
     createInvitation(member.email, projectId);
