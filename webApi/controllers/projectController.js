@@ -1,6 +1,7 @@
 const projects = mongoose.model('Project');
 const cards = mongoose.model('Project');
 const users = mongoose.model('User');
+const invitations = mongoose.model('Invitations');
 const bcrypt = require('bcrypt');
 const auths = require('../middlewares/auths');
 
@@ -13,16 +14,18 @@ exports.getAll = (req, res, next) => {
       role: 'admin',
     },
   })
-    .populate('cards','title status members type checklist createdAt')
+    .populate('cards', 'title status members type checklist createdAt')
     .select('name createdAt members description updatedAt')
     .exec((err, projects) => {
       if (err) {
-        res.status(500).send({message:'There was a problem adding the information to the database.',
-                              error: 603});
+        res.status(500).send({
+          message: 'There was a problem adding the information to the database.',
+          error: 603
+        });
       } else {
         res.status(200).format({
           json: () => {
-            res.json({projects:projects});
+            res.json({ projects: projects });
           }
         });
       }
@@ -41,9 +44,11 @@ exports.post = (req, res, next) => {
   const { logoUrl } = req.body;
   const { description } = req.body;
 
-  if( description == null || name == null ){
-    res.status(400).send({message:"both name and description are required to create project",
-                          error: 610})
+  if (description == null || name == null) {
+    res.status(400).send({
+      message: "both name and description are required to create project",
+      error: 610
+    })
   } else {
     projects.create({
       name,
@@ -51,10 +56,12 @@ exports.post = (req, res, next) => {
       createdAt,
       logoUrl,
       description,
-    },(err, project)=>{
+    }, (err, project) => {
       if (err) {
-        res.status(500).send({message:'There was a problem adding the information to the database.',
-                              error: 603});
+        res.status(500).send({
+          message: 'There was a problem adding the information to the database.',
+          error: 603
+        });
         //console.error(err);
       } else {
         res.status(200).format({
@@ -70,44 +77,52 @@ exports.post = (req, res, next) => {
 };
 
 exports.getById = (req, res, next) => {
-projects.findById(req.params.id,)
-  .populate('cards', 'title status type checklist members createdAt createdBy')
-  .exec((err, project) => {
-    if (err) {
-      res.status(500).send({message:`GET Error: There was a problem retrieving: ${err}`,
-                            error: 603});
-    } else {
-      res.status(200).format({
-        json: () => {
-          res.json({project:project});
-        },
-      });
-    }
-  });
+  projects.findById(req.params.id)
+    .populate('cards', 'title status type checklist members createdAt createdBy')
+    .exec((err, project) => {
+      if (err) {
+        res.status(500).send({
+          message: `GET Error: There was a problem retrieving: ${err}`,
+          error: 603
+        });
+      } else {
+        res.status(200).format({
+          json: () => {
+            res.json({ project: project });
+          },
+        });
+      }
+    });
 };
 
 exports.UpdateProjectById = (req, res, next) => {
   // to do find just admin can update members and the project must have at least one admin
-  const name  = req.body.name ? req.body.name : '' ;
-  const logoUrl  = req.body.logoUrl ? req.body.logoUrl : 'default url' ;
-  const members  = req.body.members ? req.body.members : [] ;
-  const description  = req.body.description ? req.body.description : '';
-///
-  
-    projects.update({_id: req.params.id}, {
+  const name = req.body.name ? req.body.name : '';
+  const logoUrl = req.body.logoUrl ? req.body.logoUrl : 'default url';
+  const members = req.body.members ? req.body.members : [];
+  const description = req.body.description ? req.body.description : '';
+  ///
+
+  projects.updateOne({ _id: req.params._id }, {
     // _id : req.params.id,
     name: name,
     logoUrl: logoUrl,
     description: description,
     members: req.body.members,
-  }).exec((err,project)=>{
+  }).exec((err, project) => {
     if (err) {
       console.log(err);
-      res.status(500).send({message:`${err}`,
-                            error: 603});
+      res.status(500).send({
+        message: `${err}`,
+        error: 603
+      });
     } else {
-      console.log(req.params.id);
-      res.status(200).send({message: 'project updated successfully'});
+      console.log("UPDATE PROJECT :" + req.params.id);
+      inviteNonExistingMembers(req.params._id, members, res);
+
+
+
+      res.status(200).send({ message: 'project updated successfully' });
     }
   });
 
@@ -137,13 +152,13 @@ exports.UpdateProjectById = (req, res, next) => {
   //   if(i==req.body.members.length-1)done=true;
   // }
   // while(!(done || atleastOneAdmin)){
-    
+
   // }
   // if(atleastOneAdmin){
-    
-    
-    
-    
+
+
+
+
   // }
   // else{
   //   res.status(400).send({message:`There must be at least one admin in members`,
@@ -151,20 +166,71 @@ exports.UpdateProjectById = (req, res, next) => {
   // }
 }
 
-exports.deleteProjectById = (req, res, next) => {
-  projects.deleteOne({ _id: req.params.id })
-  .exec((err, project)=>{
-    console.log('inside',project);
-    console.log('inside',project.cards);
+function inviteNonExistingMembers(projectId, members, res) {
+  console.log(members);
+  members.forEach(member => {
+    console.log(member);
+    users.findOne({ email: member.email }).exec((err, user) => {
+      if (err) {
+        res.status(500).send({
+          message: " invitation problem please contact an admin",
+          error: 603
+        });
+        console.log("heeloooq1111");
+      } else if (!user) {
+        createInvitation(member.email, projectId);
+        console.log(member.email);
+      }
+    })
+  });
+}
+
+
+
+function createInvitation(email, projectId) {
+  const invitation = {
+    email: email,
+    projectId: projectId
+  };
+  invitations.findOne(invitation, (err, result) => {
     if (err) {
-      res.status(500).send({message:`GET Error: There was a problem retrieving: ${err}`,
-                            error: 603});
+      res.status(500).send({
+        message: " invitation problem please contact an admin",
+        error: 603
+      });
     }
-    else {
-      console.log('deleted');
-      console.log(project);
-      // cards.delete(project.cards);
-      res.status(200).send({mesage:'project has been deleted'});
+    else if (!result) {
+      invitations.create(invitation, (err, result) => {
+        if (err) {
+          res.status(500).send({
+            message: " invitation problem please contact an admin",
+            error: 603
+          });
+        }
+      });
     }
   })
+
+
+}
+
+
+exports.deleteProjectById = (req, res, next) => {
+  projects.deleteOne({ _id: req.params.id })
+    .exec((err, project) => {
+      console.log('inside', project);
+      console.log('inside', project.cards);
+      if (err) {
+        res.status(500).send({
+          message: `GET Error: There was a problem retrieving: ${err}`,
+          error: 603
+        });
+      }
+      else {
+        console.log('deleted');
+        console.log(project);
+        // cards.delete(project.cards);
+        res.status(200).send({ mesage: 'project has been deleted' });
+      }
+    })
 }

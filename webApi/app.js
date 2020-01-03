@@ -15,6 +15,7 @@ const card = require('./models/card');
 const project = require('./models/project');
 const user = require('./models/user');
 checklist = require('./models/checklist');
+const invitations = require('./models/invitations');
 
 const indexRouter = require('./routes/index');
 const projectsRouter = require('./routes/projects');
@@ -35,7 +36,7 @@ const app = express();
 
 // allow cors for localhost:4200
 app.options('*', function (req, res) {
-    res.setHeader("Access-Control-Allow-Origin", "http://localhost:4300"); // to change
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200"); // to change
     res.setHeader('Access-Control-Allow-Methods', '*');
     res.setHeader("Access-Control-Allow-Headers", "*");
     res.end();
