@@ -4,6 +4,7 @@ const users = mongoose.model('User');
 const invitations = mongoose.model('Invitations');
 const bcrypt = require('bcrypt');
 const auths = require('../middlewares/auths');
+const sendemail = require('../utils/mailSender').sendMail;
 
 exports.getAll = (req, res, next) => {
   // to do find project where the user is member and not user is admin
@@ -101,14 +102,22 @@ exports.UpdateProjectById = (req, res, next) => {
   const logoUrl = req.body.logoUrl ? req.body.logoUrl : 'default url';
   const members = req.body.members ? req.body.members : [];
   const description = req.body.description ? req.body.description : '';
-  ///
+
+  var membersToInvite = getNonExistingMember(members, res);
+  var existingMembers = members.filter(function (elt) {
+    return membersToInvite.indexOf(elt) == -1;
+  });
+  console.log("too Invite");
+  console.log(membersToInvite);
+  console.log("Existing");
+  console.log(existingMembers);
 
   projects.updateOne({ _id: req.params._id }, {
     // _id : req.params.id,
     name: name,
     logoUrl: logoUrl,
     description: description,
-    members: req.body.members,
+    members: existingMembers,
   }).exec((err, project) => {
     if (err) {
       console.log(err);
@@ -118,9 +127,8 @@ exports.UpdateProjectById = (req, res, next) => {
       });
     } else {
       console.log("UPDATE PROJECT :" + req.params.id);
-      inviteNonExistingMembers(req.params._id, members, res);
-
-
+      inviteNonExistingMembers(req.params._id, membersToInvite, res);
+      updateDeletedInvitation(req.params._id, membersToInvite, res);
 
       res.status(200).send({ message: 'project updated successfully' });
     }
@@ -165,9 +173,8 @@ exports.UpdateProjectById = (req, res, next) => {
   //                               error: 611});
   // }
 }
-
-function inviteNonExistingMembers(projectId, members, res) {
-  console.log(members);
+function getNonExistingMember(members, res) {
+  var nonExistingMember = [];
   members.forEach(member => {
     console.log(member);
     users.findOne({ email: member.email }).exec((err, user) => {
@@ -176,16 +183,24 @@ function inviteNonExistingMembers(projectId, members, res) {
           message: " invitation problem please contact an admin",
           error: 603
         });
-        console.log("heeloooq1111");
       } else if (!user) {
-        createInvitation(member.email, projectId);
-        console.log(member.email);
+        nonExistingMember.push(member);
       }
     })
   });
+  return nonExistingMember;
+
 }
+function updateDeletedInvitation(projectId, members, res) {
+  // todo if we have time 
+}
+function inviteNonExistingMembers(projectId, members, res) {
+  members.forEach(member => {
+    createInvitation(member.email, projectId);
 
-
+    console.log(member.email);
+  });
+}
 
 function createInvitation(email, projectId) {
   const invitation = {
@@ -206,6 +221,8 @@ function createInvitation(email, projectId) {
             message: " invitation problem please contact an admin",
             error: 603
           });
+        } else {
+          sendemail(email, "temporary firstName", "temporary Last name");
         }
       });
     }
