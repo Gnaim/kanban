@@ -23,6 +23,7 @@ const signUpRouter = require('./routes/signUp');
 const loginRouter = require('./routes/login');
 const userRouter = require('./routes/user');
 const dashboardRouter = require('./routes/dashboard');
+const forgetPasswordRouter = require('./routes/forgetPassword');
 
 
 // module.exports = {
@@ -53,6 +54,7 @@ app.use('/signUp', signUpRouter);
 app.use('/login', loginRouter);
 app.use('/user', userRouter);
 app.use('/dashboard', dashboardRouter);
+app.use('/forgetPassword', forgetPasswordRouter);
 
 
 module.exports = app;

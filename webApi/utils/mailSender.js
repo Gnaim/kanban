@@ -65,6 +65,30 @@ async function sendInvitation(email, project) {
     // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 }
 
+
+async function sendResetPasswordInvitation(email, uuid) {
+
+    // create reusable transporter object using the default SMTP transport
+    initTrasnporter();
+
+    // send mail with defined transport object
+    let info = await transporter.sendMail({
+        from: '"Kanban-application 👻" <florianlerois@gmail.com>', // sender address
+        to: email, // list of receivers
+        subject: 'Invitation to reset your Password', // Subject line
+        html: `Hi ${email},<br> you're invited to reset your password by clicking on this link <a href="http://localhost:4200/ResetPassword/${uuid}"> Click Here <a> ${project.name}`
+
+    });
+
+    console.log('Message sent: %s', info.messageId);
+    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+
+    // Preview only available when sending through an Ethereal account
+    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+    // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+}
+
+
 // main().catch(console.error);
 exports.sendConfirmationMail = (emailReciever, name, lastName) => {
     sendConfirmation(emailReciever, name, lastName)
@@ -72,5 +96,8 @@ exports.sendConfirmationMail = (emailReciever, name, lastName) => {
 
 exports.sendInvitationMail = (email, project) => {
     sendInvitation(email, project);
-
 };
+
+exports.sendResetPasswordMail = (email, uuid) => {
+    sendResetPasswordInvitation(email, uuid);
+}
