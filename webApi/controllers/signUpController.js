@@ -1,5 +1,5 @@
 const auths = require('../middlewares/auths');
-const sendemail = require('../utils/mailSender').sendMail;
+const sendConfirmationMail = require('../utils/mailSender').sendConfirmationMail;
 
 const users = mongoose.model('User');
 const invitations = mongoose.model('Invitations');
@@ -22,6 +22,7 @@ exports.post = (req, res, next) => {
     })
   } else {
     isEmailDuplicated(email).then((exist) => {
+      console.log(`exist${exist}`);
       // to do update methode with exec()
       // to do add member to unconfirmed member
       if (!exist) {
@@ -43,7 +44,7 @@ exports.post = (req, res, next) => {
           } else {
             checkProjectInvitations(email, res);
 
-            sendemail(email, firstName, lastName);
+            sendConfirmationMail(email, firstName, lastName);
             res.status(200).send({ message: `confirmation mail has been sent to ${email}` });
           }
         });
@@ -58,96 +59,113 @@ exports.post = (req, res, next) => {
 };
 
 function checkProjectInvitations(email, res) {
-  isEmailInvited(email).then((invited) => {
-    if (invited) {
-      invitations.find({ email: email }, (err, results) => {
-        if (err) {
-          res.status(500).send({
-            message: 'There an internal problem please contact administrators.',
-            error: 603
-          });
-        } else if (results.length) {
-          results.array.forEach(element => {
-            addMemberToProject(element.email, element.projectId, res);
-          });
-
-        }
-
+  invitations.find({ email: email }, (err, results) => {
+    if (err) {
+      res.status(500).send({
+        message: 'There an internal problem please contact administrators.',
+        error: 603
       });
-      invitations.delete({ email: email }, function (err) {
-        if (err) {
-          res.status(500).send({
-            message: 'There an internal problem please contact administrators.',
-            error: 603
-          });
-        }
-      });
-
-      projects.updateOne
-
-
-
+    } else if (results.length) {
+      console.info(results);
+      addMemberToProjects(email, results, res);
+    } else {
+      console.info(results);
     }
+
   });
+
+
 }
 
-function addMemberToProject(email, projectId, res) {
-  projects.findOne({ _id: projectId }, (err, project) => {
+function addMemberToProjects(email, memberInvitations, res) {
+
+  users.findOne({ email: email }, (err, userToAdd) => {
     if (err) {
       res.status(500).send({
         message: 'There was an internal problem please contact administrators.',
         error: 603
       });
-    } else if (!project) {
+    } else if (!userToAdd) {
       res.status(500).send({
         message: 'There was an internal problem please contact administrators.',
         error: 603
       });
     } else {
-      users.findOne({ email: email }, (err, member) => {
-        if (err) {
-          res.status(500).send({
-            message: 'There was an internal problem please contact administrators.',
-            error: 603
-          });
-        } else if (!member) {
-          res.status(500).send({
-            message: 'There was an internal problem please contact administrators.',
-            error: 603
-          });
-
-        } else {
-          var updatedMembers = [];
-          updatedMembers = projects.members;
-          updatedMembers.push(member);
-          projects.updateOne({ _id: projectId }, { members: updatedMembers });
-        }
-      });
-
-
+      var projectIds = memberInvitations.map(invit => invit.projectId);
+      updateProjects(email, projectIds);
+      console.log("before delete");
+      deleteInvitations(email);
 
     }
 
   });
 }
+
+
+
+function deleteInvitations(email) {
+  invitations.deleteMany({ email: email }, function (err) {
+    console.log("email");
+    console.log(email);
+    if (err) {
+      res.status(500).send({
+        message: 'There an internal problem please contact administrators.',
+        error: 603
+      });
+    }
+  });
+
+}
+
+function updateProjects(email, projectIds) {
+  var member = {
+    email: email,
+    role: 'member'
+  };
+  projects.find({ _id: { $in: projectIds } }, (err, projectList) => {
+    if (err) {
+      res.status(500).send({
+        message: 'There was an internal problem please contact administrators.',
+        error: 603
+      });
+    } else if (!projectList.length) {
+      res.status(500).send({
+        message: 'There was an internal problem please contact administrators.',
+        error: 603
+      });
+    } else {
+      projectList.forEach(element => {
+
+        updatedMembers = element.members;
+        updatedMembers.push(member);
+        console.info(updatedMembers);
+        projects.updateOne({ _id: element._id }, { members: updatedMembers }).exec((err, project) => {
+          if (err) {
+            res.status(500).send({
+              message: 'There was an internal problem please contact administrators.',
+              error: 603
+            });
+          } else {
+            console.info(` update result ${JSON.stringify(project)}`);
+          }
+        });
+      });
+
+
+
+
+    }
+  });
+
+
+
+}
+
+
 
 isEmailDuplicated = async (email) => {
   found = false;
   await users.find({
-    email,
-  }, (err, user) => {
-    if (err) {
-      found = true;
-    } else {
-      found = !!user.length;
-    }
-  });
-};
-
-
-isEmailInvited = async (email) => {
-  found = false;
-  await invitations.find({
     email,
   }, (err, user) => {
     if (err) {
