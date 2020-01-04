@@ -16,7 +16,9 @@ exports.getAll = (req, res, next) => {
                 {email: payload.data.email,
                 role: 'developer'},
                 {email: payload.data.email,
-                role: 'tester'}
+                role: 'tester'},
+                {email: payload.data.email,
+                role: 'member'}
             ]
     }
   })
