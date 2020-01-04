@@ -23,8 +23,8 @@ exports.getCardsByProject = (req, res, next) => {
 exports.post = (req, res, next) => {
   const payload = req.decoded;
   const projectId = req.params.id;
-  const title = req.body.title ? req.body.title: '';
-  const description  = req.body.description ? req.body.description :'';
+  const title = req.body.title ? req.body.title: 'title';
+  const description  = req.body.description ? req.body.description :'description';
   const status = req.body.status ? req.body.status: 'Backlog';
   const type = req.body.type ? req.body.type: 'Dev';
   const checklist = req.body.checklist ? req.body.checklist: [];
@@ -108,14 +108,14 @@ exports.getById = (req, res, next) => {
 };
 
 exports.UpdateCardById = (req, res, next) => {
-  const title  = req.body.title ? req.body.title : '' ;
-  const status  = req.body.status ? req.body.status : 'backlog' ;
+  const title  = req.body.title ? req.body.title : 'title' ;
+  const status  = req.body.status ? req.body.status : 'Backlog' ;
   const members  = req.body.members ? req.body.members : [] ;
-  const description  = req.body.description ? req.body.description : '';
-  const type  = req.body.type ? req.body.type: 'dev';
+  const description  = req.body.description ? req.body.description : 'description';
+  const type  = req.body.type ? req.body.type: 'Dev';
   const checklist = req.body.checklist ? req.body.checklist : [];
   const statuses= ['Backlog','Doing','Done'];
-  const types = ['Dev','Bug']
+  const types = ['Dev','Bug'];
   if (!types.includes(type))
   {
     res.status(400).send({message:"type must be Dev or Bug",
@@ -125,20 +125,37 @@ exports.UpdateCardById = (req, res, next) => {
       res.status(400).send({message:"status must be Backlog, Doing or Done",
                           error: 610});
     }else{
-      cards.update({_id: req.params.cardId}, {
-        title: title,
-        status: status,
-        description: description,
-        type: type,
-        members: members,
-        checklist: checklist,
-      }).exec((err,card)=>{
-        if (err) {
-          console.log(err);
-          res.status(500).send({message:`${err}`,
-                                error: 603});
-        } else {
-          res.status(200).send({message:'card updated successfully'});
+      users.find({'email': {$in : members}}).select("_id").exec((err,usersIds)=>{
+        if(err){
+          res.status(500).send({
+            message: `GET Error: There was a problem retrieving: ${err}`,
+            error: 603
+          });
+        }else{
+          if(usersIds){
+            console.log(usersIds)
+            cards.update({_id: req.params.cardId}, {
+              title: title,
+              status: status,
+              description: description,
+              type: type,
+              members: usersIds,
+              checklist: checklist,
+            }).exec((err,card)=>{
+              if (err) {
+                console.log(err);
+                res.status(500).send({message:`${err}`,
+                                      error: 603});
+              } else {
+                res.status(200).send({message:'card updated successfully'});
+              }
+            });
+          }else{
+            res.status(400).send({
+              message: `this email is not a user ${item}`,
+              error: 603
+            });
+          }
         }
       });
     }

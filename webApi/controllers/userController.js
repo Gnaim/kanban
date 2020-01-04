@@ -10,8 +10,8 @@ exports.getById = (req, res, next) => {
   .exec((err, user) => {
     if (err) {
       res.status(500).send({
-        "message":"There was a problem retrieving user",
-        "code": "603"
+        message:"There was a problem retrieving user",
+        error: "603"
       });
     } else {
       res.status(200).format({
@@ -89,8 +89,8 @@ exports.UpdateUserById = (req, res, next) => {
           }, (err, user) => {
             if (err) {
               res.status(500).send({
-                "message":"There was a problem retrieving user",
-                "code": "test"
+                message:"There was a problem retrieving user",
+                error: "test"
               });
             } else {
               res.status(200).format({
