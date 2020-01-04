@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { MembreListComponent } from '../membre-list/membre-list.component';
 import { Project } from 'src/app/entity/Project';
-import { User } from 'src/app/entity/user';
 
 @Component({
   selector: 'app-project-detail',

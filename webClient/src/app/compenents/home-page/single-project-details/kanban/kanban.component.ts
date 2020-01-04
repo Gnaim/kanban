@@ -33,8 +33,6 @@ export class KanbanComponent implements OnInit,OnChanges {
                 private modalService: BsModalService) {}
 
     ngOnInit() {
-        console.log(this.project);
-        console.log(this.projectMembers);
        this.loadData();
     }
 
@@ -63,7 +61,6 @@ export class KanbanComponent implements OnInit,OnChanges {
     }
 
     updateTaskStauts(card: Card, status: CardStatus) {
-        console.log("drop event:" + card.status + " ==> " + status);
         if(status == CardStatus.TODO)  card.status = CardStatus.TODO_U;
         if(status == CardStatus.IN_PROGESS)  card.status = CardStatus.IN_PROGESS_U;
         if(status == CardStatus.DONE)  card.status = CardStatus.DONE_U;

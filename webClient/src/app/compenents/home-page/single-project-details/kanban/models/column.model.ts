@@ -9,7 +9,7 @@ export class Column {
 
     cardsCompare(a: Card, b: Card): number {
         if (a.createdAt > a.createdAt) return 1;
-        if (a.title = b.title) return 0;
+        if (a.title == b.title) return 0;
         if (a.title < b.title) return -1;
     }
 
