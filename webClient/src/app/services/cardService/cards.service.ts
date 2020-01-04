@@ -24,20 +24,15 @@ export class CardsService {
   }
 
 
-  getCardsByProject(projectId: string): Array<Card> {
-
-    let response: any;
-    // any=HttpHelpers.parseData(this.http.get(HttpHelpers.CARDS_URL, HttpHelpers.HTTP_OPTIONS));
-    let tempResponse: string = " ";
-
-
-    return new Array<Card>();
-
-
+  getCardsByProject(projectId: string){
+    return this.http.get(HttpHelpers.PROJECTS_URL + "/" + projectId + "/" + HttpHelpers.CARDS_URL,{observe: "response"});
   }
 
+  updateCard(card: Card,projectId:string) {
+    return this.http.put(HttpHelpers.PROJECTS_URL + "/" + projectId + "/" + HttpHelpers.CARDS_URL + "/"  + card._id,card,HttpHelpers.HTTP_OPTIONS);
+  }
 
-  updateCard(card: Card) {
-    //  this.http.put(HttpHelpers.CARDS_URL, HttpHelpers.HTTP_OPTIONS);
+  deleteCard(cardId:string,projectId:string){
+    return this.http.delete(HttpHelpers.PROJECTS_URL + "/" + projectId + "/" + HttpHelpers.CARDS_URL + "/"  + cardId,HttpHelpers.HTTP_OPTIONS);
   }
 }

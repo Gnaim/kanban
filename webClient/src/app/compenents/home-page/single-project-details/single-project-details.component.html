@@ -7,8 +7,9 @@
 <div *ngIf="!isLoading && !errorGetData" class="row">
 <div class="ml-2  p-3 w-100">
         <div class="row fix-side-bar">
-            <app-project-detail class="col-xl-11 col-md-6 m-4" [project]="project"></app-project-detail>
-            <app-kanban class="col-xl-11 col-md-6 m-4" [cards]="project.cards"></app-kanban>
+            <app-project-detail *ngIf="project" class="col-xl-11 col-md-6 m-4" [project]="project"></app-project-detail>
+            <app-kanban *ngIf="project && projectCards" class="col-xl-11 col-md-6 m-4" [project]="project" 
+                        [cards]="projectCards" [members]="project.members" (notifyOnChange)="cardsUpdated($event)"></app-kanban>
             <button data-toggle="tooltip" data-placement="left" title="Delete project" class="float bg-danger" (click)="deleteProject()">
                 <i class="fas fa-trash-alt my-float"></i>
             </button>

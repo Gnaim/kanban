@@ -5,14 +5,14 @@
     <div class="card-body border-left-primary shadow h-100">
         <div class="board">
             <div class="board-wrapper">
-                <div class="board-columns" cdkDropListGroup>
+                <div class="board-columns" *ngIf="board" cdkDropListGroup>
                     <div class="board-column" *ngFor="let column of board.columns">
                         <div class="column-title"> {{ column.name }} </div>
                        <div class="tasks-container" cdkDropList 
                             [cdkDropListData]="column" (cdkDropListDropped)="drop($event)">
                         <div class="task card border-left-primary shadow h-400 py-2" cdkDrag 
                             [cdkDragData]="taskItem" *ngFor="let taskItem of column.tasks" cdkDrag
-                            (click)="showTask()">
+                            (click)="showTask(taskItem)">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
@@ -20,6 +20,10 @@
                                             {{ taskItem.title}}</div>
                                         <div class="h8 mb-0 font-weight-bold text-gray-800">
                                             {{taskItem.description}}</div>
+                                            <div class="mb-0 font-weight-bold text-gray-800">
+                                                Create at : {{taskItem.createdAt | date : 'short'}}</div>
+                                                <div class="mb-0 font-weight-bold text-gray-800">
+                                                    Create by : {{taskItem.createdBy.lastName}}</div>
                                     </div>
                                     <div class="col-auto"> 
                                         <i *ngIf="taskItem.type=='bug' || taskItem.type=='Bug'" class="fas fa-bug fa-2x text-gray-300"></i>

@@ -9,6 +9,7 @@ import { CardStatus } from 'src/app/services/helpers/CardStatus';
 import { MyNotificationsService } from 'src/app/services/notifications/notifications.service';
 
 
+
 @Component({
   selector: 'app-task-form',
   templateUrl: './task-form.component.html',
@@ -16,16 +17,21 @@ import { MyNotificationsService } from 'src/app/services/notifications/notificat
 })
 export class TaskFormComponent implements OnInit {
   
-  people = [
-    "Anass", "Anis", "Malek", "Naim"
-  ];
+  people = ["Anass", "Anis", "Malek", "Naim"];
   types = ["Dev", "Bug"];
-  selectedPeople = [];
+  status = ["Backlog","Doing","Done"];
+  
   cardForm: FormGroup;
-  submitted: boolean = false;
   project: Project;
+  projectName: string;
+  projectId : string;
+  card : Card;
+  selectedMembers = [];
+  projectMembers = [];
+  submitted: boolean = false;
   isUpdate:boolean;
-
+  isConsult:boolean;
+            
   constructor(private bsModalRef: BsModalRef,
               private router: Router, 
               private notification:MyNotificationsService,
@@ -35,14 +41,19 @@ export class TaskFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.card);
+    if(this.project){
+      this.projectName = this.project.name;
+    }
     this.cardForm = this.formBuilder.group({
-      type: ['', [Validators.required]],
       title: ['', [Validators.required]],
+      type: ['', [Validators.required]],
+      status : ['Backlog',[Validators.required]],
       description: ['', [Validators.required]],
       members: [[], []],
     });
     if(this.isUpdate && this.isUpdate == true){
-      //remplir le form avec les doonnes
+      this.initFormWithValues();
     }
   }
 
@@ -81,8 +92,73 @@ export class TaskFormComponent implements OnInit {
 
   }
 
-  updateCard(){
-
+  switchToEdit(){
+    this.initFormWithValues();
+    this.isConsult = false;
+    this.isUpdate = true;
   }
 
+  cancelEdit(){
+    this.isConsult = true;
+    this.isUpdate = false;
+  }
+
+  initFormWithValues(){
+    this.cardForm.patchValue({
+      title : this.card.title,
+      description : this.card.description,
+      type : this.card.type,
+      status : this.card.status,
+      members : this.card.members,
+    });
+  }
+
+  updateCard(){
+    console.log("updateCard");
+    this.submitted = true;
+    if (this.cardForm.invalid) {
+      return; //stop if the form is not valid
+    }
+    const formValue = this.cardForm.value;
+    const type = formValue['type'];
+    const status = formValue['status'];
+    const title = formValue['title'];
+    const description = formValue['description'];
+    const members = formValue['members'];
+    const membersEmails = this.getAssignedMembersEmails(members);
+    const cardStatus = status as CardStatus;
+    const card : Card = new Card(title,type,cardStatus,description,null,null,membersEmails,this.card._id);
+    this.cardsService.updateCard(card,this.projectId).subscribe(
+      (response) => {
+        console.log(response);
+        this.notification.showTaskUpdateSuccess();
+        this.bsModalRef.hide();
+      },
+      (error) => {
+        console.log(error);
+        this.notification.showErrorNotification(error);
+      } 
+    );
+  }
+
+  deleteCard(){
+    this.cardsService.deleteCard(this.card._id,this.projectId).subscribe(
+      (response) => {
+        this.notification.showTaskDeleteSuccess();
+        this.bsModalRef.hide();
+      },(error) => {
+        console.log(error);
+        this.notification.showErrorNotification(error);
+      }
+    );
+  }
+
+  getAssignedMembersEmails(assignedMembers){
+    let membersIds = [];
+    console.log(assignedMembers);
+      for(let i=0; i<assignedMembers.length; i++){
+          membersIds.push({'email' : assignedMembers[i].email});
+      }
+      return membersIds;
+  }
 }

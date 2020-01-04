@@ -16,7 +16,7 @@ export class Card {
 
     constructor(title?: string, type?: string, status?: CardStatus,
         description?: string, creationDate?: number, updateDate?: number,
-        members?: User[]) {
+        members?: User[],_id?:string) {
         this.type = type;
         this.title = title;
         this.status = status;
@@ -24,6 +24,7 @@ export class Card {
         this.createdAt = creationDate;
         this.updatedAt = updateDate;
         this.members = members;
+        this._id = _id;
     }
 
 

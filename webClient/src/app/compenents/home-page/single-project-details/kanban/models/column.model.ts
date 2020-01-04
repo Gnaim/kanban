@@ -3,7 +3,7 @@ import { CardStatus } from 'src/app/services/helpers/CardStatus';
 
 export class Column {
 
-    constructor(public name: string, public tasks: Array<Card>, public status: CardStatus) {
+    constructor(public name: string, public tasks: Card[], public status: CardStatus) {
         tasks.sort(this.cardsCompare);
     }
 
@@ -24,6 +24,10 @@ export class Column {
             this.tasks.splice(index, 1);
         }
         this.tasks.sort(this.cardsCompare);
+    }
+
+    getCards(){
+        return this.tasks;
     }
 
 }

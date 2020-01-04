@@ -55,10 +55,4 @@ export class WorkComponent implements OnInit {
           this.isLoading = false;
         });
   }
-
-  openTaskCreation() {
-    this.bsModalRef = this.modalService.show(TaskFormComponent, {class: 'modal-lg'});
-    this.bsModalRef.content.closeBtnName = 'Close';
-  }
-
 }
