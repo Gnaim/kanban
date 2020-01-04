@@ -10,10 +10,15 @@ exports.getAll = (req, res, next) => {
   // to do find project where the user is member and not user is admin
   const payload = req.decoded;
   projects.find({
-    members: {
-      email: payload.data.email,
-      role: 'admin',
-    },
+    members: { $in :[
+                {email: payload.data.email,
+                role: 'admin'},
+                {email: payload.data.email,
+                role: 'developer'},
+                {email: payload.data.email,
+                role: 'tester'}
+            ]
+    }
   })
     .populate('cards', 'title status members type checklist createdAt')
     .select('name createdAt members description updatedAt')
