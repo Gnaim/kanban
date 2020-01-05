@@ -49,7 +49,9 @@ import { MyNotificationsService } from './services/notifications/notifications.s
 import { TokenGuardService } from './services/guards/tokenguard.service';
 import { DashboardService } from './services/dahsboardService/dashboard.service';
 import { UserService } from './services/userServie/user.service';
-
+import { ConfirmMailComponent } from './compenents/confirm-mail/confirm-mail.component'
+import { ConfirmMailService } from './services/confirmMail/confirm-mail.service';
+import { ForgetPasswordService } from './services/forgetPassword/forgetPassword.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,7 +77,8 @@ import { UserService } from './services/userServie/user.service';
     ProfileComponent,
     KanbanComponent,
     ForgetPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    ConfirmMailComponent
   ],
 
   entryComponents: [TaskFormComponent, ProjectFormComponent, MembreListComponent, ForgetPasswordComponent],
@@ -94,7 +97,7 @@ import { UserService } from './services/userServie/user.service';
   ],
 
   providers: [LoginService, SignupService, ProjectsService, CardsService, DashboardService,
-    AuthGuardService, MyNotificationsService, TokenGuardService,UserService, {
+    AuthGuardService, MyNotificationsService, TokenGuardService, UserService, ForgetPasswordService, ConfirmMailService, {
       provide: HTTP_INTERCEPTORS,
       useClass: ApplicationInterceptor,
       multi: true
