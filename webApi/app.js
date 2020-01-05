@@ -16,6 +16,7 @@ const user = require('./models/user');
 checklist = require('./models/checklist');
 const invitations = require('./models/invitations');
 const resetPwd = require('./models/resetPwd');
+const confirmationUsers = require('./models/confirmationUsers');
 
 const indexRouter = require('./routes/index');
 const projectsRouter = require('./routes/projects');
@@ -24,6 +25,7 @@ const loginRouter = require('./routes/login');
 const userRouter = require('./routes/user');
 const dashboardRouter = require('./routes/dashboard');
 const forgetPasswordRouter = require('./routes/forgetPassword');
+const confirmationUsersRouter = require('./routes/confirmationUsers');
 
 var cors = require('cors');
 
@@ -35,7 +37,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
-app.use('/profilePicture',express.static("profilePicture"))
+app.use('/profilePicture', express.static("profilePicture"))
 app.use('/', indexRouter);
 app.use('/projects', projectsRouter);
 app.use('/signUp', signUpRouter);
@@ -43,6 +45,7 @@ app.use('/login', loginRouter);
 app.use('/user', userRouter);
 app.use('/dashboard', dashboardRouter);
 app.use('/forgetPassword', forgetPasswordRouter);
+app.use('/confirmMail', confirmationUsersRouter);
 
 
 module.exports = app;
