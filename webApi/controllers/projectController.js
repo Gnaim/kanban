@@ -22,8 +22,12 @@ exports.getAll = (req, res, next) => {
             ]
     }
   })
-    .populate('cards', 'title status members type checklist createdAt')
-    .select('name createdAt members description updatedAt')
+    .select('name createdAt members description updatedAt cards')
+    .populate({path:'cards',
+              select:'title description status members type checklist createdAt createdBy',
+              populate : [{path : 'members',select: 'firstName lastName profession email'}
+                          ,{path : 'createdBy',select: 'firstName lastName profession email'}]
+            })
     .exec((err, projects) => {
       if (err) {
         res.status(500).send({
