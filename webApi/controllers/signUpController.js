@@ -12,12 +12,12 @@ exports.post = (req, res, next) => {
   const { lastName } = req.body;
   const { tel } = req.body;
   const { profession } = req.body;
-  const { imageUrl } = req.body;
   const checkedIn = new Date();
-
-  if (email == null || password == null || firstName == null || lastName == null || tel == null || profession == null) {
+  const imageUrl = req.file ? 'profilePicture/'+req.file.filename : null;
+  if (email == null || password == null || firstName == null || lastName == null || tel == null || profession == null
+      || imageUrl == null) {
     res.status(400).send({
-      message: "email, password, tel,profession, last name and first name are required to create project",
+      message: "email, password, tel,profession,image, last name and first name are required to create project",
       error: 610
     })
   } else {
