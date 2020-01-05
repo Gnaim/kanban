@@ -4,7 +4,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const dotenv = require('dotenv');
 const mailSender = require('./utils/mailSender');
-const cors = require('cors');
 
 // get keys from config.env
 dotenv.config({ path: './config.env' });
@@ -26,29 +25,16 @@ const userRouter = require('./routes/user');
 const dashboardRouter = require('./routes/dashboard');
 const forgetPasswordRouter = require('./routes/forgetPassword');
 
-
-// module.exports = {
-//     env: process.env.NODE_ENV,
-//     serverPort: process.env.SERVER_PORT,
-//     serverDb: process.env.SERVER_DB,
-//     JWTSecret: process.env.JWT_SECRET,
-// }
+var cors = require('cors');
 
 const app = express();
-
-// allow cors for localhost:4200
-app.options('*', function (req, res) {
-    res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200"); // to change
-    res.setHeader('Access-Control-Allow-Methods', '*');
-    res.setHeader("Access-Control-Allow-Headers", "*");
-    res.end();
-});
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 app.use('/', indexRouter);
 app.use('/projects', projectsRouter);
 app.use('/signUp', signUpRouter);
