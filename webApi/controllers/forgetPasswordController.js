@@ -3,6 +3,7 @@ const cards = mongoose.model('Card');
 const users = mongoose.model('User');
 const resetPwd = mongoose.model('resetPwd');
 const mailSender = require('../utils/mailSender');
+const bcrypt = require('bcrypt');
 exports.postEmail = (req, res, next) => {
     const email = req.body.email;
     console.log(email);
@@ -53,20 +54,16 @@ exports.resetPasswordRequest = (req, res, next) => {
                 error: 612
             });
         } else {
-            users.updateOne({ email: user_uuid.email }, { password: newPassword }, (err, result) => {
-                if (err) {
-                    res.status(500).send({
-                        message: 'There was a problem in the server contact the admin please.',
-                        error: 603
-                    });
-                } else {
-                    res.status(200).send({
-                        message: 'update password succeed'
-                    });
-                }
-
-
-            });
+            const currentDate = new Date();
+            var hours = Math.abs(currentDate - user_uuid.createdAt) / 36e5;
+            if (hours <= 24) {
+                updateUserPassword(user_uuid.email, newPassword, res);
+            } else {
+                res.status(401).send({
+                    message: 'the link used to reset password is expired',
+                    error: 612
+                });
+            }
 
 
         }
@@ -76,3 +73,56 @@ exports.resetPasswordRequest = (req, res, next) => {
 
 
 };
+
+function updateUserPassword(email, newPassword, res) {
+    bcrypt.genSalt(10, (err, salt) => {
+        if (err) {
+            res.status(500).send({
+                message: 'There was a problem in the server contact the admin please.',
+                error: 603
+            });
+        } else {
+            bcrypt.hash(newPassword, salt, (err, hashed) => {
+                if (err) {
+                    res.status(500).send({
+                        message: 'There was a problem in the server contact the admin please.',
+                        error: 603
+                    });
+                } else {
+
+                    users.updateOne({ email: email }, { password: hashed }, (err, result) => {
+                        if (err) {
+                            res.status(500).send({
+                                message: 'There was a problem in the server contact the admin please.',
+                                error: 603
+                            });
+                        } else {
+                            resetPwd.deleteMany({ email: email }, (err) => {
+                                if (err) {
+                                    res.status(500).send({
+                                        message: 'There was a problem in the server contact the admin please.',
+                                        error: 603
+                                    });
+                                } else {
+                                    res.status(200).send({
+                                        message: 'update password succeed'
+                                    });
+
+                                }
+
+                            });
+
+                        }
+
+
+                    });
+
+                }
+
+
+            });
+        }
+
+    });
+
+}

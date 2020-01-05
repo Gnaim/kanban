@@ -76,7 +76,7 @@ async function sendResetPasswordInvitation(email, uuid) {
         from: '"Kanban-application 👻" <florianlerois@gmail.com>', // sender address
         to: email, // list of receivers
         subject: 'Invitation to reset your Password', // Subject line
-        html: `Hi ${email},<br> you're invited to reset your password by clicking on this link <a href="http://localhost:4200/ResetPassword/${uuid}"> Click Here <a> ${project.name}`
+        html: `Hi ${email},<br> you're invited to reset your password by clicking on this link <a href="http://localhost:4200/ResetPassword/${uuid}"> Click Here </a>`
 
     });
 
