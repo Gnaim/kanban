@@ -11,29 +11,31 @@ import { SingleProjectDetailsComponent } from './compenents/home-page/single-pro
 import { ProfileComponent } from './compenents/home-page/profile/profile.component';
 import { ErrorPageComponent } from './compenents/errors/error-page/error-page.component';
 import { ResetPasswordComponent } from './compenents/reset-password/reset-password.component';
-import { AuthGuardService as Guard} from './services/guards/authguard.service';
-import { TokenGuardService as TokenGuard} from './services/guards/tokenguard.service';
+import { AuthGuardService as Guard } from './services/guards/authguard.service';
+import { TokenGuardService as TokenGuard } from './services/guards/tokenguard.service';
+import { ConfirmMailComponent } from './compenents/confirm-mail/confirm-mail.component';
 
 const homePageChildren: Routes = [
-  { path: 'Dashboard', component: DashBoardComponent, canActivate : [TokenGuard]},
-  { path: 'Projects', component: ProjectsComponent, canActivate : [TokenGuard] },
-  { path: 'Work', component: WorkComponent, canActivate : [TokenGuard] },
-  { path: 'People', component: PeopleComponent, canActivate : [TokenGuard] },
-  { path: 'Project/:id', component: SingleProjectDetailsComponent, canActivate : [TokenGuard] },
-  { path: 'Profile', component: ProfileComponent, canActivate : [TokenGuard] }
+  { path: 'Dashboard', component: DashBoardComponent, canActivate: [TokenGuard] },
+  { path: 'Projects', component: ProjectsComponent, canActivate: [TokenGuard] },
+  { path: 'Work', component: WorkComponent, canActivate: [TokenGuard] },
+  { path: 'People', component: PeopleComponent, canActivate: [TokenGuard] },
+  { path: 'Project/:id', component: SingleProjectDetailsComponent, canActivate: [TokenGuard] },
+  { path: 'Profile', component: ProfileComponent, canActivate: [TokenGuard] }
 ];
 
 const routes: Routes = [
-  { path: '', component: LogInComponent, canActivate : [Guard] },
-  { path: 'Login', component: LogInComponent, canActivate : [Guard]},
-  { path: 'Signup', component: SignUpComponent, canActivate : [Guard]},
-  { path: 'ResetPassword/:token', component: ResetPasswordComponent, canActivate : [Guard] },
+  { path: '', component: LogInComponent, canActivate: [Guard] },
+  { path: 'Login', component: LogInComponent, canActivate: [Guard] },
+  { path: 'Signup', component: SignUpComponent, canActivate: [Guard] },
+  { path: 'ResetPassword/:token', component: ResetPasswordComponent, canActivate: [Guard] },
+  { path: 'confirmMail/:token', component: ConfirmMailComponent, canActivate: [Guard] },
   {
     path: 'Home',
     component: HomePageComponent,
     children: homePageChildren
   },
-  { path: '**' , component: ErrorPageComponent}
+  { path: '**', component: ErrorPageComponent }
 ];
 
 @NgModule({
