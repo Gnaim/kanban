@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { BsModalRef } from 'ngx-bootstrap';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { CardsService } from '../../../services/cardService/cards.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -31,9 +31,12 @@ export class TaskFormComponent implements OnInit {
   submitted: boolean = false;
   isUpdate:boolean;
   isConsult:boolean;
+  
             
   constructor(private bsModalRef: BsModalRef,
-              private router: Router, 
+              private bsModalRef2: BsModalRef,
+              private router: Router,
+              private modalService: BsModalService, 
               private notification:MyNotificationsService,
               private cardsService: CardsService, 
               private formBuilder: FormBuilder) {
@@ -151,6 +154,19 @@ export class TaskFormComponent implements OnInit {
         this.notification.showErrorNotification(error);
       }
     );
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.bsModalRef2 = this.modalService.show(template, {class: 'modal-sm'});
+  }
+
+  confirm(): void {
+    this.bsModalRef2.hide();
+    this.deleteCard();
+  }
+ 
+  decline(): void {
+    this.bsModalRef2.hide();
   }
 
   getAssignedMembersEmails(assignedMembers){

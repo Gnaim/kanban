@@ -104,7 +104,7 @@
               <input type="submit" class="task-edit-btn" name="btnAddMore" value="Cancel edit" (click)="cancelEdit()"/>
             </div> 
             <div  *ngIf="isUpdate || isConsult" class="col-md-4" style="margin-left: auto;margin-right:auto;">
-              <input type="submit" class="task-delete-btn" name="btnAddMore" value="Delete task" (click)="deleteCard()"/>
+              <input type="submit" class="task-delete-btn" name="btnAddMore" value="Delete task" (click)="openModal(template)"/>
             </div> 
           </div>
         </div>
@@ -112,3 +112,11 @@
     </div>
   </div>
 </div>
+
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Do you really want to delete this task ?</p>
+    <button type="button" class="btn btn-danger m-2" (click)="confirm()" >Yes</button>
+    <button type="button" class="btn btn-primary m-2" (click)="decline()" >No</button>
+  </div>
+</ng-template>  

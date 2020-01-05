@@ -17,7 +17,8 @@ export class WorkComponent implements OnInit {
   bsModalRef: BsModalRef;
   emptyResponse: boolean;
   projects : Project[];
-  collapseIds = [];
+  collapseIdsLink = [];
+  collapseIdsDiv = [];
   isLoading: boolean;
   errorGetTasks : boolean;
 
@@ -40,7 +41,8 @@ export class WorkComponent implements OnInit {
           let size = this.projects.length;
 
           for(let j=0;j<size;j++){
-            this.collapseIds.push("a" + Math.random().toString(36).substring(7));
+            this.collapseIdsDiv.push("a" + Math.random().toString(36).substring(7));
+            this.collapseIdsLink.push("#"+this.collapseIdsDiv[j]);
           }
 
           if(size != 0){
