@@ -67,5 +67,10 @@ export class LogInComponent implements OnInit {
   openForgetPasswordPage() {
     this.bsModalRef = this.modalService.show(ForgetPasswordComponent, { class: 'modal-lg' });
     this.bsModalRef.content.closeBtnName = 'Close';
+    this.modalService.onHide.subscribe((reason) => {
+      if (reason != ''){
+        
+      }
+    })
   }
 }
