@@ -5,7 +5,9 @@
             <div class="col-lg-12 p-5">
                 <div class="text-center">
                     <h1 *ngIf="!isUpdate" class="h2 text-gray-900 mb-4">Create Project</h1>
-                    <h1 *ngIf="isUpdate" class="h2 text-gray-900 mb-4">Update Project</h1>
+                    <h1 *ngIf="isUpdate" class="h2 text-gray-900 mb-4">Update Project 
+                        <i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="right" title="If you add a member's email that doesn't exist in the database he will receive an invitation mail to create an account in order to work on the project"></i>
+                    </h1>
                 </div>
                 <form [formGroup]="projectForm" class="project col" (ngSubmit)="submitForm()">
                     <div class="form-group">
@@ -31,7 +33,8 @@
                     <div class="form-group" *ngIf="isUpdate">
                         <ng-select class="form-control-task" [items]="[]" [addTag]="addUser"  [isOpen]="false"
                                    placeholder="Enter members mail to add to the project..." formControlName="membersProject"
-                                   [hideSelected]="true"  multiple="true" bindLabel="email" [(ngModel)]="selectedMembers">
+                                   [hideSelected]="true"  multiple="true" bindLabel="email" [(ngModel)]="selectedMembers"
+                                   >
                         </ng-select>
                         <div *ngIf="submitted && getFormErrors.membersProject.errors" class="text-danger m-2">
                             <div *ngIf="getFormErrors.membersProject.errors.required">the members field is missing</div>

@@ -7,7 +7,9 @@
           <div class="text-center">
             <h1 *ngIf="isConsult"> {{card.title}}</h1>
             <h1 *ngIf="!isConsult && !isUpdate" class="h2 text-gray-900 mb-4">Create Task</h1>
-            <h1 *ngIf="isUpdate" class="h2 text-gray-900 mb-4">Update task</h1>
+            <h1 *ngIf="isUpdate" class="h2 text-gray-900 mb-4">Update task
+              <i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="right" title="Only project members can be assigned to a task !"></i>
+            </h1>
           </div>
           <form *ngIf="!isConsult" [formGroup]="cardForm" (ngSubmit)="submitForm()" class="user">
             <div class="form-group">
@@ -55,7 +57,7 @@
             </div>
 
             <div *ngIf="isUpdate" class="form-group">
-              <ng-select class="select form-control-task" [items]="projectMembers" [multiple]="true" [closeOnSelect]="false"
+              <ng-select class="form-control-task" [items]="projectMembers" [multiple]="true" [closeOnSelect]="false"
                 [hideSelected]="true" bindLabel="email" placeholder="Select members to assign..." formControlName="members">
                 <!-- [(ngModel)]="selectedPeople" -->
               </ng-select>

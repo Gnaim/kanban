@@ -69,12 +69,14 @@ export class ResetPasswordComponent implements OnInit {
       (response) => {
         console.log(response);
         this.notification.showSuccess();
+        this.router.navigate(['Login']);
       },
       (error) => {
         console.log(error);
 
         if(error.error.error == ResponsesCodes.INVALID_RESET_PASSWORD_TOKEN){
           this.notification.showErrorResetPassword();
+          this.openForgetPasswordPage();
         }else{
           this.notification.showErrorNotification(error);
         }

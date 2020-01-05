@@ -10,7 +10,7 @@
             <app-project-detail *ngIf="project" class="col-xl-11 col-md-6 m-4" [project]="project"></app-project-detail>
             <app-kanban *ngIf="project && projectCards" class="col-xl-11 col-md-6 m-4" [project]="project" 
                         [cards]="projectCards" [members]="project.members" (notifyOnChange)="cardsUpdated($event)"></app-kanban>
-            <button data-toggle="tooltip" data-placement="left" title="Delete project" class="float bg-danger" (click)="deleteProject()">
+            <button data-toggle="tooltip" data-placement="left" title="Delete project" class="float bg-danger" (click)="openModal(template)">
                 <i class="fas fa-trash-alt my-float"></i>
             </button>
             <button data-toggle="tooltip" data-placement="left" title="Edit project" class="float-edit bg-success" (click)="openEditProject()">
@@ -21,3 +21,10 @@
             </button>
         </div>
 </div>
+<ng-template #template>
+    <div class="modal-body text-center">
+      <p>Do you really want to delete this project ?</p>
+      <button type="button" class="btn btn-danger m-2" (click)="confirm()" >Yes</button>
+      <button type="button" class="btn btn-primary m-2" (click)="decline()" >No</button>
+    </div>
+  </ng-template>

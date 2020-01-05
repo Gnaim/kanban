@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ProjectsService } from 'src/app/services/projectService/projects.service';
 import { Project } from 'src/app/entity/Project';
@@ -74,6 +74,19 @@ export class SingleProjectDetailsComponent implements OnInit {
           this.ngOnInit();
       }
     })
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.bsModalRef = this.modalService.show(template, {class: 'modal-sm'});
+  }
+
+  confirm(): void {
+    this.deleteProject();
+    this.bsModalRef.hide();
+  }
+ 
+  decline(): void {
+    this.bsModalRef.hide();
   }
 
   deleteProject(){
