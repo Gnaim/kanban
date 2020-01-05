@@ -20,7 +20,7 @@ function initTrasnporter() {
 
 
 // async..await is not allowed in global scope, must use a wrapper
-async function sendConfirmation(emailReciever, name, lastName) {
+async function sendConfirmation(token, emailReciever, name, lastName) {
 
     // create reusable transporter object using the default SMTP transport
     initTrasnporter();
@@ -31,7 +31,7 @@ async function sendConfirmation(emailReciever, name, lastName) {
         to: emailReciever, // list of receivers
         subject: 'Hello ✔', // Subject line
         text: 'Bienvenu dans mon application' + name + ' ' + lastName, // plain text body
-        html: 'Bienvenu dans mon application <b>' + '' + name + '</b> ' + lastName // html body
+        html: `Bienvenu dans mon application <b> ${name} </b>  ${lastName} <br> <a href="http://localhost:4200/ConfirmMail/${token}"> Click Here </a> ` // html body
     });
 
     console.log('Message sent: %s', info.messageId);
@@ -90,8 +90,8 @@ async function sendResetPasswordInvitation(email, uuid) {
 
 
 // main().catch(console.error);
-exports.sendConfirmationMail = (emailReciever, name, lastName) => {
-    sendConfirmation(emailReciever, name, lastName)
+exports.sendConfirmationMail = (token, emailReciever, name, lastName) => {
+    sendConfirmation(token, emailReciever, name, lastName)
 };
 
 exports.sendInvitationMail = (email, project) => {

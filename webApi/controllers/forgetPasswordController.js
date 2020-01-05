@@ -1,5 +1,4 @@
-const projects = mongoose.model('Project');
-const cards = mongoose.model('Card');
+
 const users = mongoose.model('User');
 const resetPwd = mongoose.model('resetPwd');
 const mailSender = require('../utils/mailSender');
