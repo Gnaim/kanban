@@ -18,7 +18,7 @@ exports.isProjectMember = (req, res, next) => {
     if (err) {
       res.status(500).send({message:`GET Error: There was a problem retrieving: ${err}`,
                             error: 603});
-    } else if (getRole(EmailMember, project.members)) {
+    } else if (project && getRole(EmailMember, project.members)) {
       next();
     } else {
       res.status(403).send({message:'not authorized , you are not a project member',
