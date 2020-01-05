@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Card } from 'src/app/entity/card';
 
 @Component({
   selector: 'app-task-overview',
@@ -6,7 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./task-overview.component.scss']
 })
 export class TaskOverviewComponent implements OnInit {
-
+  @Input('card') card: Card;
+  
   constructor() { }
 
   ngOnInit() {

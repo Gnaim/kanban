@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { User } from 'src/app/entity/user';
 
 @Component({
   selector: 'app-project-members',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProjectMembersComponent implements OnInit {
 
+  @Input('projectName') name: string;
+  @Input('members') members: User[];
+  idCollapse : string;
+
   constructor() { }
 
   ngOnInit() {
+    this.idCollapse = "a" + Math.random().toString(36).substring(7);
   }
 
 }

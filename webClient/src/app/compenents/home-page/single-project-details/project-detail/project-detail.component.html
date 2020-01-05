@@ -1,40 +1,31 @@
 <div class="card border-left-primary shadow h-100 py-2">
-        <div class="card-body">
-          <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-                <div class=" h4 text-xs font-weight-bold text-primary text-uppercase mb-1">
-                        <span class="  text-dark-50 small float-right">Created by : member name</span>
-                    Project name
-                </div>
-              
-              <div class="h10 mb-0 font-weight-bold text-gray-800 w-90">
-                    Martinus agens illas provincias pro praefectis aerumnas innocentium graviter gemens 
-                    saepeque obsecrans, ut ab omni culpa inmunibus parceretur, cum non inpetraret, 
-                    minabatur se discessurum: ut saltem id metuens perquisitor malivolus tandem
-                    desineret quieti coalitos homines in aperta pericula proiectare.
-                    Martinus agens illas provincias pro praefectis aerumnas innocentium graviter
-                    gemens saepeque obsecrans, ut ab omni culpa inmunibus parceretur, cum non inpetraret,
-                    minabatur se discessurum: ut saltem id metuens perquisitor malivolus tandem desineret q
-                    uieti coalitos homines in aperta pericula proiectare.
-              </div>
-              <div class="text-center">
-                  <span data-toggle="tooltip" data-placement="bottom" title="click to see project's members">
-                    <i class="fa-2x text-gray-300 m-2">5</i>
-                    <i class="fas fa-users fa-2x text-gray-300 m-2" 
-                       (click)="openMembersList()">
-                    </i>
-                  </span>
-                    <span data-toggle="tooltip" data-placement="bottom" title="number of tasks">
-                      <i class="fa-2x text-gray-300 m-2">25</i>
-                      <i class="fas fa-tasks fa-2x text-gray-300 m-2"
-                        data-toggle="tooltip" data-placement="bottom" 
-                        title="number of tasks"></i>
-                    </span>
-                <div class="text-dark small float-right">last update : 28/11/2019</div>
-            </div>
-
-            
-           
-          </div>
+  <div class="card-body">
+    <div class="row no-gutters align-items-center">
+      <div class="col mr-2">
+        <div class=" h4 text-xs font-weight-bold text-primary text-uppercase mb-1">
+          <span class="  text-dark-50 small float-right">Created by : {{ adminName }}</span>
+          {{project.name}}
         </div>
-</div>
+
+        <div class="h10 mb-0 font-weight-bold text-gray-800 w-90">
+          {{project.description}}
+        </div>
+        <div class="text-center">
+          <span data-toggle="tooltip" data-placement="bottom" title="click to see project's members">
+            <i class="fa-2x text-gray-300 m-2">{{project.members.length}}</i>
+            <i class="fas fa-users fa-2x text-gray-300 m-2" (click)="openMembersList()">
+            </i>
+          </span>
+          <span data-toggle="tooltip" data-placement="bottom" title="number of tasks">
+            <i class="fa-2x text-gray-300 m-2">{{project.cards.length}}</i>
+            <i class="fas fa-tasks fa-2x text-gray-300 m-2" data-toggle="tooltip" data-placement="bottom"
+              title="number of tasks"></i>
+          </span>
+          <div class="text-dark small float-right">last update : {{project.updatedAt | date: 'short'}}</div>
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>

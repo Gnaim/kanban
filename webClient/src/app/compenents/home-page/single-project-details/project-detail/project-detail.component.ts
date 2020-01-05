@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { MembreListComponent } from '../membre-list/membre-list.component';
+import { Project } from 'src/app/entity/Project';
 
 @Component({
   selector: 'app-project-detail',
@@ -8,16 +9,25 @@ import { MembreListComponent } from '../membre-list/membre-list.component';
   styleUrls: ['./project-detail.component.scss']
 })
 export class ProjectDetailComponent implements OnInit {
+  @Input('project') project: Project;
   bsModalRef: BsModalRef;
-
-  constructor(private modalService: BsModalService) {}
+  adminName : string;
+  constructor(private modalService: BsModalService) { }
 
   ngOnInit() {
+    for(let member of this.project.members){
+        if(member.role == 'admin'){
+          this.adminName = member.email;
+        }
+    }
   }
 
   openMembersList() {
-    
-    this.bsModalRef = this.modalService.show(MembreListComponent, {class: 'modal-md'});
+    const initialState = {
+      membersList : this.project.members,
+      class: 'modal-lg'
+    }
+    this.bsModalRef = this.modalService.show(MembreListComponent, {initialState});
     this.bsModalRef.content.closeBtnName = 'Close';
   }
 

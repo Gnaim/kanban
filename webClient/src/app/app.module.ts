@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-import{ReactiveFormsModule} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './compenents/nav-bar/nav-bar.component';
@@ -27,18 +27,31 @@ import { TaskFormComponent } from './compenents/home-page/task-form/task-form.co
 import { TabsModule } from 'ngx-bootstrap';
 import { ProfileComponent } from './compenents/home-page/profile/profile.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import {HttpClientModule} from '@angular/common/http';
-import { KanbanComponent } from './compenents/home-page/single-project-details/kanban/kanban.component'; 
+import { HttpClientModule } from '@angular/common/http';
 
-import{ jqxKanbanComponent } from 'jqwidgets-ng/jqxkanban'; 
-import { jqxSplitterModule } from 'jqwidgets-ng/jqxsplitter';
+import { KanbanComponent } from './compenents/home-page/single-project-details/kanban/kanban.component';
 
-import {LoginService} from './services/login.service';
-import {SignupService} from './services/signup.service';
-import {ProjectsService} from './services/projects.service'; 
+import { DragDropModule } from '@angular/cdk/drag-drop';
+
+import { LoginService } from './services/loginService/login.service';
+import { SignupService } from './services/signupService/signup.service';
+import { ProjectsService } from './services/projectService/projects.service';
+import { CardsService } from './services/cardService/cards.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptor } from './authentification/token.interceptor';
+import { ApplicationInterceptor } from './services/interceptor/application.interceptor';
+import { ForgetPasswordComponent } from './compenents/log-in/forget-password/forget-password.component';
+import { ResetPasswordComponent } from './compenents/reset-password/reset-password.component';
+import { AuthGuardService } from './services/guards/authguard.service';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+import { MyNotificationsService } from './services/notifications/notifications.service';
+import { TokenGuardService } from './services/guards/tokenguard.service';
+import { DashboardService } from './services/dahsboardService/dashboard.service';
+import { UserService } from './services/userServie/user.service';
+import { ConfirmMailComponent } from './compenents/confirm-mail/confirm-mail.component'
+import { ConfirmMailService } from './services/confirmMail/confirm-mail.service';
+import { ForgetPasswordService } from './services/forgetPassword/forgetPassword.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,27 +76,32 @@ import { TokenInterceptor } from './authentification/token.interceptor';
     TaskFormComponent,
     ProfileComponent,
     KanbanComponent,
-    jqxKanbanComponent
+    ForgetPasswordComponent,
+    ResetPasswordComponent,
+    ConfirmMailComponent
   ],
 
-  entryComponents: [TaskFormComponent,ProjectFormComponent,MembreListComponent],
+  entryComponents: [TaskFormComponent, ProjectFormComponent, MembreListComponent, ForgetPasswordComponent],
   imports: [
-    BrowserModule, 
-    AppRoutingModule, 
-    TabsModule.forRoot(), 
+    BrowserModule,
+    AppRoutingModule,
+    TabsModule.forRoot(),
     ModalModule.forRoot(),
-    NgSelectModule, 
-    FormsModule, 
-    jqxSplitterModule,
+    NgSelectModule,
+    FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    DragDropModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
 
-  providers: [LoginService,SignupService,ProjectsService, {
+  providers: [LoginService, SignupService, ProjectsService, CardsService, DashboardService,
+    AuthGuardService, MyNotificationsService, TokenGuardService, UserService, ForgetPasswordService, ConfirmMailService, {
       provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
+      useClass: ApplicationInterceptor,
       multi: true
     }],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

@@ -1,133 +1,100 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { jqxKanbanComponent } from 'jqwidgets-ng/jqxkanban/public_api';
+import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { Board } from './models/board.model';
+import { Column } from './models/column.model';
+import { Card } from 'src/app/entity/card';
+import { CardsService } from 'src/app/services/cardService/cards.service';
+import { CardStatus } from 'src/app/services/helpers/CardStatus';
+import { MyNotificationsService } from 'src/app/services/notifications/notifications.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { TaskFormComponent } from '../../task-form/task-form.component';
+import { Project } from 'src/app/entity/Project';
+
 
 @Component({
-  selector: 'app-kanban',
-  templateUrl: './kanban.component.html',
-  styleUrls: ['./kanban.component.scss']
+    selector: 'app-kanban',
+    templateUrl: './kanban.component.html',
+    styleUrls: ['./kanban.component.scss'],
 })
-export class KanbanComponent implements OnInit {
-  
-  ngOnInit() {
-    
-  } 
+export class KanbanComponent implements OnInit,OnChanges {
 
-  @ViewChild('myKanbanOne',{static : false}) myKanbanOne: jqxKanbanComponent;
-  @ViewChild('myKanbanTwo',{static : false}) myKanbanTwo: jqxKanbanComponent;
-  @ViewChild('myKanbanThree',{static : false}) myKanbanThree: jqxKanbanComponent;
-  fields: any =
-  [
-      { name: 'status', map: 'state', type: 'string' },
-      { name: 'text', map: 'label', type: 'string' },
-      { name: 'tags', type: 'string' },
-      { name: 'color', map: 'hex', type: 'string' },
-      { name: 'resourceId', type: 'number' }
-  ];
-  source: any =
-  {
-      localData:
-      [
-          { state: 'new', label: 'Combine Orders', tags: 'orders, combine', hex: '#5dc3f0', resourceId: 3 },
-          { state: 'new', label: 'Change Billing Address', tags: 'billing', hex: '#f19b60', resourceId: 1 },
-          { state: 'new', label: 'One item added to the cart', tags: 'cart', hex: '#5dc3f0', resourceId: 3 },
-          { state: 'new', label: 'Edit Item Price', tags: 'price, edit', hex: '#5dc3f0', resourceId: 4 },
-          { state: 'new', label: 'Login 404 issue', tags: 'issue, login', hex: '#6bbd49' }
-      ],
-      dataType: 'array',
-      dataFields: this.fields
-  };
-  dataAdapter: any = new jqx.dataAdapter(this.source);
-  source2: any =
-  {
-      localData:
-      [
-          { state: 'ready', label: 'Logout issue', tags: 'logout, issue', hex: '#5dc3f0', resourceId: 7 },
-          { state: 'ready', label: 'Remember password issue', tags: 'password, issue', hex: '#6bbd49', resourceId: 8 },
-          { state: 'ready', label: 'Cart calculation issue', tags: 'cart, calculation', hex: '#f19b60', resourceId: 9 },
-          { state: 'ready', label: 'Remove topic issue', tags: 'topic, issue', hex: '#6bbd49' }
-      ],
-      dataType: 'array',
-      dataFields: this.fields
-  };
-  dataAdapter2: any = new jqx.dataAdapter(this.source2);
-  source3: any =
-  {
-      localData:
-      [
-          { state: 'done', label: 'Delete orders', tags: 'orders, combine', hex: '#f19b60', resourceId: 4 },
-          { state: 'work', label: 'Add New Address', tags: 'address', hex: '#6bbd49', resourceId: 5 },
-          { state: 'new', label: 'Rename items', tags: 'rename', hex: '#5dc3f0', resourceId: 6 },
-          { state: 'work', label: 'Update cart', tags: 'cart, update', hex: '#6bbd49' }
-      ],
-      dataType: 'array',
-      dataFields: this.fields
-  };
-  dataAdapter3: any = new jqx.dataAdapter(this.source3);
-  resourcesAdapterFunc = (): any => {
-      let resourcesSource =
-          {
-              localData:
-              [
-                  { id: 0, name: 'No name', image: '../jqwidgets/styles/images/common.png', common: true },
-                  { id: 1, name: 'Andrew Fuller', image: '../images/andrew.png' },
-                  { id: 2, name: 'Janet Leverling', image: '../images/janet.png' },
-                  { id: 3, name: 'Steven Buchanan', image: '../images/steven.png' },
-                  { id: 4, name: 'Nancy Davolio', image: '../images/nancy.png' },
-                  { id: 5, name: 'Michael Buchanan', image: '../images/Michael.png' },
-                  { id: 6, name: 'Margaret Buchanan', image: '../images/margaret.png' },
-                  { id: 7, name: 'Robert Buchanan', image: '../images/robert.png' },
-                  { id: 8, name: 'Laura Buchanan', image: '../images/Laura.png' },
-                  { id: 9, name: 'Laura Buchanan', image: '../images/Anne.png' }
-              ],
-              dataType: 'array',
-              dataFields:
-              [
-                  { name: 'id', type: 'number' },
-                  { name: 'name', type: 'string' },
-                  { name: 'image', type: 'string' },
-                  { name: 'common', type: 'boolean' }
-              ]
-          };
-      let resourcesDataAdapter = new jqx.dataAdapter(resourcesSource);
-      return resourcesDataAdapter;
-  }
-  kanbanOneColumns: any[] =
-  [
-      { text: 'Backlog', dataField: 'new', maxItems: 10 }
-  ];
-  kanbanOneColumnRenderer: any = (element: any, collapsedElement: any, column: any): void => {
-      if (element[0]) {
-          let headerStatus = element[0].getElementsByClassName('jqx-kanban-column-header-status')[0];
-          let columnItems = this.myKanbanOne.getColumnItems(column.dataField).length;
-          headerStatus.innerHTML = ' (' + columnItems + '/' + column.maxItems + ')';
+    @Input('project') project : Project;
+    @Input('members') projectMembers = [];
+    @Input('cards') cards : Card[];
+    @Output('notifyOnChange') notifyOnChange = new EventEmitter(); 
+    backLogColumn: Column;
+    inProgressColumn: Column; //Doing
+    doneColumn: Column;
+    board: Board;
+    bsModalRef: BsModalRef;
+    
+    constructor(private cardService: CardsService,
+                private notification : MyNotificationsService,
+                private modalService: BsModalService) {}
+
+    ngOnInit() {
+       this.loadData();
+    }
+
+    ngOnChanges() {
+        this.loadData();
+    }
+
+    loadData(){
+        this.backLogColumn = new Column("BACKLOG", this.cards.filter((a: Card, index: number, array: Card[]) => { return (a.status == CardStatus.TODO || a.status == CardStatus.TODO_U); }), CardStatus.TODO);
+        this.inProgressColumn = new Column("IN-PROGRESS", this.cards.filter((a: Card, index: number, array: Card[]) => { return (a.status == CardStatus.IN_PROGESS || a.status == CardStatus.IN_PROGESS_U); }), CardStatus.IN_PROGESS);
+        this.doneColumn = new Column("DONE", this.cards.filter((a: Card, index: number, array: Card[]) => { return (a.status == CardStatus.DONE || a.status == CardStatus.DONE_U); }), CardStatus.DONE);
+        this.board = new Board('Project Board', [this.backLogColumn, this.inProgressColumn, this.doneColumn]);
+    }
+
+    drop(event: CdkDragDrop<Column>) {
+        if (event.previousContainer === event.container) {
+            moveItemInArray(event.container.data.tasks, event.previousIndex, event.currentIndex);
+        } else {
+            let status: CardStatus = event.container.data.status;
+            transferArrayItem(event.previousContainer.data.tasks,
+                event.container.data.tasks,
+                event.previousIndex,
+                event.currentIndex);
+            this.updateTaskStauts(event.item.data, status);
+        }
+    }
+
+    updateTaskStauts(card: Card, status: CardStatus) {
+        if(status == CardStatus.TODO)  card.status = CardStatus.TODO_U;
+        if(status == CardStatus.IN_PROGESS)  card.status = CardStatus.IN_PROGESS_U;
+        if(status == CardStatus.DONE)  card.status = CardStatus.DONE_U;
+
+        this.cardService.updateCard(card,this.project._id).subscribe(
+        (response) => {
+            console.log(response);
+            this.notification.showSuccess();
+        },(error) => {
+            this.notifyOnChange.emit("UPDATED");
+            this.notification.showErrorNotification(error);
+        });
+    }
+
+    showTask(card:Card){
+        this.openTaskDetail(card);
+    }
+
+    openTaskDetail(selectedCard:Card) {
+        const initialState = {
+            projectName : this.project.name,
+            projectId : this.project._id,
+            projectMembers : this.projectMembers,
+            card : selectedCard,
+            isConsult : true
+        }
+        this.bsModalRef = this.modalService.show(TaskFormComponent,{initialState,class: 'modal-lg'});
+        this.bsModalRef.content.closeBtnName = 'Close';
+        const subscription = this.modalService.onHidden.subscribe((reason:string) => {
+            if(reason != "backdrop-click"){ 
+                this.notifyOnChange.emit("UPDATED");
+                subscription.unsubscribe();
+          }
+        })
       }
-  }
-  kanbanTwoColumns: any[] =
-  [
-      { text: 'Ready', dataField: 'ready', maxItems: 10 }
-  ];
-  kanbanTwoColumnRenderer: any = (element: any, collapsedElement: any, column: any): void => {
-      if (element[0]) {
-          let headerStatus = element[0].getElementsByClassName('jqx-kanban-column-header-status')[0];
-          let columnItems = this.myKanbanTwo.getColumnItems(column.dataField).length;
-          headerStatus.innerHTML = ' (' + columnItems + '/' + column.maxItems + ')';
-      }
-  }
-  kanbanThreeColumns: any[] =
-  [
-      { text: 'Backlog', dataField: 'new', maxItems: 5 },
-      { text: 'In Progress', dataField: 'work', maxItems: 5 },
-      { text: 'Done', dataField: 'done', maxItems: 5 }
-  ];
-  kanbanThreeColumnRenderer: any = (element: any, collapsedElement: any, column: any): void => {
-      if (element[0]) {
-          let columnItems = this.myKanbanThree.getColumnItems(column.dataField).length;
-          let headerStatus = element[0].getElementsByClassName('jqx-kanban-column-header-status')[0];
-          headerStatus.innerHTML = ' (' + columnItems + '/' + column.maxItems + ')';
-          let collapsedHeaderStatus = collapsedElement[0].getElementsByClassName('jqx-kanban-column-header-status')[0];
-          collapsedHeaderStatus.innerHTML = ' (' + columnItems + '/' + column.maxItems + ')';
-      }
-  }
-  mainSplitterPanels: any[] = [{ size: 250, min: 100 }, { min: 250 }];
-  rightSplitterPanels: any[] = [{ min: 200, size: 350, collapsible: false }, { min: 200 }];
+    
 }

@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { TaskFormComponent } from '../../task-form/task-form.component';
+import { Component, OnInit, Input } from '@angular/core';
+import { Card } from 'src/app/entity/card';
 
 @Component({
   selector: 'app-tasks-list',
@@ -9,9 +8,10 @@ import { TaskFormComponent } from '../../task-form/task-form.component';
 })
 export class TasksListComponent implements OnInit {
   
+  @Input('card') card : Card;
+  @Input('memberName') memberName : string;
   
   ngOnInit() {
   }
-
   
 }

@@ -1,11 +1,17 @@
+<div *ngIf="errorGetData" class="fix-side-bar" style="text-align: center;margin-top:11%">
+  <img src="assets/gif/error.gif" />
+</div>
+<div *ngIf="isLoading && !errorGetData" class="fix-side-bar" style="text-align: center;margin-top:11%">
+    <img src="assets/gif/loader.gif" style="width:500px;height:400px;"/>
+</div>
 <div class="mt-4 ml-4">
   <h1 class="h3 mb-0 text-gray-800">My people</h1>
 </div>
-
-<div class="row row-margin">
-  <app-project-members class="col-lg-4"></app-project-members>
-  <app-project-members class="col-lg-4"></app-project-members>
-  <app-project-members class="col-lg-4"></app-project-members>
-  <app-project-members class="col-lg-4"></app-project-members>
-  <app-project-members class="col-lg-4"></app-project-members>
+<div *ngIf="emptyResponse && !isLoading && !errorGetData" class="fix-side-bar" style="text-align: center;margin-top:11%">
+  <img src="assets/images/no_projectteam.png" style="width:400px;height: 300px;"/>
+</div>
+<div *ngIf="!emptyResponse && !isLoading && !errorGetData" class="row fix-side-bar">
+  <app-project-members class="col-lg-4" *ngFor="let project of projects"
+                       [projectName]="project.name" [members]="project.members">
+  </app-project-members>
 </div>

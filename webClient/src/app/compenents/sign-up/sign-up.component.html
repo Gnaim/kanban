@@ -7,7 +7,7 @@
         <div class="col-lg-7">
           <div class="p-5">
             <div class="text-center">
-              <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+              <h1 class="h4 text-gray-900 mb-4">Create your account !</h1>
             </div>
             <form [formGroup]="signUpForm" (ngSubmit)="onSubmitForm()" class="user">
               <div class="form-group row">
@@ -19,6 +19,9 @@
                     id="exampleFirstName"
                     placeholder="First Name"
                   />
+                <div *ngIf="submitted && getFormErrors.firstName.errors" class="text-danger m-2">
+                    <div *ngIf="getFormErrors.firstName.errors.required">First Name is missing</div>
+                </div>
                 </div>
                 <div class="col-sm-6">
                   <input
@@ -28,6 +31,9 @@
                     id="exampleLastName"
                     placeholder="Last Name"
                   />
+                  <div *ngIf="submitted && getFormErrors.lastName.errors" class="text-danger m-2">
+                    <div *ngIf="getFormErrors.lastName.errors.required">Last Name is missing</div>
+                  </div>
                 </div>
               </div>
               <div class="form-group">
@@ -38,6 +44,9 @@
                   formControlName="email"
                   placeholder="Email Address"
                 />
+                <div *ngIf="submitted && getFormErrors.email.errors" class="text-danger m-2">
+                  <div *ngIf="getFormErrors.email.errors.required">Email is missing or mal formed</div>
+                </div>
               </div>
               <div class="form-group">
                   <input
@@ -47,7 +56,22 @@
                     formControlName="phone"
                     placeholder="Phone number"
                   />
+                  <div *ngIf="submitted && getFormErrors.phone.errors" class="text-danger m-2">
+                    <div *ngIf="getFormErrors.phone.errors.required">Phone number is missing or mal formed</div>
+                  </div>
                 </div>
+                <div class="form-group">
+                    <input
+                      type="text"
+                      class="form-control form-control-user"
+                      id="exampleProfession"
+                      formControlName="profession"
+                      placeholder="Your profession"
+                    />
+                    <div *ngIf="submitted && getFormErrors.profession.errors" class="text-danger m-2">
+                      <div *ngIf="getFormErrors.profession.errors.required">Profession is missing</div>
+                    </div>
+                  </div>
               <div class="form-group row">
                 <div class="col-sm-6 mb-3 mb-sm-0">
                   <input
@@ -57,6 +81,10 @@
                     formControlName="password"
                     placeholder="Password"
                   />
+                  <div *ngIf="submitted && getFormErrors.password.errors" class="text-danger m-2">
+                    <div *ngIf="getFormErrors.password.errors.required">Password is missing</div>
+                    <div *ngIf="getFormErrors.password.errors.pattern">Password is mal formed (min lenght 8)</div>
+                  </div>
                 </div>
                 <div class="col-sm-6">
                   <input
@@ -66,6 +94,11 @@
                     formControlName="repeatedPassword"
                     placeholder="Repeat Password"
                   />
+                  <div *ngIf="submitted && getFormErrors.repeatedPassword.errors" class="text-danger m-2">
+                    <div *ngIf="getFormErrors.repeatedPassword.errors.required">Password is missing</div>
+                    <div *ngIf="getFormErrors.repeatedPassword.errors.pattern">Password is mal formed (min lenght 8)</div>
+                    <div *ngIf="getFormErrors.repeatedPassword.errors.mustMatch">Passwords are not identical ! </div>
+                  </div>
                 </div>
               </div>
               <div class="form-group row m-4">
@@ -75,12 +108,10 @@
                       accept="image/jpeg, image/png"/>
                 </div>
               <button
-                class="btn btn-primary btn-user btn-block"
-                [disabled]="signUpForm.invalid"
-              >
+                class="btn btn-primary btn-user btn-block">
                 Register Account
               </button>
-              <hr />
+              <hr/>
             <!--  <button
                 class="btn btn-google btn-user btn-block"
                 (click)="goHome()"
@@ -88,6 +119,8 @@
                 <i class="fab fa-google fa-fw"></i> Register with Google
               </button> -->
             </form>
+
+            
             
            <!--
               <hr /> 

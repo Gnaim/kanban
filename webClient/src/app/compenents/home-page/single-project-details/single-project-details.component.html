@@ -1,8 +1,30 @@
-<div class="row">
-    <div class="ml-2  p-3 w-100" >
-        <div class="row">
-            <app-project-detail class="col-xl-11 col-md-6 m-4"></app-project-detail>
-        </div>
-        <h1>ADD KANBAN</h1>
-    </div>
+<div *ngIf="errorGetData" class="fix-side-bar" style="text-align: center;margin-top:11%">
+     <img src="assets/gif/error.gif" />
 </div>
+<div *ngIf="isLoading && !errorGetData" class="fix-side-bar" style="text-align: center;margin-top:11%">
+    <img src="assets/gif/loader.gif" style="width:500px;height:400px;"/>
+</div>
+<div *ngIf="!isLoading && !errorGetData" class="row">
+<div class="ml-2  p-3 w-100">
+        <div class="row fix-side-bar">
+            <app-project-detail *ngIf="project" class="col-xl-11 col-md-6 m-4" [project]="project"></app-project-detail>
+            <app-kanban *ngIf="project && projectCards" class="col-xl-11 col-md-6 m-4" [project]="project" 
+                        [cards]="projectCards" [members]="project.members" (notifyOnChange)="cardsUpdated($event)"></app-kanban>
+            <button data-toggle="tooltip" data-placement="left" title="Delete project" class="float bg-danger" (click)="openModal(template)">
+                <i class="fas fa-trash-alt my-float"></i>
+            </button>
+            <button data-toggle="tooltip" data-placement="left" title="Edit project" class="float-edit bg-success" (click)="openEditProject()">
+                <i class="fas fa-pencil-alt my-float"></i>
+            </button>
+            <button data-toggle="tooltip" data-placement="left" title="Create new task" class="float-add-task bg-primary" (click)="openTaskCreation()">
+                <i class="fas fa-plus my-float"></i>
+            </button>
+        </div>
+</div>
+<ng-template #template>
+    <div class="modal-body text-center">
+      <p>Do you really want to delete this project ?</p>
+      <button type="button" class="btn btn-danger m-2" (click)="confirm()" >Yes</button>
+      <button type="button" class="btn btn-primary m-2" (click)="decline()" >No</button>
+    </div>
+  </ng-template>

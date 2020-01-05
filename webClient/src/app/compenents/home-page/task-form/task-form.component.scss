@@ -6,3 +6,24 @@
    border-width: 1px;
    border-color: #a2aaaa;
 }
+
+
+.task-edit-btn{
+    border: none;
+    border-radius: 1.5rem;
+    width: 70%;
+    padding: 2%;
+    font-weight: 600;
+    color: #6c757d;
+    cursor: pointer;
+}
+
+.task-delete-btn{
+    border: none;
+    border-radius: 1.5rem;
+    width: 70%;
+    padding: 2%;
+    font-weight: 600;
+    color: #96172fbd;
+    cursor: pointer;
+}

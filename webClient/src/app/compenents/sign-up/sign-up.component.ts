@@ -1,33 +1,38 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SignupService } from 'src/app/services/signup.service';
+import { FormBuilder, FormGroup, Validators, FormGroupDirective } from '@angular/forms';
+import { SignupService } from 'src/app/services/signupService/signup.service';
+import { User } from '../../entity/user';
+import { Response } from 'src/app/entity/response';
+import { ResponsesCodes } from 'src/app/services/helpers/responsesCodesEnum';
+import { Observable } from 'rxjs';
+import { MyNotificationsService } from 'src/app/services/notifications/notifications.service';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss']
 })
+
 export class SignUpComponent implements OnInit {
   selectedFile : File;
   signUpForm : FormGroup;
+  submitted : boolean = false;
+  user : User;
 
-  constructor(private router: Router,private formBuilder: FormBuilder,private signupService : SignupService) {}
+  constructor(private router: Router,private formBuilder: FormBuilder,
+              private signupService : SignupService,private notification :MyNotificationsService) {}
 
   ngOnInit() {
     this.initForm();
   }
 
-  mustMatch(password: string, repeatedPassword: string) {
+  MustMatch(password: string, repeatedPassword: string) {
     return (formGroup: FormGroup) => {
         const control = formGroup.controls[password];
         const matchingControl = formGroup.controls[repeatedPassword];
-
         if (matchingControl.errors && !matchingControl.errors.mustMatch) {
-            // return if another validator has already found an error on the matchingControl
             return;
         }
-
-        // set error on matchingControl if validation fails
         if (control.value !== matchingControl.value) {
             matchingControl.setErrors({ mustMatch: true });
         } else {
@@ -42,31 +47,58 @@ export class SignUpComponent implements OnInit {
       lastName : ['',[Validators.required]],
       email : ['',[Validators.required,Validators.email]],
       phone : ['',[Validators.required]],
+      profession : ['',[Validators.required]],
       password : ['',[Validators.required,Validators.pattern('[a-zA-Z0-9]{8,24}')]],
       repeatedPassword : ['',[Validators.required,Validators.pattern('[a-zA-Z0-9]{8,24}')]],
       photo : ['',[]],
     },{
-      validator: this.mustMatch('password','repeatedPassword')
+      validator: this.MustMatch('password','repeatedPassword')
     });
   }
 
- 
+  get getFormErrors() {
+    return this.signUpForm.controls; // to get access to errors in form
+  }
 
   onSubmitForm(){
-    //recuperate Data and send it to the server via the signup service
-  }
+    const formValue = this.signUpForm.value;
+    this.submitted = true;
+    if(this.signUpForm.invalid){
+      return; //stop if the form is not valid
+    }
+    
+    const firstName = formValue['firstName'];
+    const lastName = formValue['lastName'];
+    const email = formValue['email'];
+    const phone = formValue['phone'];
+    const password = formValue['password'];
+    const profession = formValue['profession'];
+    let imageBase64;
+    const myReader: FileReader = new FileReader();
+    myReader.readAsDataURL(this.selectedFile);
 
-  goHome() {
-    this.router.navigate(['/Home']);
-  }
+    myReader.onloadend = (e) => {
+      imageBase64 = myReader.result;
+      console.log(imageBase64);
+      this.user = new User(email,password,firstName,lastName,phone,imageBase64,profession);
+      console.log(imageBase64);
+  
+      this.signupService.signup(this.user).subscribe(
+            (data) => {
+              this.signUpForm.reset();
+              this.submitted = false;
+              this.notification.showSignUpSucces();
+            }, 
+            (error) => { 
+              this.notification.showErrorNotification(error);
+            })
+    }
+    
+
+    }
 
   onSelectFile(event){
     this.selectedFile = event.target.files[0];
-  }
-
-  onUpload(){
-    const formData = new FormData();
-    formData.append('file', this.selectedFile);
-    console.log(formData);
+    console.log(this.selectedFile);
   }
 }

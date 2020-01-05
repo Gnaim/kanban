@@ -9,13 +9,12 @@
     href="index.html"
   >
     <div class="sidebar-brand-icon "></div>
-    <div class="sidebar-brand-text mx-3">Welcome back nom prenom</div>
+    <div class="sidebar-brand-text mx-3">Welcome back</div>
   </a>
 
   <!-- Divider -->
-  <hr class="sidebar-divider my-0" />
 
-  <!-- Nav Item - Dashboard -->
+  <!-- Nav Item - Dashboard
   <li class="nav-item">
     <a
       class="nav-link"
@@ -26,10 +25,10 @@
       <i class="fas fa-fw fa-columns"></i>
       <span>Dashboard</span></a
     >
-  </li>
+  </li> -->
 
-  <!-- Divider -->
-  <hr class="sidebar-divider" />
+  <!-- Divider
+  <hr class="sidebar-divider" /> -->
 
   <!-- Heading -->
   <div class="sidebar-heading">
@@ -63,7 +62,7 @@
     >
   </li>
 
-  <hr class="sidebar-divider" />
+
 
   <div class="sidebar-heading">
     Presonal information
@@ -75,15 +74,12 @@
       <span>Profile</span></a
     >
   </li>
-  <hr class="sidebar-divider" />
   <li class="nav-item">
-    <a class="nav-link" href="#" routerLink="" routerLinkActive="active">
+    <a class="nav-link" href="#" (click)="logOut()" routerLink="" routerLinkActive="active">
       <i class="fas fa-fw fa-sign-out-alt"></i>
-      <span>Logout</span></a
-    >
+      <span>Logout</span></a>
   </li>
 
   <!-- Divider -->
-  <hr class="sidebar-divider" />
 </ul>
 <!-- End of Sidebar -->

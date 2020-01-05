@@ -6,6 +6,12 @@
     border-radius: 0.5rem;
     background: #fff;
 }
+
+.fix-side-bar{
+	width : calc(100% - 18rem)!important;
+	float: right;
+}
+
 .profile-img{
     text-align: center;
 }

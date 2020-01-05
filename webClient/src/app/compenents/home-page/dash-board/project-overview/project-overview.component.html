@@ -1,21 +1,25 @@
-
-    <div class="card border-left-primary shadow h-100 py-2">
-        <div class="card-body">
-          <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-               
-              <div class=" h4 text-xs font-weight-bold text-primary text-uppercase mb-1"><a routerLink="/Home/Project/projetct-name"> Project One Title</a> </div>
-              
-              <div class="h10 mb-0 font-weight-bold text-gray-800 w-90"> Anass rahou meyetble3ya drab 4 tacos lyoum eds f safsfefsdaas  </div>
-              <div class="h10 mb-0 font-weight-bold text-danger float-right">priority </div>
-              
-            </div>
-
-            <div class="col-auto">
-              <i class="fas fa-calendar fa-2x text-gray-300"></i>
-            </div>
-           
-          </div>
-        </div>
+<div class="card border-left-primary shadow h-100 py-2">
+  <div class="card-body">
+    <div class="row no-gutters align-items-center">
+      <div class="col mr-2">
+        <div class=" h4 text-xs font-weight-bold text-primary text-uppercase mb-1"><a
+            [routerLink]="['/Home/Project/',projectId]">
+            {{project.name}}</a> </div>
+        <div class="h10 mb-0 font-weight-bold text-gray-800 w-90"> {{project.description}} </div>
+        <div class="h10 mb-0 font-weight-bold text-danger float-right">Created on {{ project.createdAt | date }} </div>
       </div>
-    
+      <div class="col-auto">
+        <span data-toggle="tooltip" data-placement="bottom" title="Delete project">
+          <i class="fas fa-trash fa-2x text-gray-300" (click)="openModal(template)"></i>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Do you really want to delete this project ?</p>
+    <button type="button" class="btn btn-danger m-2" (click)="confirm()" >Yes</button>
+    <button type="button" class="btn btn-primary m-2" (click)="decline()" >No</button>
+  </div>
+</ng-template>  

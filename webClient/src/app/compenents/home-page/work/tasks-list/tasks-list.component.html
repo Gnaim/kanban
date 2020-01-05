@@ -1,26 +1,19 @@
 <div class="">
-<a class="dropdown-item d-flex align-items-center task-margin" href="#">
+<a class="dropdown-item d-flex align-items-center task-margin">
     <div class="mr-3">
       <div class="icon-circle bg-primary">
         <i class="fas fa-file-alt text-white"></i>
       </div>
     </div>
     <div class="w-100">
-        <div class="dropdown no-arrow" style="float: right;">
-            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-            </a>
-        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item" href="#">Edit</a>
-            <a class="dropdown-item" href="#">Delete</a>
-          </div>
-        </div>
-      <span class="font-weight-bold">Task title </span> - <span class="text-dark">10.0</span>
+      <span class="font-weight-bold">{{card.title}} </span> - <span class="text-dark"> Type : {{card.type}}</span>
       <div>
-        <span class="text-dark-50 small">Assigne </span> -
-        <span class="text-dark small"> Project name</span>
+        <span class="text-dark-50 small">Status : {{card.status}}</span>
       </div>
-      <span class="small text-gray-500">December 12, 2019</span>
+      <div>
+          <span class="text-dark-50 small">Assigned to : {{memberName}}</span>
+      </div>
+      <span class="small text-gray-500">{{card.createdAt | date : 'short'}}</span>
     </div>
   </a>
 </div>

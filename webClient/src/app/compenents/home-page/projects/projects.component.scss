@@ -1,3 +1,7 @@
+.fix-side-bar{
+	width : calc(100% - 18rem)!important;
+	float: right;
+}
 
 .float{
 	position:fixed;

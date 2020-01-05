@@ -1,34 +1,31 @@
-<div class="row">
 
-    <div class="mt-3 ml-4">
-        <h1 class="h3 mb-0 text-gray-800">My tasks</h1>
-    </div>
-
-      <div class="m-4 w-100 p-3 ">
-          <tabset justified="true">
-            <tab heading="My tasks"> 
-              <app-tasks-list ></app-tasks-list>
-              <hr class="m-0"/>
-              <app-tasks-list class="mb-2"></app-tasks-list>
-              <hr class="m-0"/>
-              <app-tasks-list class="mb-3"></app-tasks-list>
-              <hr class="m-0"/>
-              <app-tasks-list ></app-tasks-list>
-              <hr class="m-0"/>
-              <app-tasks-list class="mb-2"></app-tasks-list>
-              <hr class="m-0"/>
-              <app-tasks-list class="mb-3"></app-tasks-list>
-              <hr class="m-0"/>
-            </tab>
-            <tab heading="All tasks">
-              <app-tasks-list></app-tasks-list>
-              <hr class="m-0"/>
-            </tab>
-          </tabset>
-      </div>
-
-      <button class="float bg-primary" (click)="openTaskCreation()">
-          <i class="fa fa-plus my-float"></i>
-      </button>
+<div *ngIf="errorGetTasks" class="fix-side-bar" style="text-align: center;margin-top:11%">
+    <img src="assets/gif/error.gif" />
 </div>
-
+<div *ngIf="isLoading && !errorGetTasks" class="fix-side-bar" style="text-align: center;margin-top:11%">
+  <img src="assets/gif/loader.gif" style="width:500px;height:400px;"/>
+</div>
+<div *ngIf="emptyResponse && !isLoading && !errorGetTasks" class="fix-side-bar" style="text-align: center;margin-top:11%">
+  <img src="assets/images/no_tasks.png" style="width:400px;height:300px;"/>             
+</div>
+    <div *ngIf="!emptyResponse  && !isLoading && !errorGetTasks" class="fix-side-bar">
+        <div class="mt-3 ml-4">
+            <h1 class="h3 mb-0 text-gray-800">My tasks</h1>
+        </div>
+        <div class="m-4 w-100 p-3 ">
+          <div *ngFor="let project of projects; let i = index">
+            <div class="card shadow mb-4"  *ngIf="projects[i].cards.length !== 0">
+              <a [href]="collapseIdsLink[i]" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCardExample">
+                <h6 class="m-0 font-weight-bold text-primary">{{project.name}}</h6>
+              </a>
+              <div class="collapse" [id]="collapseIdsDiv[i]">
+                <div class="card-body" style="padding:0.5rem;">
+                  <app-tasks-list class="mb-3" *ngFor="let card of projects[i].cards"
+                          [card]="card" [memberName]="'Lakhloufi anass'" (click)="showTask(card,projects[i])">
+                  </app-tasks-list>
+                </div>
+              </div>
+            </div>  
+          </div>
+        </div>
+    </div>
