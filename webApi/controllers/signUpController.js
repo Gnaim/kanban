@@ -69,15 +69,4 @@ isEmailDuplicated = async (email) => {
       found = !!user.length;
     }
   });
-  if (!found) {
-    await confirmationUsersawait.find({
-      email,
-    }, (err, user) => {
-      if (err) {
-        found = true;
-      } else {
-        found = !!user.length;
-      }
-    });
-  }
 };

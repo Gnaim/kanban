@@ -27,11 +27,9 @@ async function sendConfirmation(token, emailReciever, name, lastName) {
 
     // send mail with defined transport object
     let info = await transporter.sendMail({
-        from: '"Kanban-application 👻" <florianlerois@gmail.com>', // sender address
         to: emailReciever, // list of receivers
-        subject: 'Hello ✔', // Subject line
-        text: 'Bienvenu dans mon application' + name + ' ' + lastName, // plain text body
-        html: `Bienvenu dans mon application <b> ${name} </b>  ${lastName} <br> <a href="http://localhost:4200/ConfirmMail/${token}"> Click Here </a> ` // html body
+        subject: 'Mail confirmation !!!', // Subject line
+        html: `<H1>Welcome to our wonderful application , <b> ${name} </b>  ${lastName} </H1> <br> <h3> <a href="http://localhost:4200/ConfirmMail/${token}"> Click Here to confirm your email </a> <h3>` // html body
     });
 
     console.log('Message sent: %s', info.messageId);
@@ -50,7 +48,6 @@ async function sendInvitation(email, project) {
 
     // send mail with defined transport object
     let info = await transporter.sendMail({
-        from: '"Kanban-application 👻" <florianlerois@gmail.com>', // sender address
         to: email, // list of receivers
         subject: 'Invitation to ' + project.name, // Subject line
         html: `Hi ${email},<br> you're invited to ${project.name}`
@@ -73,9 +70,8 @@ async function sendResetPasswordInvitation(email, uuid) {
 
     // send mail with defined transport object
     let info = await transporter.sendMail({
-        from: '"Kanban-application 👻" <florianlerois@gmail.com>', // sender address
         to: email, // list of receivers
-        subject: 'Invitation to reset your Password', // Subject line
+        subject: 'Password Reset', // Subject line
         html: `Hi ${email},<br> you're invited to reset your password by clicking on this link <a href="http://localhost:4200/ResetPassword/${uuid}"> Click Here </a>`
 
     });
