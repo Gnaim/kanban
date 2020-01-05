@@ -12,4 +12,8 @@ import { HttpHelpers } from '../helpers/httpHelpers';
     sendUserMail(userEmail : string) {
       return this.http.post(HttpHelpers.FORGET_PASSWORD_URL,{email : userEmail},HttpHelpers.HTTP_OPTIONS);
     }
+
+    resetPassword(password: string,token : string){
+      return this.http.post(HttpHelpers.FORGET_PASSWORD_URL + "/" + token,{password : password},HttpHelpers.HTTP_OPTIONS)
+    }
 }

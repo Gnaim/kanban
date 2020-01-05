@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from '../../services/loginService/login.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LogInComponent } from '../log-in/log-in.component';
+import { ForgetPasswordService } from 'src/app/services/forgetPassword/forgetPassword.service';
+import { MyNotificationsService } from 'src/app/services/notifications/notifications.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -12,12 +14,15 @@ import { LogInComponent } from '../log-in/log-in.component';
 export class ResetPasswordComponent implements OnInit {
   passwordsForm: FormGroup;
   submitted: boolean = false;
-  constructor(private router: Router, private loginService: LoginService, private formBuilder: FormBuilder) { }
+  constructor(private router: Router,
+              private forgetPasswordService: ForgetPasswordService, 
+              private route : ActivatedRoute,
+              private formBuilder: FormBuilder, 
+              private notification : MyNotificationsService) { }
 
   ngOnInit() {
     this.initForm();
   }
-
 
   MustMatch(password: string, repeatedPassword: string) {
     return (formGroup: FormGroup) => {
@@ -55,23 +60,16 @@ export class ResetPasswordComponent implements OnInit {
     }
     const password = formValue['password'];
     const repeatedPassword = formValue['repeatedPassword'];
-    let result: boolean = true//this.loginService.connect(email, password);
-
-    if (result == true) {
-      this.router.navigate(['/Home/Dashboard']);
-    } else {
-
-      //Print the Error 
-    }
-
+    const token = this.route.snapshot.paramMap.get('token');
+    this.forgetPasswordService.resetPassword(password,token).subscribe(
+      (response) => {
+        console.log(response);
+        this.notification.showSuccess();
+      },
+      (error) => {
+        console.log(error);
+        this.notification.showErrorNotification(error);
+      });
   }
 
-
-
 }
-
-
-
-
-
-
