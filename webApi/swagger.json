@@ -6,11 +6,11 @@
     "title": "Swagger Kanban",
     "termsOfService": "https://git-etudiants.lacl.fr/restProjet2019/anass-lakhloufi-anis-kharchi-abdelmalek-benamirouche-mohammed-naim-guerroui",
     "contact": {
-      "email": "apiteam@swagger.io"
+      "email": "abdelmalek.benamirouche@etu.u-pec.fr"
     }
   },
   "host": "127.0.0.1:3000",
-  "basePath": "",
+  "basePath": "/",
   "tags": [
     {
       "name": "project",
@@ -23,6 +23,10 @@
     {
       "name": "user",
       "description": "Operations about user"
+    },
+    {
+      "name": "dashboard",
+      "description": "User's projects and cards"
     }
   ],
   "schemes": [
@@ -30,6 +34,40 @@
   ],
   "paths": {
     "/projects": {
+      "get": {
+        "tags": [
+          "project"
+        ],
+        "summary": "Get all project where the connected user is a member",
+        "description": "Returns all the projects that the user participates in with the cards on them",
+        "operationId": "getProjects",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A list of project objects",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Project"
+              }
+            }
+          },
+          "401": {
+            "description": "Token value error"
+          },
+          "500": {
+            "description": "Server problem"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
       "post": {
         "tags": [
           "project"
@@ -55,111 +93,24 @@
           }
         ],
         "responses": {
-          "405": {
-            "description": "Invalid input"
-          }
-        },
-        "security": [
-          {
-            "projectstore_auth": [
-              "write:projects",
-              "read:projects"
-            ]
-          }
-        ]
-      },
-      "put": {
-        "tags": [
-          "project"
-        ],
-        "summary": "Update an existing project",
-        "description": "",
-        "operationId": "updateProject",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Project object that needs to be added to the store",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Project"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Project not found"
-          },
-          "405": {
-            "description": "Validation exception"
-          }
-        },
-        "security": [
-          {
-            "projectstore_auth": [
-              "write:projects",
-              "read:projects"
-            ]
-          }
-        ]
-      }
-    },
-    "/project/findByTags": {
-      "get": {
-        "tags": [
-          "project"
-        ],
-        "summary": "Finds Projects by tags",
-        "description": "Muliple tags can be provided with comma separated strings. Use         tag1, tag2, tag3 for testing.",
-        "operationId": "findProjectsByTags",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "tags",
-            "in": "query",
-            "description": "Tags to filter by",
-            "required": true,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          }
-        ],
-        "responses": {
           "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Project"
-              }
-            }
+            "description": "successful operation"
           },
           "400": {
-            "description": "Invalid tag value"
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Token value error"
+          },
+          "500": {
+            "description": "Server problem"
           }
         },
         "security": [
           {
-            "projectstore_auth": [
-              "write:projects",
-              "read:projects"
-            ]
+            "JWT": []
           }
-        ],
-        "deprecated": true
+        ]
       }
     },
     "/project/{projectId}": {
@@ -185,51 +136,36 @@
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
+            "description": "A single project object",
             "schema": {
               "$ref": "#/definitions/Project"
             }
           },
-          "500": {
-            "description": "error 603",
-            "schema": {
-              "$ref": "#/definitions/ApiResponse"
-            }
-          },
           "401": {
-            "description": "error 608",
-            "schema": {
-              "$ref": "#/definitions/ApiResponse"
-            }
-          },
-          "401": {
-            "description": "error 609",
-            "schema": {
-              "$ref": "#/definitions/ApiResponse"
-            }
+            "description": "Token value error"
           },
           "403": {
-            "description": "error 611",
-            "schema": {
-              "$ref": "#/definitions/ApiResponse"
-            }
+            "description": "Not a project member"
+          },
+          "500": {
+            "description": "Server problem"
           }
         },
         "security": [
           {
-            "api_key": []
+            "JWT": []
           }
         ]
       },
-      "post": {
+      "put": {
         "tags": [
           "project"
         ],
-        "summary": "Updates a project in the store with form data",
+        "summary": "Update an existing project",
         "description": "",
-        "operationId": "updateProjectWithForm",
+        "operationId": "updateProject",
         "consumes": [
-          "application/x-www-form-urlencoded"
+          "application/json"
         ],
         "produces": [
           "application/json"
@@ -238,37 +174,34 @@
           {
             "name": "projectId",
             "in": "path",
-            "description": "ID of project that needs to be updated",
+            "description": "Id of project to update",
             "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "name",
-            "in": "formData",
-            "description": "Updated name of the project",
-            "required": false,
             "type": "string"
           },
           {
-            "name": "status",
-            "in": "formData",
-            "description": "Updated status of the project",
-            "required": false,
-            "type": "string"
+            "in": "body",
+            "name": "body",
+            "description": "Project object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
           }
         ],
         "responses": {
-          "405": {
-            "description": "Invalid input"
+          "200": {
+            "description": "Project updated successfully"
+          },
+          "401": {
+            "description": "Token value error"
+          },
+          "500": {
+            "description": "Invalid request"
           }
         },
         "security": [
           {
-            "projectstore_auth": [
-              "write:projects",
-              "read:projects"
-            ]
+            "JWT": []
           }
         ]
       },
@@ -277,7 +210,7 @@
           "project"
         ],
         "summary": "Deletes a project",
-        "description": "",
+        "description": "the connected user must be admin to be able to delete a project",
         "operationId": "deleteProject",
         "produces": [
           "application/json"
@@ -294,13 +227,18 @@
             "in": "path",
             "description": "Project id to delete",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "type": "string"
           }
         ],
         "responses": {
           "400": {
             "description": "Invalid ID supplied"
+          },
+          "401": {
+            "description": "Token value error"
+          },
+          "403": {
+            "description": "Not a project member or not admin"
           },
           "404": {
             "description": "Project not found"
@@ -308,10 +246,264 @@
         },
         "security": [
           {
-            "projectstore_auth": [
-              "write:projects",
-              "read:projects"
-            ]
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/project/{projectId}/cards": {
+      "get": {
+        "tags": [
+          "card"
+        ],
+        "summary": "Find cards of a project by ID",
+        "description": "Returns all cards of a single project",
+        "operationId": "getCardsByProject",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "ID of project to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of Card objects",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Card"
+              }
+            }
+          },
+          "401": {
+            "description": "Token value error"
+          },
+          "403": {
+            "description": "Not a project member"
+          },
+          "500": {
+            "description": "Server problem"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "card"
+        ],
+        "summary": "Add a new Card to the project",
+        "description": "",
+        "operationId": "addCard",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Id of project to add a card",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Card object needed to add into the project",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Card"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Card added with success"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Token value error"
+          },
+          "403": {
+            "description": "Not a project member"
+          },
+          "500": {
+            "description": "Server problem"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/project/{projectId}/cards/{cardId}": {
+      "get": {
+        "tags": [
+          "card"
+        ],
+        "summary": "Find card of a project by ID card",
+        "description": "Returns a specific card of a project",
+        "operationId": "getCardById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "ID of project to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "cardId",
+            "in": "path",
+            "description": "ID of the card to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Card"
+            }
+          },
+          "401": {
+            "description": "Token value error"
+          },
+          "403": {
+            "description": "Not a project member"
+          },
+          "500": {
+            "description": "Server problem"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "card"
+        ],
+        "summary": "Update an existing card",
+        "description": "",
+        "operationId": "updateCard",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "ID of project to update",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "cardId",
+            "in": "path",
+            "description": "ID of the card to update",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Card object to update",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Project updated successfully"
+          },
+          "401": {
+            "description": "Token value error"
+          },
+          "403": {
+            "description": "Not a project member"
+          },
+          "500": {
+            "description": "Invalid request"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "card"
+        ],
+        "summary": "Deletes a card",
+        "description": "the connected user must be admin to be able to delete a card",
+        "operationId": "deletecCardFromProject",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Project id to delete",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "cardId",
+            "in": "path",
+            "description": "ID of the card to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "401": {
+            "description": "Token value error"
+          },
+          "403": {
+            "description": "Not a project member or not admin"
+          },
+          "404": {
+            "description": "Project not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
           }
         ]
       }
@@ -339,14 +531,20 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": "successful operation"
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Missing attributes"
+          },
+          "500": {
+            "description": "Missing attributes"
           }
         }
       }
     },
     "/login": {
-      "get": {
+      "post": {
         "tags": [
           "user"
         ],
@@ -376,7 +574,7 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "type": "string"
+              "$ref": "#/definitions/Token"
             },
             "headers": {
               "X-Rate-Limit": {
@@ -413,28 +611,24 @@
           "default": {
             "description": "successful operation"
           }
-        }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       }
     },
-    "/user/{username}": {
+    "/user": {
       "get": {
         "tags": [
           "user"
         ],
-        "summary": "Get user by user name",
+        "summary": "Get user",
         "description": "",
         "operationId": "getUserByName",
         "produces": [
           "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "description": "The name that needs to be fetched. Use user1 for testing. ",
-            "required": true,
-            "type": "string"
-          }
         ],
         "responses": {
           "200": {
@@ -449,7 +643,12 @@
           "404": {
             "description": "User not found"
           }
-        }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -462,13 +661,6 @@
           "application/json"
         ],
         "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "description": "name that need to be updated",
-            "required": true,
-            "type": "string"
-          },
           {
             "in": "body",
             "name": "body",
@@ -486,35 +678,48 @@
           "404": {
             "description": "User not found"
           }
-        }
-      },
-      "delete": {
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/dashbord": {
+      "get": {
         "tags": [
-          "user"
+          "dashboard"
         ],
-        "summary": "Delete user",
-        "description": "This can only be done by the logged in user.",
-        "operationId": "deleteUser",
+        "summary": "get projects and cards of the connected user",
+        "description": "Returns all the projects that the user participates in with the cards on them",
+        "operationId": "getDashboard",
+        "consumes": [
+          "application/json"
+        ],
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "description": "The name that needs to be deleted",
-            "required": true,
-            "type": "string"
-          }
-        ],
+        "parameters": [],
         "responses": {
-          "400": {
-            "description": "Invalid username supplied"
+          "200": {
+            "description": "A list of project objects and a list of card objects",
+            "schema": {
+              "$ref": "#/definitions/Dashboard"
+            }
           },
-          "404": {
-            "description": "User not found"
+          "401": {
+            "description": "Token value error"
+          },
+          "500": {
+            "description": "Server problem"
           }
-        }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       }
     }
   },
@@ -527,10 +732,23 @@
     }
   },
   "definitions": {
+    "Token": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      }
+    },
     "User": {
       "type": "object",
       "required": [
-        "email", "password", "firstName", "lastName"
+        "email",
+        "password",
+        "firstName",
+        "lastName",
+        "tel",
+        "profession"
       ],
       "properties": {
         "id": {
@@ -552,6 +770,9 @@
         "tel": {
           "type": "string"
         },
+        "profession": {
+          "type": "string"
+        },
         "imageUrl": {
           "type": "string"
         }
@@ -560,7 +781,10 @@
     "Card": {
       "type": "object",
       "required": [
-        "title","status"
+        "title",
+        "status",
+        "type",
+        "description"
       ],
       "properties": {
         "id": {
@@ -582,14 +806,19 @@
         },
         "status": {
           "type": "string",
-          "example": "to do"
+          "example": "Backlog"
+        },
+        "type": {
+          "type": "string",
+          "example": "Dev"
         }
       }
     },
     "Project": {
       "type": "object",
       "required": [
-        "name"
+        "name",
+        "description"
       ],
       "properties": {
         "id": {
@@ -616,15 +845,29 @@
                 "type": "string",
                 "enum": [
                   "admin",
-                  "user"
+                  "developer",
+                  "tester"
                 ]
               }
             }
           }
         },
-        "logoUrl": {
-          "type": "string",
-          "example": "www.xxxx/media/photo.jpeg"
+        "cards": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Card"
+          }
+        }
+      }
+    },
+    "Dashboard": {
+      "type": "object",
+      "properties": {
+        "projects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Project"
+          }
         },
         "cards": {
           "type": "array",
@@ -640,7 +883,7 @@
         "message": {
           "type": "string"
         },
-        "code": {
+        "error": {
           "type": "integer",
           "format": "int32"
         }
