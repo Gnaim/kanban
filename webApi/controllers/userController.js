@@ -7,7 +7,7 @@ exports.getById = (req, res, next) => {
   users.findOne({
     email: payload.data.email
   })
-    .select('email firstName lastName tel profession imageUrl')
+    .select('email firstName lastName tel profession image')
     .exec((err, user) => {
       if (err) {
         res.status(500).send({
