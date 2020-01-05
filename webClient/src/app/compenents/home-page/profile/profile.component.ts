@@ -76,6 +76,7 @@ export class ProfileComponent implements OnInit {
   getMyProfile(){
     this.userService.getProfile().subscribe(
       (profile) => {
+        console.log(profile);
         let jsonResponse = HttpHelpers.parseData(profile);
         this.currentUser = jsonResponse as User;
         if(this.currentUser.image){
@@ -92,8 +93,6 @@ export class ProfileComponent implements OnInit {
   transformImage(){
     if(this.base64Image){
       return this.sanitizer.bypassSecurityTrustResourceUrl(this.base64Image);
-    }else{
-      return this.sanitizer.bypassSecurityTrustResourceUrl(HttpHelpers.base64Image);
     }
   }
 

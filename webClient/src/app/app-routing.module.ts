@@ -29,7 +29,7 @@ const routes: Routes = [
   { path: 'Login', component: LogInComponent, canActivate: [Guard] },
   { path: 'Signup', component: SignUpComponent, canActivate: [Guard] },
   { path: 'ResetPassword/:token', component: ResetPasswordComponent, canActivate: [Guard] },
-  { path: 'confirmMail/:token', component: ConfirmMailComponent, canActivate: [Guard] },
+  { path: 'ConfirmMail/:token', component: ConfirmMailComponent, canActivate: [Guard] },
   {
     path: 'Home',
     component: HomePageComponent,
