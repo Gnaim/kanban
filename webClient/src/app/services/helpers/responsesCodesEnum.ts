@@ -11,6 +11,6 @@ export enum ResponsesCodes {
     INVALID_TOKEN = 608, //(Statut HTTP 401)
     NOT_AUTORIZED = 609, //(Statut HTTP 401)
     BAD_REQUEST = 610, //(Statut HTTP 400)
-    FORBIDDEN = 611 //(Statut HTTP 403)
-
+    FORBIDDEN = 611, //(Statut HTTP 403)
+    INVALID_RESET_PASSWORD_TOKEN = 612
 }

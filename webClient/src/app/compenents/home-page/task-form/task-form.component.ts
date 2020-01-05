@@ -157,7 +157,7 @@ export class TaskFormComponent implements OnInit {
     let membersIds = [];
     console.log(assignedMembers);
       for(let i=0; i<assignedMembers.length; i++){
-          membersIds.push({'email' : assignedMembers[i].email});
+          membersIds.push(assignedMembers[i].email);
       }
       return membersIds;
   }

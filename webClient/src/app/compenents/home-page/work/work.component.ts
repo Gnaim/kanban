@@ -5,6 +5,7 @@ import { ProjectsService } from 'src/app/services/projectService/projects.servic
 import { HttpHelpers } from 'src/app/services/helpers/httpHelpers';
 import { Project } from 'src/app/entity/Project';
 import { MyNotificationsService } from 'src/app/services/notifications/notifications.service';
+import { Card } from 'src/app/entity/card';
 
 @Component({
   selector: 'app-work',
@@ -16,6 +17,7 @@ export class WorkComponent implements OnInit {
   bsModalRef: BsModalRef;
   emptyResponse: boolean;
   projects : Project[];
+  collapseIds = [];
   isLoading: boolean;
   errorGetTasks : boolean;
 
@@ -37,6 +39,10 @@ export class WorkComponent implements OnInit {
           this.projects = jsonResponse.projects as Project[];
           let size = this.projects.length;
 
+          for(let j=0;j<size;j++){
+            this.collapseIds.push("a" + Math.random().toString(36).substring(7));
+          }
+
           if(size != 0){
             for(let i=0; i<size ;i++){
               if(this.projects[i].cards.length != 0){
@@ -55,4 +61,26 @@ export class WorkComponent implements OnInit {
           this.isLoading = false;
         });
   }
+
+  showTask(card:Card,project:Project){
+    this.openTaskDetail(card,project);
+}
+
+openTaskDetail(selectedCard:Card,project:Project) {
+    const initialState = {
+        projectName : project.name,
+        projectId : project._id,
+        projectMembers : project.members,
+        card : selectedCard,
+        isConsult : true
+    }
+    this.bsModalRef = this.modalService.show(TaskFormComponent,{initialState,class: 'modal-lg'});
+    this.bsModalRef.content.closeBtnName = 'Close';
+    this.modalService.onHidden.subscribe((reason:string) => {
+      if(reason != "backdrop-click"){ 
+        this.getTasksByProject();
+      }
+    })
+  }
+  
 }
