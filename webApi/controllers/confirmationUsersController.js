@@ -39,6 +39,7 @@ exports.confirmMail = (req, res, next) => {
 }
 
 
+
 function signupUser(email, password, firstName, lastName, tel, profession, checkedIn, imageUrl, res) {
 
     users.create({
@@ -124,6 +125,7 @@ function deleteInvitations(email) {
     });
 
 }
+
 function deleteConfirmation(email, res) {
     confirmationUsers.deleteMany({ email: email }, function (err) {
         console.log("email");
