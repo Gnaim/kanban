@@ -10,9 +10,16 @@
       </div>
       <div class="col-auto">
         <span data-toggle="tooltip" data-placement="bottom" title="Delete project">
-          <i class="fas fa-trash fa-2x text-gray-300" (click)="deleteProject()"></i>
+          <i class="fas fa-trash fa-2x text-gray-300" (click)="openModal(template)"></i>
         </span>
       </div>
     </div>
   </div>
 </div>
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Do you really want to delete this project ?</p>
+    <button type="button" class="btn btn-danger m-2" (click)="confirm()" >Yes</button>
+    <button type="button" class="btn btn-primary m-2" (click)="decline()" >No</button>
+  </div>
+</ng-template>  
