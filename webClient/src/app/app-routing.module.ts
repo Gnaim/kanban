@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AppComponent } from './app.component';
 import { SignUpComponent } from './compenents/sign-up/sign-up.component';
 import { LogInComponent } from './compenents/log-in/log-in.component';
 import { HomePageComponent } from './compenents/home-page/home-page.component';
@@ -10,7 +9,6 @@ import { WorkComponent } from './compenents/home-page/work/work.component';
 import { PeopleComponent } from './compenents/home-page/people/people.component';
 import { SingleProjectDetailsComponent } from './compenents/home-page/single-project-details/single-project-details.component';
 import { ProfileComponent } from './compenents/home-page/profile/profile.component';
-import { ProjectFormComponent } from './compenents/home-page/project-form/project-form.component';
 import { ErrorPageComponent } from './compenents/errors/error-page/error-page.component';
 import { ResetPasswordComponent } from './compenents/reset-password/reset-password.component';
 import { AuthGuardService as Guard} from './services/guards/authguard.service';
@@ -29,7 +27,7 @@ const routes: Routes = [
   { path: '', component: LogInComponent, canActivate : [Guard] },
   { path: 'Login', component: LogInComponent, canActivate : [Guard]},
   { path: 'Signup', component: SignUpComponent, canActivate : [Guard]},
-  { path: 'ResetPassword/:token', component: ResetPasswordComponent },
+  { path: 'ResetPassword/:token', component: ResetPasswordComponent, canActivate : [Guard] },
   {
     path: 'Home',
     component: HomePageComponent,

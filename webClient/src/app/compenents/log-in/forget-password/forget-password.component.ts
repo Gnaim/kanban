@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ForgetPasswordService } from 'src/app/services/forgetPassword/forgetPassword.service';
 import { MyNotificationsService } from 'src/app/services/notifications/notifications.service';
+import { BsModalRef } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-forget-password',
@@ -12,10 +13,12 @@ import { MyNotificationsService } from 'src/app/services/notifications/notificat
 export class ForgetPasswordComponent implements OnInit {
   emailForm: FormGroup;
   submitted: boolean = false;
+
   constructor(private router: Router,
              private formBuilder: FormBuilder,
              private notification : MyNotificationsService,
-             private forgetPasswordService: ForgetPasswordService) { }
+             private forgetPasswordService: ForgetPasswordService,
+             private bsModalRef: BsModalRef) { }
 
   ngOnInit() {
     this.initForm();
@@ -43,7 +46,7 @@ export class ForgetPasswordComponent implements OnInit {
       (response) => {
         console.log(response);
         this.notification.showSuccess();
-        this.router.navigate(['/Home/Dashboard']);
+        this.bsModalRef.hide();
       },(error) => {
         console.log(error);
         this.notification.showErrorNotification(error);

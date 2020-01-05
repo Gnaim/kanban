@@ -109,7 +109,7 @@ export class MyNotificationsService {
     }
 
     showErrorResetPassword(){
-      this.toastr.error("Your token has been expired !",
+      this.toastr.error("Your token has been expired ! Make another request to reset your password",
                           "Error",
                           this.options);
     }

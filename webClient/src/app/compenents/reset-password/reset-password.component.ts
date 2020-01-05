@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { LoginService } from '../../services/loginService/login.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LogInComponent } from '../log-in/log-in.component';
 import { ForgetPasswordService } from 'src/app/services/forgetPassword/forgetPassword.service';
 import { MyNotificationsService } from 'src/app/services/notifications/notifications.service';
+import { ResponsesCodes } from 'src/app/services/helpers/responsesCodesEnum';
+import { ForgetPasswordComponent } from '../log-in/forget-password/forget-password.component'
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-reset-password',
@@ -14,10 +15,13 @@ import { MyNotificationsService } from 'src/app/services/notifications/notificat
 export class ResetPasswordComponent implements OnInit {
   passwordsForm: FormGroup;
   submitted: boolean = false;
+  bsModalRef: BsModalRef;
+  
   constructor(private router: Router,
               private forgetPasswordService: ForgetPasswordService, 
               private route : ActivatedRoute,
               private formBuilder: FormBuilder, 
+              private modalService: BsModalService,
               private notification : MyNotificationsService) { }
 
   ngOnInit() {
@@ -68,8 +72,18 @@ export class ResetPasswordComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this.notification.showErrorNotification(error);
+
+        if(error.error.error == ResponsesCodes.INVALID_RESET_PASSWORD_TOKEN){
+          this.notification.showErrorResetPassword();
+        }else{
+          this.notification.showErrorNotification(error);
+        }
       });
+  }
+
+  openForgetPasswordPage() {
+    this.bsModalRef = this.modalService.show(ForgetPasswordComponent, { class: 'modal-lg' });
+    this.bsModalRef.content.closeBtnName = 'Close';
   }
 
 }
