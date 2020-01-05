@@ -114,6 +114,12 @@ export class MyNotificationsService {
                           this.options);
     }
 
+    showErrorConfirmMail(){
+      this.toastr.error("Your token has been expired ! Make another singUp",
+                          "Error",
+                          this.options);
+    }
+
     showErrorUpdatePassword(){
       this.toastr.error("Your old password is wrong",
                           "Error",

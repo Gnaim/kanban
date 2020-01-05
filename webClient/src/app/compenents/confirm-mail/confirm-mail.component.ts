@@ -29,13 +29,13 @@ export class ConfirmMailComponent implements OnInit {
         this.router.navigate(['Login']);
       },
       (error) => {
-        console.log(error);
-
         if (error.error.error == ResponsesCodes.INVALID_CONFIRM_MAIL_TOKEN) {
-          this.notification.showErrorResetPassword();
+          this.notification.showErrorConfirmMail();
         } else {
           this.notification.showErrorNotification(error);
         }
+        this.router.navigate(['Login']);
+        
       });
   }
 
