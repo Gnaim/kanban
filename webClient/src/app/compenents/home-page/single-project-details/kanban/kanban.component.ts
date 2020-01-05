@@ -89,9 +89,10 @@ export class KanbanComponent implements OnInit,OnChanges {
         }
         this.bsModalRef = this.modalService.show(TaskFormComponent,{initialState,class: 'modal-lg'});
         this.bsModalRef.content.closeBtnName = 'Close';
-        this.modalService.onHidden.subscribe((reason:string) => {
+        const subscription = this.modalService.onHidden.subscribe((reason:string) => {
             if(reason != "backdrop-click"){ 
                 this.notifyOnChange.emit("UPDATED");
+                subscription.unsubscribe();
           }
         })
       }

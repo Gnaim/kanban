@@ -69,9 +69,10 @@ export class SingleProjectDetailsComponent implements OnInit {
       isUpdate : true
     }
     this.bsModalRef = this.modalService.show(ProjectFormComponent,{initialState,class: 'modal-lg'});
-    this.modalService.onHidden.subscribe((reason:string) => {
+    const subscription = this.modalService.onHidden.subscribe((reason:string) => {
         if(reason != "backdrop-click"){     
           this.ngOnInit();
+          subscription.unsubscribe();
       }
     })
   }
@@ -110,11 +111,13 @@ export class SingleProjectDetailsComponent implements OnInit {
       project : this.project
     }
     this.bsModalRef = this.modalService.show(TaskFormComponent,{initialState,class: 'modal-lg'});
-    this.modalService.onHidden.subscribe((reason:string) => {
-        if(reason != "backdrop-click"){     
-          this.ngOnInit();
-      }
-    })
+    let mySubscription =  this.modalService.onHidden.subscribe((reason:string) => {
+      if(reason != "backdrop-click"){  
+        this.ngOnInit();
+        mySubscription.unsubscribe();
+    }
+  });
+   
   }
 
   cardsUpdated($event){
