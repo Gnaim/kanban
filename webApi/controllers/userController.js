@@ -1,4 +1,5 @@
 const users = mongoose.model('User');
+const bcrypt = require('bcrypt');
 
 
 exports.getById = (req, res, next) => {
@@ -28,7 +29,7 @@ exports.UpdateUserById = (req, res, next) => {
   const previousEmail = payload.data.email;
   let realPassword;
   // const email = req.body.email ? req.body.email : '' ;
-  const previousPasswordSent = req.body.previousPassword ? req.body.previousPassword : '';
+  const previousPasswordSent = req.body.password ? req.body.password : '';
   let newPasswordSent = req.body.newPassword ? req.body.newPassword : '';
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
@@ -42,14 +43,7 @@ exports.UpdateUserById = (req, res, next) => {
       message: "Bad request",
       error: 610
     });
-    // }
-    //  else if (previousEmail !== email ) {
-    //   isEmailDuplicated(email).then((exist) => {
-    //      if (exist) {
-    //       res.status(401).send({message:`${email} already exists`,
-    //                             error: 602});
-    //     }
-    //   });
+
   } else {
     users.findOne({
       email: previousEmail
@@ -64,44 +58,31 @@ exports.UpdateUserById = (req, res, next) => {
           realPassword = user.password;
           if (newPasswordSent) {
             //todo change that verify decoded with decoded
-            if (realPassword !== previousPasswordSent) {
-              console.log(realPassword);
-              stop = true;
-              res.status(401).send({
-                message: "New password must be different than the previous one",
-                error: 600
-              });
-            }
+
+            bcrypt.compare(previousPasswordSent, realPassword, (err, matches) => {
+              if (err) {
+                stop = true;
+                res.status(500).send({
+                  message: 'There was a problem in the server contact the admin please.',
+                  error: 603
+                });
+              } else if (!matches) {
+                console.log(`previous password ${previousPasswordSent}`);
+                stop = true;
+                res.status(401).send({
+                  message: "New password must be different than the previous one",
+                  error: 613
+                });
+              } else {
+                updateUserWithEncryptedPassword(newPasswordSent, res, previousEmail, firstName, lastName, tel, profession, imageUrl, res);
+              }
+            });
           } else {
             newPasswordSent = realPassword;
+            updateOneUser(previousEmail, newPasswordSent, firstName, lastName, tel, profession, imageUrl, res);
+
           }
-          if (!stop) {
-            users.update({
-              email: previousEmail
-            },
-              {
-                // email: email,
-                password: newPasswordSent,
-                firstName: firstName,
-                lastName: lastName,
-                tel: tel,
-                profession: profession,
-                imageUrl: imageUrl
-              }, (err, user) => {
-                if (err) {
-                  res.status(500).send({
-                    message: "There was a problem retrieving user",
-                    error: "test"
-                  });
-                } else {
-                  res.status(200).format({
-                    json: () => {
-                      res.json(user);
-                    },
-                  });
-                }
-              });
-          }
+
         }
       });
   }
@@ -121,3 +102,57 @@ isEmailDuplicated = async (email) => {
   });
   return found;
 };
+
+
+function updateOneUser(previousEmail, newPasswordSent, firstName, lastName, tel, profession, imageUrl, res) {
+  users.updateOne({
+    email: previousEmail
+  },
+    {
+      // email: email,
+      password: newPasswordSent,
+      firstName: firstName,
+      lastName: lastName,
+      tel: tel,
+      profession: profession,
+      imageUrl: imageUrl
+    }, (err, user) => {
+      if (err) {
+        res.status(500).send({
+          message: "There was a problem retrieving user",
+          error: "test"
+        });
+      } else {
+        res.status(200).format({
+          json: () => {
+            res.json(user);
+          },
+        });
+      }
+    });
+}
+
+function updateUserWithEncryptedPassword(newPasswordSent, res, previousEmail, firstName, lastName, tel, profession, imageUrl, res) {
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) {
+      res.status(500).send({
+        message: 'There was a problem in the server contact the admin please.',
+        error: 603
+      });
+    } else {
+      bcrypt.hash(newPasswordSent, salt, (err, hashed) => {
+        if (err) {
+          res.status(500).send({
+            message: 'There was a problem in the server contact the admin please.',
+            error: 603
+          });
+        } else {
+          updateOneUser(previousEmail, hashed, firstName, lastName, tel, profession, imageUrl, res)
+        }
+      });
+    }
+  });
+}
+
+
+
