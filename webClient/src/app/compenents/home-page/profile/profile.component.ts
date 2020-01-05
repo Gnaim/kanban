@@ -4,6 +4,7 @@ import { HttpHelpers } from 'src/app/services/helpers/httpHelpers';
 import { User } from 'src/app/entity/user';
 import { MyNotificationsService } from 'src/app/services/notifications/notifications.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-profile',
@@ -18,9 +19,11 @@ export class ProfileComponent implements OnInit {
   isLoading: boolean;
   errorGetProfile : boolean;
   submitted : boolean = false;
+  base64Image : string;
 
   constructor(private userService: UserService,
               private formBuilder: FormBuilder,
+              private sanitizer: DomSanitizer,
               private notification:MyNotificationsService) {}
 
   ngOnInit() {
@@ -75,12 +78,23 @@ export class ProfileComponent implements OnInit {
       (profile) => {
         let jsonResponse = HttpHelpers.parseData(profile);
         this.currentUser = jsonResponse as User;
+        if(this.currentUser.image){
+            this.base64Image = this.currentUser.image;
+        }
         this.isLoading = false;
       },(error) => { 
         this.errorGetProfile = this.notification.showErrorNotification(error);
         this.isLoading = false;
       })
 
+  }
+
+  transformImage(){
+    if(this.base64Image){
+      return this.sanitizer.bypassSecurityTrustResourceUrl(this.base64Image);
+    }else{
+      return this.sanitizer.bypassSecurityTrustResourceUrl(HttpHelpers.base64Image);
+    }
   }
 
   swithToEdit(){

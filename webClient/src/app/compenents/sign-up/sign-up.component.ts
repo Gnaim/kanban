@@ -73,23 +73,32 @@ export class SignUpComponent implements OnInit {
     const phone = formValue['phone'];
     const password = formValue['password'];
     const profession = formValue['profession'];
-    const uploadedImage = new FormData();
-    uploadedImage.append('files', this.selectedFile);
-    console.log(uploadedImage);
-    this.user = new User(email,password,firstName,lastName,phone,uploadedImage,profession);
+    let imageBase64;
+    const myReader: FileReader = new FileReader();
+    myReader.readAsDataURL(this.selectedFile);
+
+    myReader.onloadend = (e) => {
+      imageBase64 = myReader.result;
+      console.log(imageBase64);
+      this.user = new User(email,password,firstName,lastName,phone,imageBase64,profession);
+      console.log(imageBase64);
+  
+      this.signupService.signup(this.user).subscribe(
+            (data) => {
+              this.signUpForm.reset();
+              this.submitted = false;
+              this.notification.showSignUpSucces();
+            }, 
+            (error) => { 
+              this.notification.showErrorNotification(error);
+            })
+    }
     
-    this.signupService.signup(this.user).subscribe(
-          (data) => {
-            this.signUpForm.reset();
-            this.submitted = false;
-            this.notification.showSignUpSucces();
-          }, 
-          (error) => { 
-            this.notification.showErrorNotification(error);
-          })
+
     }
 
   onSelectFile(event){
-    this.selectedFile = <File>event.target.files[0];
+    this.selectedFile = event.target.files[0];
+    console.log(this.selectedFile);
   }
 }

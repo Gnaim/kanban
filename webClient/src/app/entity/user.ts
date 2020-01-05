@@ -9,9 +9,9 @@ export class User {
     profession:string;
     newPassword:string;
     role:string;
-    image:FormData;
+    image:string;
 
-    constructor(email:string,password:string,firstName?:string,lastName?:string,tel?:number,image?:FormData,profession?:string,role?:string,newPassword?:string) {
+    constructor(email:string,password:string,firstName?:string,lastName?:string,tel?:number,image?:string,profession?:string,role?:string,newPassword?:string) {
             if(typeof email === "undefined" ||email === null){
                 this.email = "";
             }else {

@@ -114,6 +114,12 @@ export class MyNotificationsService {
                           this.options);
     }
 
+    showErrorUpdatePassword(){
+      this.toastr.error("Your old password is wrong",
+                          "Error",
+                          this.options);
+    }
+
     public showErrorNotification(error:HttpErrorResponse){
       let errorBoolean = false;
         if(error.error.error){
@@ -134,6 +140,8 @@ export class MyNotificationsService {
             this.router.navigate(['Login']);
           }else if(error.error.error == ResponsesCodes.INVALID_RESET_PASSWORD_TOKEN){
             this.showErrorResetPassword();
+          }else if(error.error.error == ResponsesCodes.UPDATE_PASSWORD_ERROR){
+            this.showErrorUpdatePassword();
           }else{
             errorBoolean = true;
             this.showError();
