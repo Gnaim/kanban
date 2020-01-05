@@ -16,7 +16,7 @@ router.route('/')
 
 router.route('/:id')
   .get(verifyJWTToken, isProjectMember, projectController.getById)
-  .put(verifyJWTToken, isProjectAdmin, projectController.UpdateProjectById)
+  .put(verifyJWTToken, isAdmin, projectController.UpdateProjectById)
   .delete(verifyJWTToken, isAdmin, projectController.deleteProjectById);
 
 router.route('/:id/cards')

@@ -16,6 +16,7 @@ const project = require('./models/project');
 const user = require('./models/user');
 checklist = require('./models/checklist');
 const invitations = require('./models/invitations');
+const resetPwd = require('./models/resetPwd');
 
 const indexRouter = require('./routes/index');
 const projectsRouter = require('./routes/projects');
