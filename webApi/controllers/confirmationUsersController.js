@@ -18,7 +18,7 @@ exports.confirmMail = (req, res, next) => {
             var hours = Math.abs(currentDate - user.createdAt) / 36e5;
 
             if (hours <= 24) {
-                signupUser(user.email, user.password, user.firstName, user.lastName, user.tel, user.profession, user.checkedIn, user.imageUrl, res);
+                signupUser(user.email, user.password, user.firstName, user.lastName, user.tel, user.profession, user.checkedIn, user.image, res);
             } else {
                 res.status(401).send({
                     message: 'the link used to confirm is expired ',
@@ -40,7 +40,7 @@ exports.confirmMail = (req, res, next) => {
 
 
 
-function signupUser(email, password, firstName, lastName, tel, profession, checkedIn, imageUrl, res) {
+function signupUser(email, password, firstName, lastName, tel, profession, checkedIn, image, res) {
 
     users.create({
         email,
@@ -49,7 +49,7 @@ function signupUser(email, password, firstName, lastName, tel, profession, check
         lastName,
         tel,
         profession,
-        imageUrl,
+        image,
         checkedIn,
     }, (err, user) => {
         if (err) {

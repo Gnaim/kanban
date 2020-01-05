@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   tel: String,
   profession: String,
-  imageUrl: String,
+  image: String,
 });
 
 userSchema.set('timestamps', true);

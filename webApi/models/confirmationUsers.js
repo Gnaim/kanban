@@ -8,7 +8,7 @@ const confirmationUsersSchema = new mongoose.Schema({
     lastName: { type: String, required: true },
     tel: String,
     profession: String,
-    imageUrl: String,
+    image: String,
 });
 
 confirmationUsersSchema.set('timestamps', true);

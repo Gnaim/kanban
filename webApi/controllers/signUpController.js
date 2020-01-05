@@ -15,7 +15,7 @@ exports.post = (req, res, next) => {
   const { tel } = req.body;
   const { profession } = req.body;
   const checkedIn = new Date();
-  const imageUrl = req.file ? 'profilePicture/' + req.file.filename : null;
+  const { image } = req.body;
   if (email == null || password == null || firstName == null || lastName == null || tel == null || profession == null) {
     res.status(400).send({
       message: "email, password, tel,profession,image, last name and first name are required to create project",
@@ -34,7 +34,7 @@ exports.post = (req, res, next) => {
           lastName,
           tel,
           profession,
-          imageUrl,
+          image,
           checkedIn,
         }, (err, user) => {
           if (err) {
