@@ -114,8 +114,7 @@ function updateOneUser(previousEmail, newPasswordSent, firstName, lastName, tel,
       firstName: firstName,
       lastName: lastName,
       tel: tel,
-      profession: profession,
-      imageUrl: imageUrl
+      profession: profession
     }, (err, user) => {
       if (err) {
         res.status(500).send({
