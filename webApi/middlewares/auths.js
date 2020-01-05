@@ -9,7 +9,8 @@ expiresIn = '24h';
 exports.validateToken = (req, res, next) => {
   const authorizationHeaader = req.headers.authorization;
   if (authorizationHeaader) {
-    const token = req.headers.authorization.split(' ')[1]; // Bearer <token>
+    let token = req.headers.authorization.split(' ')[1]; // Bearer <token>
+    token = token ? token : req.headers.authorization;
     const options = {
       expiresIn: '24h',
     };
