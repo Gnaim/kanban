@@ -14,7 +14,7 @@ export class ErrorPageComponent implements OnInit {
   }
 
   goHome(){
-    this.router.navigate(['/Home/Dashboard']);
+    this.router.navigate(['/Home/Projects']);
   }
 
 }
