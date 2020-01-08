@@ -4,10 +4,10 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const dotenv = require('dotenv');
 const mailSender = require('./utils/mailSender');
+const bodyParser = require('body-parser');
 
 // get keys from config.env
 dotenv.config({ path: './config.env' });
-
 // model is where we store all the DB models, mongoose .
 const db = require('./config/dataBaseConfig');
 const card = require('./models/card');
@@ -31,6 +31,8 @@ var cors = require('cors');
 
 const app = express();
 
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
