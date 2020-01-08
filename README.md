@@ -1,3 +1,9 @@
+# Useful instructions
+
+SIGNUP : After the sign up you will receive a mail of confirmation. If you don't confirm your mail you won't be able to acces to the application.
+RESET PASSWORD : You can reset your password if you forgot it by entring the mail that you used in the sign up and u will receive an email to reset your password.
+ADD A MEMBER TO A PROJECT : if you add an email of a member who don't have an account he will receive an invitation email to create an account. When he will sign up he will assigned automatically to the project.
+
 # Database 
 
 There is no configuration needed for the database. It's hosted in the cloud.
@@ -21,6 +27,8 @@ Launch :
     npm start
 
 ta taa !
+
+NB : You will find more information in the webApi/Readme.md 
 
 
 ### Front-End
