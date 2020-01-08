@@ -75,8 +75,8 @@ export class SignUpComponent implements OnInit {
     const profession = formValue['profession'];
     let imageBase64;
     const myReader: FileReader = new FileReader();
+    if(this.selectedFile){
     myReader.readAsDataURL(this.selectedFile);
-
     myReader.onloadend = (e) => {
       imageBase64 = myReader.result;
       console.log(imageBase64);
@@ -93,7 +93,18 @@ export class SignUpComponent implements OnInit {
               this.notification.showErrorNotification(error);
             })
     }
-    
+   }else {
+    this.user = new User(email,password,firstName,lastName,phone,imageBase64,profession);
+    this.signupService.signup(this.user).subscribe(
+      (data) => {
+        this.signUpForm.reset();
+        this.submitted = false;
+        this.notification.showSignUpSucces();
+      }, 
+      (error) => { 
+        this.notification.showErrorNotification(error);
+      })
+   }
 
     }
 
