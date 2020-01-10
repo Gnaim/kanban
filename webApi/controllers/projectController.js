@@ -1,33 +1,22 @@
 const projects = mongoose.model('Project');
-const cards = mongoose.model('Project');
 const users = mongoose.model('User');
 const invitations = mongoose.model('Invitations');
-const bcrypt = require('bcrypt');
-const auths = require('../middlewares/auths');
 const sendInvitationMail = require('../utils/mailSender').sendInvitationMail;
 
 exports.getAll = (req, res, next) => {
   // to do find project where the user is member and not user is admin
   const payload = req.decoded;
+  const email = payload.data.email;
   projects.find({
-    members: { $in :[
-                {email: payload.data.email,
-                role: 'admin'},
-                {email: payload.data.email,
-                role: 'developer'},
-                {email: payload.data.email,
-                role: 'tester'},
-                {email: payload.data.email,
-                role: 'member'}
-            ]
-    }
+    "members.email": email
   })
     .select('name createdAt members description updatedAt cards')
-    .populate({path:'cards',
-              select:'title description status members type checklist createdAt createdBy',
-              populate : [{path : 'members',select: 'firstName lastName profession email'}
-                          ,{path : 'createdBy',select: 'firstName lastName profession email'}]
-            })
+    .populate({
+      path: 'cards',
+      select: 'title description status members type checklist createdAt createdBy',
+      populate: [{ path: 'members', select: 'firstName lastName profession email' }
+        , { path: 'createdBy', select: 'firstName lastName profession email' }]
+    })
     .exec((err, projects) => {
       if (err) {
         res.status(500).send({
@@ -113,16 +102,6 @@ exports.UpdateProjectById = (req, res, next) => {
   const logoUrl = req.body.logoUrl ? req.body.logoUrl : 'default url';
   const members = req.body.members ? req.body.members : [];
   const description = req.body.description ? req.body.description : '';
-  // async.filter(members, function (member, callback) {
-
-  //   users.findOne({ email: member.email }, function (err, user) {
-  //     callback(err == null && user != null);
-  //   }
-  //   );
-  // }, function (results) {
-  //   // results is myArray filtered to just the elements where findOne found a doc
-  //   // with a matching _id.
-  // });
 
   const memberEmails = members.map(m => m.email);
   users.find({ email: { $in: memberEmails } }).select('email').exec((err, existingUsers) => {
@@ -143,12 +122,11 @@ exports.UpdateProjectById = (req, res, next) => {
 
       console.log(existingMembers);
       projects.updateOne({ _id: req.params.id }, {
-        // _id : req.params.id,
         name: name,
         logoUrl: logoUrl,
         description: description,
         members: existingMembers,
-      }).exec((err, project) => {
+      }).exec((err) => {
         if (err) {
           console.log(err);
           res.status(500).send({
@@ -160,7 +138,6 @@ exports.UpdateProjectById = (req, res, next) => {
           console.log("too Invite qfer find");
           console.log(membersToInvite);
           inviteNonExistingMembers(req.body, membersToInvite, res);
-
           res.status(200).send({ message: 'project updated successfully' });
         }
       });
@@ -170,55 +147,6 @@ exports.UpdateProjectById = (req, res, next) => {
   });
 
 
-  // var membersToInvite = getNonExistingMember(members, res);
-  // console.log("ENNNND")
-  // var existingMembers = members.filter(function (elt) {
-  //   return membersToInvite.indexOf(elt) == -1;
-  // });
-  // console.log("too Invite");
-  // console.log(membersToInvite);
-  // console.log("Existing");
-  // console.log(existingMembers);
-
-
-  ///
-  // atleastOneAdmin=false;
-  // done=false;
-  // for (var i=0; i<req.body.members.length; i++){
-  //   member = req.body.members[i];
-  //   console.log(member)
-  //   users.findOne({
-  //     'email':member.email
-  //   }, function(err,user){
-  //     if(err){
-  //       res.status(500).send({message:`GET Error: There was a problem retrieving: ${err}`,
-  //                               error: 603});
-  //     }else{
-  //       if(user){
-  //         if(member.role=='admin'){
-  //           atleastOneAdmin=true;
-  //         }          
-  //       }else{
-  //         res.status(400).send({message:`This email in not a user: ${member.email}`,
-  //                               error: 611});//need to find the correct code error
-  //       }
-  //     }
-  //   });
-  //   if(i==req.body.members.length-1)done=true;
-  // }
-  // while(!(done || atleastOneAdmin)){
-
-  // }
-  // if(atleastOneAdmin){
-
-
-
-
-  // }
-  // else{
-  //   res.status(400).send({message:`There must be at least one admin in members`,
-  //                               error: 611});
-  // }
 }
 
 

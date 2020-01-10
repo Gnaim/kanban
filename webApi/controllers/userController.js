@@ -35,8 +35,7 @@ exports.UpdateUserById = (req, res, next) => {
   const lastName = req.body.lastName;
   const tel = req.body.tel;
   const profession = req.body.profession;
-  const imageUrl = req.body.imageUrl ? req.body.imageUrl : '';
-  let stop = false;
+  const image = req.body.image ? req.body.image : '';
 
   if (!firstName || !lastName || !tel || !profession) {
     res.status(403).send({
@@ -74,12 +73,12 @@ exports.UpdateUserById = (req, res, next) => {
                   error: 613
                 });
               } else {
-                updateUserWithEncryptedPassword(newPasswordSent, res, previousEmail, firstName, lastName, tel, profession, imageUrl, res);
+                updateUserWithEncryptedPassword(newPasswordSent, res, previousEmail, firstName, lastName, tel, profession, image, res);
               }
             });
           } else {
             newPasswordSent = realPassword;
-            updateOneUser(previousEmail, newPasswordSent, firstName, lastName, tel, profession, imageUrl, res);
+            updateOneUser(previousEmail, newPasswordSent, firstName, lastName, tel, profession, image, res);
 
           }
 
@@ -104,7 +103,7 @@ isEmailDuplicated = async (email) => {
 };
 
 
-function updateOneUser(previousEmail, newPasswordSent, firstName, lastName, tel, profession, imageUrl, res) {
+function updateOneUser(previousEmail, newPasswordSent, firstName, lastName, tel, profession, image, res) {
   users.updateOne({
     email: previousEmail
   },
@@ -114,7 +113,8 @@ function updateOneUser(previousEmail, newPasswordSent, firstName, lastName, tel,
       firstName: firstName,
       lastName: lastName,
       tel: tel,
-      profession: profession
+      profession: profession,
+      image: image
     }, (err, user) => {
       if (err) {
         res.status(500).send({
@@ -131,7 +131,7 @@ function updateOneUser(previousEmail, newPasswordSent, firstName, lastName, tel,
     });
 }
 
-function updateUserWithEncryptedPassword(newPasswordSent, res, previousEmail, firstName, lastName, tel, profession, imageUrl, res) {
+function updateUserWithEncryptedPassword(newPasswordSent, res, previousEmail, firstName, lastName, tel, profession, image, res) {
   bcrypt.genSalt(10, (err, salt) => {
     if (err) {
       res.status(500).send({
@@ -146,7 +146,7 @@ function updateUserWithEncryptedPassword(newPasswordSent, res, previousEmail, fi
             error: 603
           });
         } else {
-          updateOneUser(previousEmail, hashed, firstName, lastName, tel, profession, imageUrl, res)
+          updateOneUser(previousEmail, hashed, firstName, lastName, tel, profession, image, res)
         }
       });
     }
