@@ -1,6 +1,7 @@
 const projects = mongoose.model('Project');
 const users = mongoose.model('User');
 const invitations = mongoose.model('Invitations');
+const cards = mongoose.model("Card");
 const sendInvitationMail = require('../utils/mailSender').sendInvitationMail;
 
 exports.getAll = (req, res, next) => {
@@ -195,19 +196,30 @@ function createInvitation(email, project, res) {
 exports.deleteProjectById = (req, res, next) => {
   projects.deleteOne({ _id: req.params.id })
     .exec((err, project) => {
-      console.log('inside', project);
-      console.log('inside', project.cards);
       if (err) {
         res.status(500).send({
           message: `GET Error: There was a problem retrieving: ${err}`,
           error: 603
         });
       }
-      else {
-        console.log('deleted');
-        console.log(project);
-        // cards.delete(project.cards);
-        res.status(200).send({ mesage: 'project has been deleted' });
+      else if (project) {
+
+        cards.deleteMany(project._id, (err) => {
+          if (err) {
+            res.status(500).send({
+              message: " there was a problem please contact an admin",
+              error: 603
+            });
+          } else {
+            res.status(200).send({ mesage: 'project has been deleted' });
+          }
+
+        });
+      } else {
+        res.status(500).send({
+          message: " there was a problem please contact an admin",
+          error: 603
+        });
       }
     })
 }
