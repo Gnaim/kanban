@@ -22,51 +22,51 @@ exports.post = (req, res, next) => {
       error: 610
     })
   } else {
-    isEmailDuplicated(email).then((exist) => {
-      console.log(`exist${exist}`);
-      // to do update methode with exec()
-      // to do add member to unconfirmed member
-      if (!exist) {
-        confirmationUsers.create({
-          email,
-          password,
-          firstName,
-          lastName,
-          tel,
-          profession,
-          image,
-          checkedIn,
-        }, (err, user) => {
-          if (err) {
-            res.status(500).send({
-              message: 'There was a problem to create user to the database.',
-              error: 603
-            });
-          } else {
-            sendConfirmationMail(user._id, email, firstName, lastName);
-            res.status(200).send({ message: `confirmation mail has been sent to ${email}` });
-          }
+
+    users.findOne({
+      email,
+    }, (err, user) => {
+      if (err) {
+        res.status(500).send({
+          message: 'There was a problem to create user to the database.',
+          error: 603
         });
-      } else {
+
+      } else if (user) {
         res.status(401).send({
           message: `${email} already exists`,
           error: 602
         });
+      } else {
+        signup_user(email, password, firstName, lastName, tel, profession, image, checkedIn, image, res);
       }
     });
+
   }
 };
 
-
-isEmailDuplicated = async (email) => {
-  found = false;
-  await users.find({
+signup_user = function (email, password, firstName, lastName, tel, profession, image, checkedIn, image, res) {
+  confirmationUsers.create({
     email,
+    password,
+    firstName,
+    lastName,
+    tel,
+    profession,
+    image,
+    checkedIn,
   }, (err, user) => {
     if (err) {
-      found = true;
+      res.status(500).send({
+        message: 'There was a problem to create user to the database.',
+        error: 603
+      });
     } else {
-      found = !!user.length;
+      sendConfirmationMail(user._id, email, firstName, lastName);
+      res.status(200).send({ message: `confirmation mail has been sent to ${email}` });
     }
   });
-};
+
+
+
+}
