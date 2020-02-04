@@ -50,7 +50,7 @@ async function sendInvitation(email, project) {
     let info = await transporter.sendMail({
         to: email, // list of receivers
         subject: 'Invitation to ' + project.name, // Subject line
-        html: `Hi ${email},<br> you're invited to ${project.name}`
+        html: `Hi ${email},<br> you're invited to <H1> ${project.name}</H1> <br> <h3> <a href="http://localhost:4200/Signup"> Click Here to confirm to join the Project </a></h3>`
 
     });
 
