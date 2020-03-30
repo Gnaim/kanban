@@ -1,3 +1,6 @@
+# Kanban Application
+a kanban application with Angular 2+ as front-end framework and expressJS as back-end framework and mongoDB as database
+
 # Useful instructions
 
 SIGNUP : After the sign up you will receive a mail of confirmation. If you don't confirm your mail you won't be able to acces to the application.<br/>
